@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" href="img/fav-icon.png" type="image/x-icon" />
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+        <title> Ingresar </title>
+
+        <!-- Icon css link -->
+        <link href="css/font-awesome.min.css" rel="stylesheet">
+        <link href="vendors/elegant-icon/style.css" rel="stylesheet">
+        <link href="vendors/themify-icon/themify-icons.css" rel="stylesheet">
+        <!-- Bootstrap -->
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+
+
+        <link href="css/style.css" rel="stylesheet">
+        <link href="css/responsive.css" rel="stylesheet">
+        <link href="css/ingresar.css" rel="stylesheet" type="text/css"/>
+        <script src="js/jquery-3.2.1.min.js" type="text/javascript"></script>
+
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]> s
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    </head>
+    <body>
+
+        <form class="form-signin" onsubmit="recuperar(); return false;">
+            <!--<img class="mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">-->
+            <h1 class="h3 mb-3 font-weight-normal">Freelancer Bolivia</h1>
+            <label for="codigoRecuperacion" class="sr-only">Codigo Recuperacion</label>
+            <input type="text" id="codigoRecuperacion" class="form-control" placeholder="Codigo de Recuperacion" required autofocus>
+            <label for="nombreUsuario" class="sr-only">Email o nombre de usuario</label>
+            <input type="text" id="nombreUsuario" class="form-control" placeholder="Email o nombre de usuario" required autofocus>
+            <label for="contraseña" class="sr-only">Nueva contraseña</label>
+            <input type="password" id="contraseña" class="form-control" placeholder="Nueva contraseña" required>
+            <label for="contraseña2" class="sr-only">Nueva contraseña</label>
+            <input type="password" id="contraseña2" class="form-control" placeholder="Confirma tu contraseña" required>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Recuperar</button>
+            <!--<a> olvide mi contraseña</a>-->
+            <a href="ingresar.html" id="forgot-password-btn" class="login-form-forgot forgot-password"> volver a ingresar </a>
+            <p class="mt-5 mb-3 text-muted">&copy; 2017-2018</p>
+        </form>
+
+        <script src="js/ingresar.js" type="text/javascript"></script>
+
+
+    </body>
+</html>
