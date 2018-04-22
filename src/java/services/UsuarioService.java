@@ -80,7 +80,7 @@ public class UsuarioService {
             int idGenerado = dao.insert(param);
             
             if (idGenerado == 0) {
-                respuesta.setMensaje("El nombre de usuario ya está siendo ocupado");
+                respuesta.setMensaje("El nombre de usuario/correo ya está siendo ocupado");
             } else {
                 param.setId(idGenerado);
             
