@@ -7,7 +7,7 @@
 
         <link rel="icon" href="img/fav-icon.png" type="image/x-icon" />
         <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-        <title> Ingresar </title>
+        <title> Modifcar contraseña </title>
 
         <!-- Icon css link -->
         <link href="css/font-awesome.min.css" rel="stylesheet">
@@ -31,25 +31,25 @@
     </head>
     <body>
 
-        <form class="form-signin" onsubmit="recuperar(); return false;">
+        <form class="form-signin" onsubmit="modifica(); return false;">
             <!--<img class="mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">-->
             <h1 class="h3 mb-3 font-weight-normal">Freelancer Bolivia</h1>
-            <label for="codigoRecuperacion" class="sr-only">Codigo Recuperacion</label>
-            <input type="text" id="codigoRecuperacion" class="form-control" placeholder="Codigo de Recuperacion" required autofocus>
-            <label for="nombreUsuario" class="sr-only">Email o nombre de usuario</label>
-            <input type="text" id="nombreUsuario" class="form-control" placeholder="Email o nombre de usuario" required autofocus>
+            <p id="nombreUsuario" class="mt-5 mb-3 text-muted"></p>
+            <label for="lastPass" class="sr-only">Antigua Contraseña</label>
+            <input type="password" id="lastPass" class="form-control" placeholder="Antigua Contraseña" required>
+
             <label for="contraseña" class="sr-only">Nueva contraseña</label>
             <input type="password" id="contraseña" class="form-control" placeholder="Nueva contraseña" required>
             <label for="contraseña2" class="sr-only">Nueva contraseña</label>
             <input type="password" id="contraseña2" class="form-control" placeholder="Confirma tu contraseña" required>
             <button class="btn btn-lg btn-primary btn-block" type="submit">Recuperar</button>
+            <h5 id="respuesta" class="alert-danger"> </h5>
             <!--<a> olvide mi contraseña</a>-->
             <a href="ingresar.html" id="forgot-password-btn" class="login-form-forgot forgot-password"> volver a ingresar </a>
             <p class="mt-5 mb-3 text-muted">&copy; 2017-2018</p>
         </form>
 
-        <script src="js/ingresar.js" type="text/javascript"></script>
-
+        <script src="js/modificaContraseña.js" type="text/javascript"></script>
 
     </body>
 </html>

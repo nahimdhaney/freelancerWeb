@@ -1,13 +1,23 @@
 
 //var a = 8;
 
+$(document).ready(function () {
+    if (sessionStorage.getItem("usuarioId") !== null) {
+        $("#nombreUsuario").html(sessionStorage.getItem("usuarioId"));        
+        
+    } else {
+        var url = "index.html"; 
+        $(location).attr('href',url);
+    }
+});
+
+
+
 function resultado(resultado) {
     var validar = resultado.esOk
 //    alert("ENTRA")
-    var nombreUsuario = $("#nombreUsuario").val();
 
     if(validar == true){
-        sessionStorage.setItem("usuarioId", nombreUsuario);
         var url = "index.html"; 
         $(location).attr('href',url);
     }else{
@@ -15,20 +25,22 @@ function resultado(resultado) {
     }
 
 }
-function ingresar() {
-    var nombreUsuario = $("#nombreUsuario").val();
+function modifica() {
+    var antiguaContraseña = $("#lastPass").val();
     var contraseña = $("#contraseña").val();
+    var contraseña2 = $("#contraseña2").val();
     var usuario = new Object();
-    usuario.user = nombreUsuario;
-    usuario.password = contraseña;
-    jQuery.ajax({
+    usuario.user = sessionStorage.getItem("usuarioId");
+    usuario.password = antiguaContraseña;
+    usuario.newPassword = contraseña;
+        jQuery.ajax({
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
         'type': 'POST',
         
-        'url': "api/usuario/login",
+        'url': "api/usuario/changePassword",
         'data': JSON.stringify(usuario),
         'dataType': 'json',
         'success': resultado
