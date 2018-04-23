@@ -2,10 +2,9 @@ package edson.com.freelancer;
 
 import android.app.FragmentManager;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
@@ -14,32 +13,27 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import edson.com.freelancer.BRLservicios.Seguridad.RestablecerPassBRL;
-import edson.com.freelancer.BRLservicios.Seguridad.UsuarioBRL;
-
 
 
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+public class edson extends AppCompatActivity implements View.OnClickListener {
 
 
     private AutoCompleteTextView tv_nickname;
     private EditText edit_contraseña;
     private Button btn_acceder;
     private TextView tv_nuevacuenta;
-    private TextView tv_RestablecerPass;
 
     public static final String mipreferencia = "mipref";
     public static final String name = "nickname";
     public static final String pass = "contraseña";
-
     SharedPreferences sharedPreferences;
-    public static Context contextOfApplication;
-    public static String APP_TAG = "login";
 
-   // UsuarioBRL usuario = new UsuarioBRL();
+    public static Context contextOfApplication;
+
+    public static String APP_TAG = "login";
 
     public static Context getContextOfApplication(){
         return contextOfApplication;
@@ -54,14 +48,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         edit_contraseña = (EditText) findViewById(R.id.edit_contraseña);
         btn_acceder = (Button) findViewById(R.id.btn_acceder);
         tv_nuevacuenta = (TextView) findViewById(R.id.tv_NuevaCuenta);
-        tv_RestablecerPass = (TextView) findViewById(R.id.tv_RestablecerPass);
+
 
         sharedPreferences = getSharedPreferences(mipreferencia, Context.MODE_PRIVATE);
 
         contextOfApplication = getApplicationContext();
 
         tv_nuevacuenta.setOnClickListener(this);
-        tv_RestablecerPass.setOnClickListener(this);
         btn_acceder.setOnClickListener(this);
         isSesion();
     }
@@ -73,14 +66,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         FragmentManager fragmentManager = getFragmentManager();
         switch (v.getId()) {
             case R.id.tv_NuevaCuenta:
+                //registrarse();
                 new RegistroDialog().show(fragmentManager, "LoginDialog");
-                break;
-            case R.id.tv_RestablecerPass:
-                Intent intent = new Intent(this,RestablecerPassActivity.class);
-                startActivity(intent);
                 break;
             case R.id.btn_acceder:
                 acceder();
+                //aux();
                 break;
         }
     }
@@ -90,6 +81,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         sharedPreferences = getSharedPreferences(mipreferencia, Context.MODE_PRIVATE);
         String nickname = sharedPreferences.getString("edson", "");
         String password = sharedPreferences.getString("cito", "");
+
 
         try {
             if (nickname.equals("") && password.equals("")) {
@@ -102,19 +94,26 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }
         } catch (Exception e) {
             e.printStackTrace();
-            Log.e(LoginActivity.APP_TAG, "error al logearse", e);
+            Log.e(edson.APP_TAG, "error al al logearse", e);
         }
     }
 
+    private void registrarse() {
+        // Intent itent = new Intent(LoginActivity.this , RegistroActivity.class);
+        // startActivity(itent);
+    }
 
+    private boolean isPasswordValid(String password) {
+        return password.length() > 4;
+    }
 
+    boolean isValid;
 
-    private void acceder() {
+    private void validarCampo() {
 
         String nickname2 = tv_nickname.getText().toString().trim();
         String contraseña2 = edit_contraseña.getText().toString().trim();
-
-        boolean isValid = true;
+        isValid = true;
         if (nickname2.isEmpty()) {
             tv_nickname.setError("Debe ingresar su username");
             isValid = false;
@@ -123,77 +122,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             edit_contraseña.setError("Debe ingresar su password");
             isValid = false;
         }
-        if (!isValid) {
-            return;
-        }
-
-        String username = tv_nickname.getText().toString();
-        String contraseña = edit_contraseña.getText().toString();
-
-       // usuario.obtener(username, contraseña);
     }
 
 
-  /* private void obtener(final String user, final String contra) {
-        //String token = FirebaseInstanceId.getInstance().getToken();
-        AsyncTask<String, Integer, String> task = new AsyncTask<String, Integer, String>() {
-            @Override
-            protected String doInBackground(String... strings) {
+    private void acceder() {
 
-                //casa de elmer
-                //String url = "http://192.168.1.4:8080/RedSocialWeb/ServletRegistro";
+        this.validarCampo();
+        if (!isValid) {
+            return;
+        }
+        String username = tv_nickname.getText().toString();
+        String contraseña = edit_contraseña.getText().toString();
 
-                //micelu
-                String url = "http://192.168.43.77:8080/RedSocialWeb/ServletRegistro";
-
-                Hashtable<String, String> params = new Hashtable<>();
-                params.put("username", strings[0]);
-                params.put("password", strings[1]);
-                params.put("accion", "obtenerUsuario");
-
-                String respuesta = HttpConnection.sendRequest(new StandarRequestConfiguration(url, MethodType.POST, params));
-                return respuesta;
-            }
-
-            @Override
-            protected void onPostExecute(String getContenido) {
-
-                if (getContenido.contains("name")) {
-                    //es por que esta mal el nick
-                    tv_nickname.setError("el nickname es incorrecto");
-                    return;
-                } else if (getContenido.contains("pass")) {
-                    //es por que esta mal la contraseña
-                    edit_contraseña.setError("la contraseña es incorrecto   ");
-                    return;
-                } else if (getContenido.contains("incorrecto")) {
-                    //es por que ambas estan mal
-                    tv_nickname.setError("el nickname es incorrecto");
-                    edit_contraseña.setError("la contraseña es incorrecto");
-                    return;
-
-                } else if (getContenido.contains("ok")) {
-
-                    Usuario usr = new Usuario();
-                    usr.setUsername(user);
-
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("edson", user);
-                    editor.putString("cito", contra);
-                    editor.commit();
-                    Intent itent = new Intent(LoginActivity.this, menuActivity.class);
-                    startActivity(itent);
-                }
-            }
-        };
-
-        String[] parametros = {user, contra};
-        task.execute(parametros);
-    }*/
-
-    // private AsyncTask<String, Integer, String> execuse(String[] p) {
-    //      return execuse(p);
-    //}
+        //obtener(username, contraseña);
+    }
 
 }
-

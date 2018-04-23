@@ -1,23 +1,21 @@
-package edson.com.freelancer.dialog;
+package edson.com.freelancer;
 
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
-
-import java.util.Hashtable;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import edson.com.freelancer.R;
-import edson.com.freelancer.httpclient.HttpConnection;
-import edson.com.freelancer.httpclient.MethodType;
-import edson.com.freelancer.httpclient.StandarRequestConfiguration;
+
 
 /**
  * Created by Edson on 02/12/2017.
@@ -29,6 +27,8 @@ public class RegistroDialog extends DialogFragment implements View.OnClickListen
     private EditText edit_username;
     private EditText edit_email;
     private EditText edit_contraseña;
+    private RadioButton radio_contrato;
+    private RadioButton radio_trabajar;
     private Button btn_aceptar;
 
     public static String APP_TAG = "registro";
@@ -55,11 +55,37 @@ public class RegistroDialog extends DialogFragment implements View.OnClickListen
         edit_username = (EditText) v.findViewById(R.id.Edit_Username);
         edit_email = (EditText) v.findViewById(R.id.Edit_email);
         edit_contraseña = (EditText) v.findViewById(R.id.Edit_contraseña);
+        radio_contrato = (RadioButton) v.findViewById(R.id.radioContratar);
+        radio_trabajar = (RadioButton) v.findViewById(R.id.radioTrabajar);
         btn_aceptar = (Button) v.findViewById(R.id.btn_aceptar);
 
         btn_aceptar.setOnClickListener(this);
 
+        Radio();
+
         return builder.create();
+    }
+    private void Radio(){
+        radio_contrato.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (radio_contrato.isChecked() == true) {
+                    //setGenero("hombre");
+                    radio_trabajar.setError(null);
+                    radio_trabajar.setChecked(false);
+                }
+            }
+        });
+        radio_trabajar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (radio_trabajar.isChecked() == true) {
+                    //setGenero("mujer");
+                    radio_contrato.setError(null);
+                    radio_contrato.setChecked(false);
+                }
+            }
+        });
     }
 
     @Override
@@ -71,36 +97,50 @@ public class RegistroDialog extends DialogFragment implements View.OnClickListen
         }
     }
 
+    public static boolean validarEmailSimple(String email){
+        String regex = "^(.+)@(.+)$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
+    }
 
-    boolean isValid ;
-    private void validarCampo(){
-        String nicknameV = edit_username.getText().toString().trim();
-        String contraseñaV = edit_contraseña.getText().toString().trim();
-        isValid = true;
-        if (nicknameV.isEmpty()) {
-            edit_username.setError("Debe ingresar");
-            isValid = false;
-        }
-        if (contraseñaV.isEmpty()) {
-            edit_contraseña.setError("Debe ingresar");
-            isValid = false;
-        }
+    private boolean isPasswordValid(String password) {
+        return password.length() > 4;
     }
 
     private void registrar() {
+        String usernameV = edit_username.getText().toString().trim();
+        String contraseñaV = edit_contraseña.getText().toString().trim();
+        String emailV = edit_email.getText().toString().trim();
+        boolean isValid = true;
 
-        this.validarCampo();
+        if (usernameV.isEmpty()) {
+            edit_username.setError("Debe ingresar su usuario");
+            isValid = false;
+        }
+        if (emailV.isEmpty()) {
+            edit_email.setError("Debe ingresar su correo");
+            isValid = false;
+        }else if(validarEmailSimple(emailV) == false){
+            edit_email.setError("email no valido");
+            isValid = false;
+        }
+        if (contraseñaV.isEmpty()) {
+            edit_contraseña.setError("Debe ingresar su comtraseña");
+            isValid = false;
+        } else if (isPasswordValid(contraseñaV) == false) {
+            edit_contraseña.setError("la contraseña debe ser mayor a 4 digitos");
+            isValid = false;
+        }
         if (!isValid) {
             return;
         }
-
-
         String username = edit_username.getText().toString();
         String email = edit_email.getText().toString();
         String contraseña = edit_contraseña.getText().toString();
 
-
         Toast.makeText(getContext(), contraseña, Toast.LENGTH_LONG).show();
+    }
 
         /*String token = FirebaseInstanceId.getInstance().getToken();
         AsyncTask<String, Integer, String> RegistrarUsuario = new AsyncTask<String, Integer, String>() {
@@ -149,7 +189,5 @@ public class RegistroDialog extends DialogFragment implements View.OnClickListen
 
         String[] parametros = { NombreCompleto , username , contraseña , fechaDeNacimiento, token };
         RegistrarUsuario.execute(parametros);*/
-    }
-
 
 }

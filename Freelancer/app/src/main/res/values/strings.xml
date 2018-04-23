@@ -12,5 +12,9 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="title_activity_login2">login2</string>
+    <string name="title_activity_recuperar_pass">RecuperarPassActivity</string>
+    <string name="title_activity_codigo_verificacion">CodigoVerificacionActivity</string>
+    <string name="title_activity_nueva_pass">NuevaPassActivity</string>
 
 </resources>

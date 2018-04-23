@@ -3,9 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="#f7f7f7"
-    >
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="edson.com.freelancer.NuevaPassActivity"
+    tools:showIn="@layout/activity_nuevapass">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/email_login_form"
@@ -15,90 +16,76 @@
         android:paddingBottom="40dp">
 
         <Button
-            android:id="@+id/btn_aceptar"
-            android:layout_width="285dp"
-            android:layout_height="50dp"
+            android:id="@+id/btn_restablcer"
+            android:layout_width="291dp"
+            android:layout_height="37dp"
             android:layout_marginEnd="40dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginStart="40dp"
-            android:layout_marginTop="382dp"
+            android:layout_marginTop="394dp"
             android:background="@drawable/buttonredondeado"
-            android:text="Registrarse"
-            android:textAppearance="@style/TextAppearance.AppCompat.Button"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="18sp"
-            app:layout_constraintHorizontal_bias="0.506"
+            android:text="GUARDAR"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textSize="16sp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView"
-            android:layout_width="256dp"
-            android:layout_height="44dp"
+            android:id="@+id/textsd"
+            android:layout_width="301dp"
+            android:layout_height="38dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:layout_marginTop="34dp"
-            android:text="REGISTRO"
+            android:layout_marginTop="83dp"
+            android:text="Nueva contraseña"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Display2"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="30sp"
+            app:layout_constraintHorizontal_bias="0.507"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <android.support.design.widget.TextInputLayout
+        <View
             android:layout_width="300dp"
-            android:layout_height="60dp"
+            android:layout_height="1dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:layout_marginTop="107dp"
+            android:layout_marginTop="158dp"
+            android:background="@color/colorPrimary"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <EditText
-                android:id="@+id/Edit_Username"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="171dp"
-                android:ems="10"
-                android:hint="Escoja su nombre de Usuario"
-                android:inputType="textPersonName"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+        </View>
 
-        </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/textInputLayout4"
-            android:layout_width="300dp"
-            android:layout_height="60dp"
+            android:layout_width="317dp"
+            android:layout_height="59dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:layout_marginTop="174dp"
+            android:layout_marginTop="208dp"
+            app:layout_constraintHorizontal_bias="0.509"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <EditText
-                android:id="@+id/Edit_email"
+                android:id="@+id/Edit_Nuevacontraseña"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginEnd="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="171dp"
                 android:ems="10"
-                android:hint="Ingrese correo electrónico"
+                android:hint="Ingrese su nueva contraseña"
                 android:inputType="textPersonName"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
@@ -107,62 +94,38 @@
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
-            android:id="@+id/textInputLayout3"
-            android:layout_width="300dp"
-            android:layout_height="60dp"
+            android:id="@+id/textInputLayout5"
+            android:layout_width="317dp"
+            android:layout_height="59dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:layout_marginTop="242dp"
+            android:layout_marginTop="278dp"
+            app:layout_constraintHorizontal_bias="0.509"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <EditText
-                android:id="@+id/Edit_contraseña"
+                android:id="@+id/Edit_Nuevacontraseñav"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginEnd="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="243dp"
+                android:layout_marginTop="171dp"
                 android:ems="10"
-                android:hint="Ingrese la contraseña elegida"
+                android:hint="Vuelva a ingresar su nueva contraseña"
                 android:inputType="textPersonName"
-                app:layout_constraintHorizontal_bias="0.503"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
         </android.support.design.widget.TextInputLayout>
 
-        <RadioButton
-            android:id="@+id/radioContratar"
-            android:layout_width="107dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="310dp"
-            android:layout_weight="0.12"
-            android:text="Contratar"
-            app:layout_constraintHorizontal_bias="0.268"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
-        <RadioButton
-            android:id="@+id/radioTrabajar"
-            android:layout_width="107dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="310dp"
-            android:text="Trabajar"
-            app:layout_constraintHorizontal_bias="0.761"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
 
 </LinearLayout>
+
