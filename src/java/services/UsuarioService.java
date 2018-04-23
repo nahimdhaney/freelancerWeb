@@ -146,6 +146,8 @@ public class UsuarioService {
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.port", "587");
+        props.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+
 
         Session session = Session.getInstance(props,
           new javax.mail.Authenticator() {
@@ -188,7 +190,7 @@ public class UsuarioService {
                         respuesta.setMensaje("se envio un codigo de recuperacion a tu correo");
                         return respuesta;
                     } catch (MessagingException e) {
-                        respuesta.setMensaje("Hubo un error al enviar el correo con el codigo de recuperacion");
+                        respuesta.setMensaje("Hubo un error al enviar el correo con el codigo de recuperacion "+ e.getMessage());
                         return respuesta;
                     }
                 
