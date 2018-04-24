@@ -20,17 +20,17 @@
             android:layout_width="221dp"
             android:layout_height="34dp"
             android:layout_marginEnd="40dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
             android:layout_marginStart="40dp"
             android:layout_marginTop="251dp"
             android:background="@drawable/buttonredondeado"
             android:text="RESTABLECER CONTRASEÑA"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginLeft="8dp"
             app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginRight="8dp"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintHorizontal_bias="1.0" />
 
         <TextView
             android:id="@+id/textView"
@@ -39,7 +39,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="57dp"
-            android:text="Olvidaste tu contraseña?"
+            android:text="¿Olvidaste tu contraseña?"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Display2"
             android:textColor="@color/colorPrimaryDark"
@@ -51,10 +51,10 @@
 
         <View
             android:layout_width="300dp"
-            android:layout_height="2dp"
+            android:layout_height="1dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:layout_marginTop="130dp"
+            android:layout_marginTop="134dp"
             android:background="@color/colorPrimary"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"

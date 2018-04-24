@@ -16,7 +16,7 @@
         android:paddingBottom="40dp">
 
         <Button
-            android:id="@+id/btn_restablcer"
+            android:id="@+id/btn_guardar"
             android:layout_width="291dp"
             android:layout_height="37dp"
             android:layout_marginEnd="40dp"
@@ -106,7 +106,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <EditText
-                android:id="@+id/Edit_Nuevacontraseñav"
+                android:id="@+id/Edit_Nuevacontraseña2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginEnd="8dp"

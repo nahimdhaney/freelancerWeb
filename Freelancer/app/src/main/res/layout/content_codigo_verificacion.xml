@@ -41,7 +41,7 @@
             android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="172dp"
-            android:text="Este codigó de verificación caducará en 12 horas después de ser enviado."
+            android:text="Este codigó de verificación caducará 12 horas después de ser enviado."
             android:textAppearance="@style/TextAppearance.AppCompat"
             android:textColor="?android:attr/colorMultiSelectHighlight"
             android:textSize="18sp"
@@ -117,7 +117,7 @@
             android:layout_marginEnd="8dp">
 
             <EditText
-                android:id="@+id/Edit_email"
+                android:id="@+id/Edit_codigo"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginEnd="8dp"
@@ -126,6 +126,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="171dp"
                 android:ems="10"
+                android:textSize="25dp"
                 android:hint="Codigó de verificación"
                 android:inputType="number"
                 android:textAlignment="center"
