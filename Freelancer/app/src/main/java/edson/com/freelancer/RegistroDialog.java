@@ -2,6 +2,7 @@ package edson.com.freelancer;
 
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -11,25 +12,36 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import java.util.Hashtable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import edson.com.freelancer.R;
+import edson.com.freelancer.httpclient.HttpConnection;
+import edson.com.freelancer.httpclient.MethodType;
+import edson.com.freelancer.httpclient.StandarRequestConfiguration;
 
 
 /**
  * Created by Edson on 02/12/2017.
  */
 
-public class RegistroDialog extends DialogFragment implements View.OnClickListener{
+public class RegistroDialog extends DialogFragment implements View.OnClickListener {
 
 
     private EditText edit_username;
     private EditText edit_email;
     private EditText edit_contraseña;
-    private RadioButton radio_contrato;
-    private RadioButton radio_trabajar;
+    private RadioButton radioButton_contrato;
+    private RadioButton radioButton_trabajar;
     private Button btn_aceptar;
+    private int valor;
+
+    public int getValor() {
+        return valor;
+    }
+    public void setValor(int valor) {
+        this.valor = valor;
+    }
 
     public static String APP_TAG = "registro";
 
@@ -55,8 +67,8 @@ public class RegistroDialog extends DialogFragment implements View.OnClickListen
         edit_username = (EditText) v.findViewById(R.id.Edit_Username);
         edit_email = (EditText) v.findViewById(R.id.Edit_email);
         edit_contraseña = (EditText) v.findViewById(R.id.Edit_contraseña);
-        radio_contrato = (RadioButton) v.findViewById(R.id.radioContratar);
-        radio_trabajar = (RadioButton) v.findViewById(R.id.radioTrabajar);
+        radioButton_contrato = (RadioButton) v.findViewById(R.id.radioContratar);
+        radioButton_trabajar = (RadioButton) v.findViewById(R.id.radioTrabajar);
         btn_aceptar = (Button) v.findViewById(R.id.btn_aceptar);
 
         btn_aceptar.setOnClickListener(this);
@@ -65,24 +77,27 @@ public class RegistroDialog extends DialogFragment implements View.OnClickListen
 
         return builder.create();
     }
-    private void Radio(){
-        radio_contrato.setOnClickListener(new View.OnClickListener() {
+
+    private void Radio() {
+        radioButton_contrato.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (radio_contrato.isChecked() == true) {
+                if (radioButton_contrato.isChecked() == true) {
                     //setGenero("hombre");
-                    radio_trabajar.setError(null);
-                    radio_trabajar.setChecked(false);
+                    setValor(1);
+                    radioButton_trabajar.setError(null);
+                    radioButton_trabajar.setChecked(false);
                 }
             }
         });
-        radio_trabajar.setOnClickListener(new View.OnClickListener() {
+        radioButton_trabajar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (radio_trabajar.isChecked() == true) {
+                if (radioButton_trabajar.isChecked() == true) {
                     //setGenero("mujer");
-                    radio_contrato.setError(null);
-                    radio_contrato.setChecked(false);
+                    setValor(2);
+                    radioButton_contrato.setError(null);
+                    radioButton_contrato.setChecked(false);
                 }
             }
         });
@@ -97,7 +112,7 @@ public class RegistroDialog extends DialogFragment implements View.OnClickListen
         }
     }
 
-    public static boolean validarEmailSimple(String email){
+    public static boolean validarEmailSimple(String email) {
         String regex = "^(.+)@(.+)$";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(email);
@@ -121,7 +136,7 @@ public class RegistroDialog extends DialogFragment implements View.OnClickListen
         if (emailV.isEmpty()) {
             edit_email.setError("Debe ingresar su correo");
             isValid = false;
-        }else if(validarEmailSimple(emailV) == false){
+        } else if (validarEmailSimple(emailV) == false) {
             edit_email.setError("email no valido");
             isValid = false;
         }
@@ -135,59 +150,63 @@ public class RegistroDialog extends DialogFragment implements View.OnClickListen
         if (!isValid) {
             return;
         }
-        String username = edit_username.getText().toString();
-        String email = edit_email.getText().toString();
-        String contraseña = edit_contraseña.getText().toString();
 
-        Toast.makeText(getContext(), contraseña, Toast.LENGTH_LONG).show();
+        RegistrarUsuario(usernameV,contraseñaV,emailV,getValor());
     }
 
-        /*String token = FirebaseInstanceId.getInstance().getToken();
-        AsyncTask<String, Integer, String> RegistrarUsuario = new AsyncTask<String, Integer, String>() {
-            @Override
-            protected String doInBackground(String... strings) {
 
-                //casa de elmer
-                //String url = "http://192.168.1.4:8080/RedSocialWeb/ServletRegistro";
+    private void RegistrarUsuario(final String user, final String email, final String contra, final int valor) {
 
-                //micelu
-                String url = "http://192.168.43.77:8080/RedSocialWeb/ServletRegistro";
+        //String token = FirebaseInstanceId.getInstance().getToken();
 
-                Hashtable<String, String> params = new Hashtable<>();
-                params.put("NombreCompleto", strings[0]);
-                params.put("username", strings[1]);
-                params.put("password", strings[2]);
-                params.put("fechaDeNacimiento", strings[3]);
-                params.put("token", strings[4]);
-                params.put("accion","registro");
+            AsyncTask<String, Integer, String> RegistrarUsuario = new AsyncTask<String, Integer, String>() {
+                @Override
+                protected String doInBackground(String... strings) {
 
-                String respuesta = HttpConnection.sendRequest(new StandarRequestConfiguration(url, MethodType.POST, params));
-                return respuesta;
-            }
+                    String url = "http://192.168.43.77:8080/RedSocialWeb/ServletRegistro";
 
+                    Hashtable<String, String> params = new Hashtable<>();
+                    params.put("username", strings[1]);
+                    params.put("contraseña", strings[2]);
+                    params.put("email", strings[3]);
+                    params.put("opcion", strings[4]);
+                    //params.put("token", strings[4]);
+                    params.put("accion", "registro");
 
-            @Override
-            protected void onPostExecute(String getnick) {
-                if(getnick.contains("invalido")){
-                    edit_username.setError("este nick ya esta registrado");
-                    return;
-
-                }else if(getnick.contains("ok")){
-                    try {
-
-                        dismiss();
-                        Toast.makeText(getContext(), "exito" ,Toast.LENGTH_LONG).show();
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        //Log.e(RegistroActivity.APP_TAG, "Error al registrarse", e);
-                    }
-
+                    String respuesta = HttpConnection.sendRequest(new StandarRequestConfiguration(url, MethodType.POST, params));
+                    return respuesta;
                 }
-            }
-        };
 
-        String[] parametros = { NombreCompleto , username , contraseña , fechaDeNacimiento, token };
-        RegistrarUsuario.execute(parametros);*/
+                @Override
+                protected void onPostExecute(String getnick) {
 
-}
+                    if (getnick.contains("invalido")) {
+                        edit_username.setError("este nick ya esta registrado");
+                        return;
+                    } else if (getnick.contains("ok")) {
+                        try {
+                            dismiss();
+                            Toast.makeText(getContext(), "exito", Toast.LENGTH_LONG).show();
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            //Log.e(RegistroActivity.APP_TAG, "Error al registrarse", e);
+                        }
+                    }
+                }
+            };
+
+            String[] parametros = {user, contra, email, String.valueOf(valor)};
+            RegistrarUsuario.execute(parametros);
+        //}catch (Exception e){
+          //  Toast.makeText(getContext(),"No hay conexión al servidor", Toast.LENGTH_LONG).show();
+        //}
+    }
+
+        private AsyncTask<String, Integer, String> execuse(String[] p) {
+            return execuse(p);
+        }
+
+
+    }
+
