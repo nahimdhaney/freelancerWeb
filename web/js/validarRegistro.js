@@ -1,90 +1,38 @@
 
 
-$(document).ready(function () {
-    if (sessionStorage.getItem("usuarioId") !== null) {
-        $(".ingresar").text(sessionStorage.getItem("usuarioId"));
-        $(".ingresar").attr("href", "");
-        $(".registrarse").text("Salir");
-        $(".registrarse").attr("href", "");
-        $("#cambcon").attr("href", "modificaContraseña.html");
-        $("#cambcon").text("Modificar Contraseña");
-
-
-
+$(document).ready(function () { 
         
-        
-        $(".registrarse").click(function () {
-            sessionStorage.removeItem("usuarioId");
-            var url = "index.html";
-            $(location).attr('href', url);
-        });
+//http://freelancer.com/?usuario=ejemploParaNico&codigoConfirmacion=12345
+    var usuario = getUrlParameter('usuario');
+    var codigoConfirmacion = getUrlParameter('codigoConfirmacion');
+    var valor = new Object();
+    valor.usuarioNombre = usuario;
+    valor.codigoConfirmacion = codigoConfirmacion;
 
-//        alert(sessionStorage.getItem("usuarioId"))
-//    $(".sesion").html();
-    } else {
-//        $(".sesion").html("");
-    }
-//    alert("Creando Local")
-//    if (!localStorage.getItem("carrito"))
-//        localStorage.setItem("carrito", "{}");
+    jQuery.ajax({
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        'type': 'POST',
+        
+        'url': "api/usuario/validarRegistro",
+        'data': JSON.stringify(valor),
+        'dataType': 'json',
+        'success': resultado
+    });
 });
 
+function resultado(resultado) {
+    var validar = resultado.esOk
+//    alert("ENTRA")
+    var nombreUsuario = resultado.nombre;
 
-
-
-function Realizar() {
-    var valor1 = document.getElementById("valor1").value;
-    var seleccionado = document.getElementById("funcion");
-    //document.getElementById("msg-1").innerHTML = seleccionado.options[seleccionado.selectedIndex].value;
-    var escogido = seleccionado.options[seleccionado.selectedIndex].value;
-    var vlrResultado;
-    if (escogido == 1) {
-        valor1 = parseInt(document.getElementById("valor1").value);
-        var valor2 = parseInt(document.getElementById("valor2").value);
-        var valor3 = parseInt(document.getElementById("valor3").value);
-//		document.getElementById("respuesta").innerHTML = (valor1+valor2+valor3);
-        vlrResultado = nroMayor(valor1, valor2, valor3);
+    if(validar == true){
+        sessionStorage.setItem("usuarioId", nombreUsuario);
+        var url = "index.html"; 
+        $(location).attr('href',url);
+    }else{
+        $("#respuesta").html(resultado.mensaje);        
     }
-    if (escogido == 2) {
-        valor1 = parseInt(document.getElementById("valor1").value);
-        vlrResultado = serie(valor1);
-    }
-    if (escogido == 3) {
-        valor1 = parseInt(document.getElementById("valor1").value);
-        vlrResultado = fibonacci(valor1);
-    }
-    if (escogido == 4) {
-        valor1 = parseInt(document.getElementById("valor1").value);
-        vlrResultado = primo(valor1);
-        if (vlrResultado == false)
-            vlrResultado = "FALSO"
-    }
-    if (escogido == 5) {
-        valor1 = parseInt(document.getElementById("valor1").value);
-        vlrResultado = Nprimo(valor1);
-    }
-    if (escogido == 6) {
-        vlrResultado = Invertir(valor1);
-    }
-    if (escogido == 7) {
-        valor1 = parseInt(document.getElementById("valor1").value);
-        vlrResultado = factorial(valor1);
-    }
-    if (escogido == 8) {
-        valor1 = parseInt(document.getElementById("valor1").value);
-        vlrResultado = Binario(valor1);
-    }
-
-    if (typeof vlrResultado == "undefined") {
-        vlrResultado = "Error en la forma tipeada, por favor ingrese los datos valores correctamente!"
-    }
-    if (vlrResultado) {
-        document.getElementById("respuesta").innerHTML = vlrResultado;
-    } else {
-        document.getElementById("respuesta").innerHTML = "Error en la forma tipeada, por favor ingrese los datos valores correctamente!";
-    }
-
-
-//	return nroMayor(valor1,valor2,valor3);
 }
-
