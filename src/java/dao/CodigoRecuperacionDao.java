@@ -12,7 +12,7 @@ public class CodigoRecuperacionDao {
     private static final String codigo = "codigo";
     private static final String fechaExpiracion = "fecha_expiracion";
     private static final String utilizado = "utilizado";
-    private static final String usuarioId = "usuario_id";
+    private static final String usuarioIdPS = "usuario_id";
     
     public int insert(CodigoRecuperacion obj) throws Exception {
         Conexion objConexion = Conexion.getOrCreate();
@@ -84,7 +84,7 @@ public class CodigoRecuperacionDao {
                 boolean _utilizado = objResultSet.getBoolean(utilizado);
                 obj.setUsed(_utilizado);
                 
-                int _usuarioId = objResultSet.getInt(usuarioId);
+                int _usuarioId = objResultSet.getInt(usuarioIdPS);
                 obj.setUserId(_usuarioId);
 
                 return obj;
@@ -116,11 +116,12 @@ public class CodigoRecuperacionDao {
 
                 String _fechaExpiracion = objResultSet.getString(fechaExpiracion);
                 obj.setDate(_fechaExpiracion);
-
+ 
                 boolean _utilizado = objResultSet.getBoolean(utilizado);
                 obj.setUsed(_utilizado);
                 
-                int _usuarioId = objResultSet.getInt(usuarioId);
+//                int _usuarioId = objResultSet.getInt(usuarioId);
+                int _usuarioId = objResultSet.getInt(usuarioIdPS);
                 obj.setUserId(_usuarioId);
 
                 return obj;
