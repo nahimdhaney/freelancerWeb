@@ -13,7 +13,6 @@ function resultado(resultado) {
     }else{
         $("#respuesta").html(resultado.mensaje);        
     }
-
 }
 function ingresar() {
     var nombreUsuario = $("#nombreUsuario").val();

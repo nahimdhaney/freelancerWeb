@@ -29,7 +29,7 @@ function enviarMailRecuperacion() {
         },
         'type': 'POST',
         'url': 'api/usuario/passwordForgotten',
-        'data': JSON.stringify(email),
+        'data': JSON.stringify(mail),
         'dataType': 'json',
         'success': resultado
     });
