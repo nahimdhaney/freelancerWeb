@@ -6,8 +6,8 @@ $(document).ready(function () {
     var usuario = getUrlParameter('usuario');
     var codigoConfirmacion = getUrlParameter('codigoConfirmacion');
     var valor = new Object();
-    valor.usuarioNombre = usuario;
-    valor.codigoConfirmacion = codigoConfirmacion;
+    valor.user = usuario;
+    valor.code = codigoConfirmacion;
 
     jQuery.ajax({
         headers: {
@@ -16,7 +16,7 @@ $(document).ready(function () {
         },
         'type': 'POST',
         
-        'url': "api/usuario/validarRegistro",
+        'url': "api/usuario/validateCode",
         'data': JSON.stringify(valor),
         'dataType': 'json',
         'success': resultado
@@ -26,13 +26,38 @@ $(document).ready(function () {
 function resultado(resultado) {
     var validar = resultado.esOk
 //    alert("ENTRA")
-    var nombreUsuario = resultado.nombre;
+//    var idUsuario = resultado.mensaje;
 
     if(validar == true){
-        sessionStorage.setItem("usuarioId", nombreUsuario);
-        var url = "index.html"; 
+        // ok, el codigo es valido, ahora procedo a que el usuario cambie su contraseña
+        var usuario = getUrlParameter('usuario');
+        var codigoConfirmacion = getUrlParameter('codigoConfirmacion');
+        
+//        sessionStorage.setItem("usuarioId", idUsuario);
+        var url = "cambioContraseña.html?usuario=" + usuario + "&codigoConfirmacion=" + codigoConfirmacion;
         $(location).attr('href',url);
     }else{
         $("#respuesta").html(resultado.mensaje);        
     }
+}
+
+
+/**
+ * Usage
+ * Calling getUrlParameter("id") - would return "1".
+ * Calling getUrlParameter("image") - would return "awesome.jpg".
+ * @param {type} variable
+ * @return {getUrlParameter.pair, Boolean}
+ */
+function getUrlParameter(variable) {
+    var query = window.location.search.substring(1);
+    var vars = query.split("&");
+    for (var i = 0; i < vars.length; i++) {
+        var pair = vars[i].split("=");
+        if (pair[0] == variable) {
+            return pair[1];
+        }
+    }
+
+    return(false);
 }

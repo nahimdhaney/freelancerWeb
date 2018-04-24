@@ -25,7 +25,7 @@ public class UsuarioService {
     public Respuesta prueba(Usuario param) {
         Respuesta respuesta = new Respuesta();
         
-        respuesta.setMensaje("Hola tierra");
+        respuesta.setMensaje("Hello earth");
         respuesta.setEsOk(true);
         
         return respuesta;
@@ -184,7 +184,7 @@ public class UsuarioService {
                         message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(usuario.getEmail()));
     //                        InternetAddress.parse("kevinduran@outlook.com"));
                         message.setSubject("Tu codigo de recuperacion");
-                        message.setText(objRecuperacion.getCode());
+                        message.setText("localhost:8080/freelancerWeb/validarRegistro.html?usuario=" + param.getUser() + "&codigoConfirmacion=" + objRecuperacion.getCode());
 
                         Transport.send(message);
 
@@ -235,7 +235,7 @@ public class UsuarioService {
                     respuesta.setMensaje("codigo de verificacion valido");
                     return respuesta;
                 } else {
-                    respuesta.setMensaje("el codigo no es valido o ya fue utilizado");
+                    respuesta.setMensaje(Integer.toString(usuario.getId()));
                     return respuesta;
                 }
 

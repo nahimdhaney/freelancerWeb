@@ -6,8 +6,9 @@ function resultado(valor) {
 //    alert("ENTRA")
 
     if(validar == true){
-        $("#respuesta").html("Todo Ok");
-        var url = "cambioContraseña.html";
+//        $("#respuesta").html("Todo Ok");
+        alert(valor.mensaje)
+        var url = "index.html";
         $(location).attr('href', url);        
     }
 
