@@ -105,10 +105,12 @@ public class UsuarioService {
             FactoryDao factory = FactoryDao.getOrCreate();
             UsuarioDao dao = factory.newUsuarioDao();
             
-            dto.Usuario objUsuario = dao.getByUserName(param.getUser());
-            
-            if (objUsuario != null
-                    && objUsuario.getPassword().equals(param.getPassword())) {
+//            dto.Usuario objUsuario = dao.getByUserName(param.getUser());
+            dto.Usuario objUsuario = dao.login(param.getUser(), param.getPassword());
+
+//            if (objUsuario != null
+//                    && objUsuario.getPassword().equals(param.getPassword())) {
+            if (objUsuario != null) {
                 
                 objUsuario.setPassword(param.getNewPassword());
                 int filasAfectadas = dao.update(objUsuario);
