@@ -5,10 +5,10 @@ $(document).ready(function () {
 
 });
 
-
+ 
 
 function Recupera() {
-
+ 
     var codigoRecuperacion = $("#codigoRecuperacion").val();
     var nombreUsuario = $("#nombreUsuario").val();
     var contraseña = $("#contraseña").val();
