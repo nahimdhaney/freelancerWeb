@@ -1,16 +1,13 @@
 
-//var a = 8;
-
 function resultado(resultado) {
-    var validar = resultado.esOk
-//    alert("ENTRA")
     var nombreUsuario = $("#nombreDeusuario").val();
-    if(validar == true){
+    
+    if(resultado.success){
         sessionStorage.setItem("usuarioId", nombreUsuario);
         var url = "index.html"; 
         $(location).attr('href',url);
     }else{
-        $("#respuesta").html(resultado.mensaje);        
+        $("#respuesta").html(resultado.message);        
     }
 
 }
@@ -27,6 +24,7 @@ function registrarse() {
     usuario.fullName = fullName;
     usuario.password = contraseña;
     usuario.type = looking_for;
+    
     jQuery.ajax({
         headers: {
             'Accept': 'application/json',

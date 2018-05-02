@@ -1,6 +1,3 @@
-
-//var a = 8;
-
 $(document).ready(function () {
     if (sessionStorage.getItem("usuarioId") !== null) {
         $("#nombreUsuario").html(sessionStorage.getItem("usuarioId"));        
@@ -10,8 +7,6 @@ $(document).ready(function () {
         $(location).attr('href',url);
     }
 });
-
-
 
 function resultado(resultado) {
     var validar = resultado.esOk
@@ -25,6 +20,7 @@ function resultado(resultado) {
     }
 
 }
+
 function modifica() {
     var antiguaContraseña = $("#lastPass").val();
     var contraseña = $("#contraseña").val();

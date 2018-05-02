@@ -1,6 +1,3 @@
-
-//var a = 8;
-
 $(document).ready(function () {
     // le llega: usuario y codigoConfirmacion
     var usuario = getUrlParameter('usuario');
@@ -9,8 +6,6 @@ $(document).ready(function () {
     $("#nombreUsuario").val(usuario);
     $("#codigoRecuperacion").val(codigoConfirmacion);
 });
-
- 
 
 function Recupera() {
  
@@ -42,11 +37,8 @@ function Recupera() {
     });
 }
 function resultado(resultado) {
-    var validar = resultado.esOk
-//    alert("ENTRA")
-
-    if (validar == true) {
-        alert(resultado.mensaje);
+    if (resultado.success) {
+        alert(resultado.message);
         
         var url = "index.html";
         $(location).attr('href',url);

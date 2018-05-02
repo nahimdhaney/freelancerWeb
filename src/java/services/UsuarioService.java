@@ -1,5 +1,6 @@
 package services;
 
+import com.google.gson.Gson;
 import dao.CodigoRecuperacionDao;
 import dao.UsuarioDao;
 import dto.CodigoRecuperacion;
@@ -10,6 +11,7 @@ import java.util.*;
 import javax.mail.*;
 import javax.mail.internet.*;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -19,16 +21,15 @@ import javax.ws.rs.core.MediaType;
 public class UsuarioService {
     
     @Path("test")
-    @POST
+    @GET
     @Produces(MediaType.APPLICATION_JSON) // lo que va a devolver
-    @Consumes(MediaType.APPLICATION_JSON) // lo que va a recibir
-    public Respuesta prueba(Usuario param) {
-        Respuesta respuesta = new Respuesta();
+    public String prueba() {
+        Response respuesta = new Response();
         
-        respuesta.setMensaje("Hello earth");
-        respuesta.setEsOk(true);
+        respuesta.setSuccess(true);
+        respuesta.setMessage("Hello earth!");
         
-        return respuesta;
+        return new Gson().toJson(respuesta);
     }
     
     // api/usuario/login
@@ -36,113 +37,118 @@ public class UsuarioService {
     @POST
     @Produces(MediaType.APPLICATION_JSON) // lo que va a devolver
     @Consumes(MediaType.APPLICATION_JSON) // lo que va a recibir
-    public Respuesta login(dto.Usuario param) {
-        Respuesta respuesta = new Respuesta();
+    public String login(Usuario param) {
+        Response respuesta = new Response();
         
         try {
             FactoryDao factory = FactoryDao.getOrCreate();
             UsuarioDao dao = factory.newUsuarioDao();
             
-            dto.Usuario objUsuario = dao.login(param.getUser(), param.getPassword());
+            Usuario objUsuario = dao.login(param.getUser(), param.getPassword());
             
             if (objUsuario != null) {
-                respuesta.setEsOk(true);
-                respuesta.setMensaje(Integer.toString(objUsuario.getId()));
+                objUsuario.setPassword("");
+                objUsuario.setEnabled(true);
+                
+                respuesta.setSuccess(true);
+                respuesta.setMessage("Ingreso correcto");
+                respuesta.setResponse(objUsuario);
             } else {
-                respuesta.setMensaje("usuario y/o contraseña incorrectos");
+                respuesta.setMessage("Usuario y/o contraseña incorrectos");
             }
             
         } catch (Exception e) {
-            respuesta.setMensaje("Error de autenticacion");
+            respuesta.setMessage("Error de autenticación");
         }
         
-        return respuesta;
+        return new Gson().toJson(respuesta);
     }
     
     @Path("register")
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Respuesta registrarse(dto.Usuario param) {
-        Respuesta respuesta = new Respuesta();
+    public String registrarse(Usuario param) {
+        Response respuesta = new Response();
         
         try {
             FactoryDao factory = FactoryDao.getOrCreate();
             UsuarioDao dao = factory.newUsuarioDao();
             
-            dto.Usuario usuario = dao.getByUserName(param.getUser());
+            Usuario usuario = dao.getByUserName(param.getUser());
             
             if (usuario != null) {
-                respuesta.setMensaje("el nombre de usuario ya está siendo ocupado");
-                return respuesta;
+                respuesta.setMessage("El nombre de usuario ya está siendo ocupado");
+                return new Gson().toJson(respuesta);
             }
             
             int idGenerado = dao.insert(param);
             
             if (idGenerado == 0) {
-                respuesta.setMensaje("El nombre de usuario/correo ya está siendo ocupado");
+                respuesta.setMessage("El nombre de usuario/correo ya está siendo ocupado");
             } else {
-                param.setId(idGenerado);
+                Usuario objUsuario = new Usuario();
+                objUsuario.setId(idGenerado);
+                objUsuario.setEnabled(true);
+                objUsuario.setType(param.getType());
             
-                respuesta.setEsOk(true);
-                respuesta.setMensaje(Integer.toString(idGenerado));
+                respuesta.setSuccess(true);
+                respuesta.setMessage("Registro exitoso");
+                respuesta.setResponse(objUsuario);
             }
         } catch (Exception e) {
-            respuesta.setMensaje("Error de autenticacion");
+            respuesta.setMessage("Error de autenticación");
         }
         
-        return respuesta;
+        return new Gson().toJson(respuesta);
     }
     
     @Path("changePassword")
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Respuesta cambiarContraseña(UsuarioRecuperacion param) {
-        Respuesta respuesta = new Respuesta();
+    public String cambiarContraseña(UsuarioRecuperacion param) {
+        Response respuesta = new Response();
         
         try {
             FactoryDao factory = FactoryDao.getOrCreate();
             UsuarioDao dao = factory.newUsuarioDao();
             
-//            dto.Usuario objUsuario = dao.getByUserName(param.getUser());
-            dto.Usuario objUsuario = dao.login(param.getUser(), param.getPassword());
+            Usuario objUsuario = dao.login(param.getUser(), param.getPassword());
 
-//            if (objUsuario != null
-//                    && objUsuario.getPassword().equals(param.getPassword())) {
             if (objUsuario != null) {
-                
                 objUsuario.setPassword(param.getNewPassword());
                 int filasAfectadas = dao.update(objUsuario);
                 
                 if (filasAfectadas > 0) {
-                    respuesta.setEsOk(true);
-                    respuesta.setMensaje("Contraseña cambiada correctamente");
+                    respuesta.setSuccess(true);
+                    respuesta.setMessage("Contraseña cambiada correctamente");
                 } else {
-                    respuesta.setMensaje(("Hubo un error al cambiar la contraseña"));
+                    respuesta.setMessage(("Hubo un error al cambiar la contraseña"));
                 }
                 
             } else {
-                respuesta.setMensaje("contraseña incorrecta");
+                respuesta.setMessage("Contraseña incorrecta");
             }
             
         } catch (Exception e) {
-            respuesta.setMensaje("Error de autenticacion");
+            respuesta.setMessage("Error de autenticación");
         }
         
-        return respuesta;
+        return new Gson().toJson(respuesta);
     }
     
     @Path("passwordForgotten")
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Respuesta recuperarContrasenia(UsuarioRecuperacion param) {
-        Respuesta respuesta = new Respuesta();
+    public String recuperarContrasenia(UsuarioRecuperacion param) {
+        Response respuesta = new Response();
         
         final String username = "kevinduran1997@gmail.com";
         final String password = "subt3nientE";
 
+//        para poder enviar correos desde gmail
         Properties props = new Properties();
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.auth", "true");
@@ -150,123 +156,115 @@ public class UsuarioService {
         props.put("mail.smtp.port", "587");
         props.put("mail.smtp.ssl.trust", "smtp.gmail.com");
 
-
         Session session = Session.getInstance(props,
-          new javax.mail.Authenticator() {
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(username, password);
+            new javax.mail.Authenticator() {
+                protected PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication(username, password);
+                }
             }
-          });
+        );
 
         try {
             FactoryDao factory = FactoryDao.getOrCreate();
             UsuarioDao usuarioDao = factory.newUsuarioDao();
+            CodigoRecuperacionDao recuperacionDao = factory.newCodigoRecuperacionDao();
             
-            dto.Usuario usuario = usuarioDao.getByUserName(param.getUser());
+            Usuario usuario = usuarioDao.getByUserName(param.getUser());
             
             if (usuario != null) {
                 CodigoRecuperacion objRecuperacion = new CodigoRecuperacion(0, 
                     getCodigo(), getNext24HrsDate(), false, usuario.getId());
                 
-                CodigoRecuperacionDao recuperacionDao = factory.newCodigoRecuperacionDao();
-                
                 int idGenerado = recuperacionDao.insert(objRecuperacion);
-//                
+                
                 if (idGenerado == 0) {
-                    respuesta.setMensaje("Hubo un error al crear el codigo de recuperacion");
-                    return respuesta;
+                    respuesta.setMessage("Hubo un error al crear el código de recuperacion");
                 } else {
                     objRecuperacion.setId(idGenerado);
                     
                     try {
                         Message message = new MimeMessage(session);
                         message.setFrom(new InternetAddress("kevinduran1997@gmail.com"));
-                        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(usuario.getEmail()));
-    //                        InternetAddress.parse("kevinduran@outlook.com"));
-                        message.setSubject("Tu codigo de recuperacion");
-                        message.setText("localhost:8080/freelancerWeb/validarRegistro.html?usuario=" + param.getUser() + "&codigoConfirmacion=" + objRecuperacion.getCode());
+                        message.setRecipients(Message.RecipientType.TO, 
+                                InternetAddress.parse(usuario.getEmail()));
+                        message.setSubject("Tu código de recuperación");
+                        message.setText("localhost:8080/freelancerWeb"
+                                + "/validarRegistro.html?usuario=" 
+                                + param.getUser() + "&codigoConfirmacion=" 
+                                + objRecuperacion.getCode());
 
                         Transport.send(message);
 
-                        respuesta.setEsOk(true);
-                        respuesta.setMensaje("se envio un codigo de recuperacion a tu correo");
-                        return respuesta;
+                        respuesta.setSuccess(true);
+                        respuesta.setMessage("Se envió un código de recuperación a tu correo");
                     } catch (MessagingException e) {
-                        respuesta.setMensaje("Hubo un error al enviar el correo con el codigo de recuperacion "+ e.getMessage());
-                        return respuesta;
+                        respuesta.setMessage("Hubo un error al enviar el correo con el código de recuperación "+ e.getMessage());
                     }
-                
                 }
 
-
             } else {
-                respuesta.setMensaje("No existe un usuario con ese nombre de usuario registrado");
-                return respuesta;
+                respuesta.setMessage("No existe un usuario con ese nombre de usuario registrado");
             }
-
         } catch (Exception e) {
-            
+            respuesta.setMessage("Error de autenticación");
         }
         
-        return respuesta;
+        return new Gson().toJson(respuesta);
     }
     
     @Path("validateCode")
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Respuesta validarContrasenia(UsuarioRecuperacion param) {
-        Respuesta respuesta = new Respuesta();
+    public String validarContrasenia(UsuarioRecuperacion param) {
+        Response respuesta = new Response();
         
         try {
             FactoryDao factory = FactoryDao.getOrCreate();
             UsuarioDao usuarioDao = factory.newUsuarioDao();
+            CodigoRecuperacionDao recuperacionDao = factory.newCodigoRecuperacionDao();
             
-            dto.Usuario usuario = usuarioDao.getByUserName(param.getUser());
+            Usuario usuario = usuarioDao.getByUserName(param.getUser());
             
             if (usuario != null) {
-                CodigoRecuperacionDao recuperacionDao = factory.newCodigoRecuperacionDao();
-                
                 CodigoRecuperacion objRecuperacion = 
                         recuperacionDao.verificar(usuario.getId(), param.getCode());
                 
                 if (objRecuperacion != null) {
-                    respuesta.setEsOk(true);
-                    respuesta.setMensaje("codigo de verificacion valido");
-                    return respuesta;
+                    respuesta.setSuccess(true);
+                    respuesta.setMessage("Código de verificación válido");
                 } else {
-                    respuesta.setMensaje(Integer.toString(usuario.getId()));
-                    return respuesta;
+                    respuesta.setMessage("El código es inválido o ya fué utilizado");
                 }
 
             } else {
-                respuesta.setMensaje("No existe un usuario con ese nombre de usuario registrado");
-                return respuesta;
+                respuesta.setMessage("No existe un usuario con ese nombre de usuario registrado");
             }
 
         } catch (Exception e) {
-            
+            respuesta.setMessage("Error de autenticación");
         }
         
-        return respuesta;
+        return new Gson().toJson(respuesta);
     }
     
     @Path("newPassword")
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Respuesta nuevaContrasenia(UsuarioRecuperacion param) {
-        Respuesta respuesta = new Respuesta();
+    public String nuevaContrasenia(UsuarioRecuperacion param) {
+        Response respuesta = new Response();
         
         try {
             FactoryDao factory = FactoryDao.getOrCreate();
             UsuarioDao dao = factory.newUsuarioDao();
+            CodigoRecuperacionDao recuperacionDao = factory.newCodigoRecuperacionDao();
             
-            dto.Usuario objUsuario = dao.getByUserName(param.getUser());
+            Usuario objUsuario = dao.getByUserName(param.getUser());
             
             if (objUsuario != null) {
-                CodigoRecuperacionDao recuperacionDao = factory.newCodigoRecuperacionDao();
-                CodigoRecuperacion objRecuperacion = recuperacionDao.verificar(objUsuario.getId(), param.getCode());
+                CodigoRecuperacion objRecuperacion = 
+                        recuperacionDao.verificar(objUsuario.getId(), param.getCode());
                 
                 if (objRecuperacion != null) {
                     objUsuario.setPassword(param.getNewPassword());
@@ -276,39 +274,34 @@ public class UsuarioService {
                         objRecuperacion.setUsed(true);
                         int actualizacionExitosa = recuperacionDao.update(objRecuperacion);
                         
-                        respuesta.setEsOk(true);
-                        respuesta.setMensaje("Contraseña cambiada correctamente");
-                        
-                        return respuesta;
+                        respuesta.setSuccess(true);
+                        respuesta.setMessage("Contraseña cambiada correctamente");
                     } else {
-                        respuesta.setMensaje(("Hubo un error al cambiar la contraseña"));
-                        return respuesta;
+                        respuesta.setMessage("Hubo un error al cambiar la contraseña");
                     }
                 } else {
-                    respuesta.setMensaje("el codigo no es valido o ya fue utilizado");
-                    return respuesta;
+                    respuesta.setMessage("El código no es válido o ya fué utilizado");
                 }
                 
             } else {
-                respuesta.setMensaje("no existe un usuario con ese nombre de usuario");
-                return respuesta;
+                respuesta.setMessage("No existe un usuario con ese nombre de usuario");
             }
             
         } catch (Exception e) {
-            respuesta.setMensaje("Error de autenticacion");
+            respuesta.setMessage("Error de autenticación");
         }
         
-        return respuesta;
+        return new Gson().toJson(respuesta);
     }
     
-    public static final String letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    public static final String LETRAS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     
     private String getCodigo() {
         String codigo = "";
         
         for (int i = 0; i < 8; i++) {
-            int posicion = (int) (Math.random() * letras.length());
-            codigo += letras.charAt(posicion);
+            int posicion = (int) (Math.random() * LETRAS.length());
+            codigo += LETRAS.charAt(posicion);
         }
         
         return codigo;
@@ -325,8 +318,6 @@ public class UsuarioService {
         SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String fechaFormateada = formato.format(dt);
         return fechaFormateada;
-        
-//        return dt.toString();
     }
     
 }

@@ -7,6 +7,7 @@ public class Usuario {
     private String user;
     private String password;
     private String email;
+    private boolean enabled;
     private int type;
 
     public Usuario() {
@@ -18,6 +19,14 @@ public class Usuario {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     public String getFullName() {

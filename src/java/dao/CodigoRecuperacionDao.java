@@ -4,15 +4,17 @@ import conexion.Conexion;
 import dto.CodigoRecuperacion;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class CodigoRecuperacionDao {
 
-    private static final String table = "codigos_recuperacion";
-    private static final String id = "id";
-    private static final String codigo = "codigo";
-    private static final String fechaExpiracion = "fecha_expiracion";
-    private static final String utilizado = "utilizado";
-    private static final String usuarioIdPS = "usuario_id";
+    private static final String ID = "id";
+    private static final String CODE = "codigo";
+    private static final String DATE = "fecha_expiracion";
+    private static final String USED = "utilizado";
+    private static final String USER_ID = "usuario_id";
     
     public int insert(CodigoRecuperacion obj) throws Exception {
         Conexion objConexion = Conexion.getOrCreate();
@@ -71,21 +73,7 @@ public class CodigoRecuperacionDao {
             
             ResultSet objResultSet = objConexion.ejecutar(ps);
             if (objResultSet.next()) {
-                CodigoRecuperacion obj = new CodigoRecuperacion();
-                int _id = objResultSet.getInt(CodigoRecuperacionDao.id);
-                obj.setId(_id);
-
-                String _codigo = objResultSet.getString(codigo);
-                obj.setCode(_codigo);
-
-                String _fechaExpiracion = objResultSet.getString(fechaExpiracion);
-                obj.setDate(_fechaExpiracion);
-
-                boolean _utilizado = objResultSet.getBoolean(utilizado);
-                obj.setUsed(_utilizado);
-                
-                int _usuarioId = objResultSet.getInt(usuarioIdPS);
-                obj.setUserId(_usuarioId);
+                CodigoRecuperacion obj = getCodigoRecuperacionDeResultSet(objResultSet);
 
                 return obj;
             }
@@ -107,22 +95,7 @@ public class CodigoRecuperacionDao {
             
             ResultSet objResultSet = objConexion.ejecutar(ps);
             if (objResultSet.next()) {
-                CodigoRecuperacion obj = new CodigoRecuperacion();
-                int _id = objResultSet.getInt(CodigoRecuperacionDao.id);
-                obj.setId(_id);
-
-                String _codigo = objResultSet.getString(CodigoRecuperacionDao.codigo);
-                obj.setCode(_codigo);
-
-                String _fechaExpiracion = objResultSet.getString(fechaExpiracion);
-                obj.setDate(_fechaExpiracion);
- 
-                boolean _utilizado = objResultSet.getBoolean(utilizado);
-                obj.setUsed(_utilizado);
-                
-//                int _usuarioId = objResultSet.getInt(usuarioId);
-                int _usuarioId = objResultSet.getInt(usuarioIdPS);
-                obj.setUserId(_usuarioId);
+                CodigoRecuperacion obj = getCodigoRecuperacionDeResultSet(objResultSet);
 
                 return obj;
             }
@@ -130,6 +103,30 @@ public class CodigoRecuperacionDao {
         }
         
         return null;
+    }
+
+    private CodigoRecuperacion getCodigoRecuperacionDeResultSet(ResultSet objResultSet) {
+        try {
+            CodigoRecuperacion obj = new CodigoRecuperacion();
+            int _id = objResultSet.getInt(CodigoRecuperacionDao.ID);
+            obj.setId(_id);
+            
+            String _codigo = objResultSet.getString(CODE);
+            obj.setCode(_codigo);
+            
+            String _fechaExpiracion = objResultSet.getString(DATE);
+            obj.setDate(_fechaExpiracion);
+            
+            boolean _utilizado = objResultSet.getBoolean(USED);
+            obj.setUsed(_utilizado);
+            
+            int _usuarioId = objResultSet.getInt(USER_ID);
+            obj.setUserId(_usuarioId);
+            
+            return obj;
+        } catch (SQLException ex) {
+            return null;
+        }
     }
 
 }
