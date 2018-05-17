@@ -75,41 +75,56 @@
         </header>
         <!--================End Header Menu Area =================-->
 
-        <section class="latest_news_area p_100">
+
+        <section class="contact_us_area">
             <div class="container">
-                <div class="b_center_title">
-                    <h2>Todos los proyectos</h2>
-                    <p>visualiza todos los proyectos registrados</p>
-                </div>
-                <div class="l_news_inner">
+                <div class="contact_details_inner">
                     <div class="row">
-                        <div class="col-lg-4 col-md-6">
-                            <div class="l_news_item">
-                                <!--<div class="l_news_img"><a href="#"><img class="img-fluid" src="img/blog/l-news/l-news-1.jpg" alt=""></a></div>-->
-                                <div class="l_news_content">
-                                    <a href="#"><h4>Desarrollo de APP movil Uber</h4></a>
-                                    <p> Requerimos de hacer una APP especializadas en Moto-taxis para dar a conocer
-                                    </p>
-                                    <a class="more_btn" href="#">Software y programacion</a>
-                                    <p >1 postulacion</p>
-                                    <p class="text-sm-right collor text-success">4.000 $</p>
+                        <form class="contact_us_form row" action="contact_process.php" method="post" id="contactForm" novalidate="novalidate">
+                            <div class="col-lg-6">
+                                <div class="main_title">
+                                    <h2>Nuevo Proyecto</h2>
+                                    <p>Publica tu proyecto y comienza a trabajar ya!</p>
+                                </div>
+                                <div class="contact_form">
+                                    <label for="name" class="form-group col-lg-12">Nombre</label>
+                                    <div class="form-group col-lg-12">
+                                        <input type="text" class="form-control" id="name" name="name" placeholder="name">
+                                    </div>
+                                    <label for="price" class="form-group col-lg-12">Presupuesto</label>
+                                    <div class="form-group col-lg-12">
+                                        <input type="number" class="form-control" id="price" name="price" placeholder="Presupuesto">
+                                    </div>
+                                    <label for="categoria" class="form-group col-lg-12">Categoria</label>
+                                    <div class="form-group col-lg-12">
+                                        <select class="form-control" id="categoria">
+                                            <option>--</option>
+                                            <option>Diseño Web</option>
+                                            <option>Arquitectura</option>
+                                            <option>Finanzas</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <button type="submit" value="submit" class="btn submit_btn2 form-control">Publicar Proyecto</button>
+                                    </div>
+
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-lg-4 col-md-6">
-                            <div class="l_news_item">
-                                <div class="l_news_img"><a href="#"><img class="img-fluid" src="img/blog/l-news/l-news-2.jpg" alt=""></a></div>
-                                <div class="l_news_content">
-                                    <a href="#"><h4>Simple, Fast And Fun</h4></a>
-                                    <p>The Fancy that recognize the talent and effort of the best web designers, develop-ers and agencies in the world.</p>
-                                    <a class="more_btn" href="#">Learn More</a>
+                            <div class="col-lg-6">
+                                <div class="contact_text">
+                                    <div class="contact_d_list">
+                                        <textarea class="form-control form-text" name="message" id="descripcion" rows="10" placeholder="Descripcion"></textarea>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
-        </section>
+        </section>        
+
+
+
         <!--================Footer Area =================-->
         <footer class="footer_area">
             <div class="footer_widgets_area">
@@ -235,5 +250,6 @@
         <script src="../js/script.js" type="text/javascript"></script>
 
         <script src="../js/theme.js"></script>
+        <script src="../js/nuevoProyecto.js" type="text/javascript"></script>
     </body>
 </html>
