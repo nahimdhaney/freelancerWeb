@@ -1,6 +1,8 @@
 package factory;
 
 import dao.CodigoRecuperacionDao;
+import dao.ProyectoDao;
+import dao.SolicitudProyectoDao;
 import dao.UsuarioDao;
 
 public class FactoryDao {
@@ -24,6 +26,14 @@ public class FactoryDao {
     
     public CodigoRecuperacionDao newCodigoRecuperacionDao() {
         return new CodigoRecuperacionDao();
+    }
+    
+    public ProyectoDao newProyectoDao() {
+        return new ProyectoDao();
+    }
+    
+    public SolicitudProyectoDao newSolicitudProyectoDao() {
+        return new SolicitudProyectoDao();
     }
     
 }
