@@ -109,7 +109,7 @@ public class UsuarioService {
     @Consumes(MediaType.APPLICATION_JSON)
     public String cambiarContraseña(UsuarioRecuperacion param) {
         Response respuesta = new Response();
-        
+       
         try {
             FactoryDao factory = FactoryDao.getOrCreate();
             UsuarioDao dao = factory.newUsuarioDao();
