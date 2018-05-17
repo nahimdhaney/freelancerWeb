@@ -37,6 +37,7 @@ public class ProjectoService {
                 objProyecto.setId(idGenerado);
                 objProyecto.setName(param.getName());
                 objProyecto.setDescription(param.getDescription());
+                objProyecto.setCategory(param.getCategory());
                 objProyecto.setPrice(param.getPrice());
                 objProyecto.setDate(param.getDate());
                 objProyecto.setStart("");

@@ -5,6 +5,7 @@ public class Proyecto {
     private int id;
     private String name;
     private String description;
+    private String category;
     private double price;
     private String date;
     private String start;
@@ -37,6 +38,14 @@ public class Proyecto {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public double getPrice() {

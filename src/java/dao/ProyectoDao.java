@@ -14,6 +14,7 @@ public class ProyectoDao {
     public static final String ID = "id";
     private static final String NAME = "nombre";
     private static final String DESCRIPTION = "descripcion";
+    private static final String CATEGORY = "categoria";
     private static final String PRICE = "precio";
     private static final String DATE = "fecha";
     private static final String START = "inicio";
@@ -23,18 +24,19 @@ public class ProyectoDao {
         
     public int insert(Proyecto obj) throws Exception {
         Conexion objConexion = Conexion.getOrCreate();
-        String procedimiento = "call mk_proyecto(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String procedimiento = "call mk_proyecto(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         
         PreparedStatement ps = objConexion.invocarProcedimiento(procedimiento);
         ps.setInt(1, obj.getId());
         ps.setString(2, obj.getName());
         ps.setString(3, obj.getDescription());
-        ps.setDouble(4, obj.getPrice());
-        ps.setString(5, obj.getDate());
-        ps.setString(6, obj.getStart());
-        ps.setString(7, obj.getEnd());
-        ps.setInt(8, obj.getOwnerId());
-        ps.setNull(9, Types.INTEGER);
+        ps.setString(4, obj.getCategory());
+        ps.setDouble(5, obj.getPrice());
+        ps.setString(6, obj.getDate());
+        ps.setString(7, obj.getStart());
+        ps.setString(8, obj.getEnd());
+        ps.setInt(9, obj.getOwnerId());
+        ps.setNull(10, Types.INTEGER);
         
         int filasAfectadas = objConexion.ejecutarSimple(ps);
         
@@ -57,18 +59,19 @@ public class ProyectoDao {
     public int update(Proyecto obj) throws Exception {
         Conexion objConexion = Conexion.getOrCreate();
         
-        String procedimiento = "call mk_proyecto(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String procedimiento = "call mk_proyecto(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         
         PreparedStatement ps = objConexion.invocarProcedimiento(procedimiento);
         ps.setInt(1, obj.getId());
         ps.setString(2, obj.getName());
         ps.setString(3, obj.getDescription());
-        ps.setDouble(4, obj.getPrice());
-        ps.setString(5, obj.getDate());
-        ps.setString(6, obj.getStart());
-        ps.setString(7, obj.getEnd());
-        ps.setInt(8, obj.getOwnerId());
-        ps.setInt(9, obj.getFreelancerId());
+        ps.setString(4, obj.getCategory());
+        ps.setDouble(5, obj.getPrice());
+        ps.setString(6, obj.getDate());
+        ps.setString(7, obj.getStart());
+        ps.setString(8, obj.getEnd());
+        ps.setInt(9, obj.getOwnerId());
+        ps.setInt(10, obj.getFreelancerId());
 
         int filasAfectadas = objConexion.ejecutarSimple(ps);
         
@@ -215,6 +218,9 @@ public class ProyectoDao {
             
             String _description = objResultSet.getString(DESCRIPTION);
             obj.setDescription(_description);
+            
+            String _categoria = objResultSet.getString(CATEGORY);
+            obj.setCategory(_categoria);
             
             double _price = objResultSet.getDouble(PRICE);
             obj.setPrice(_price);
