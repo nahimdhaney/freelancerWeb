@@ -125,8 +125,8 @@ public class UsuarioDao {
             String _correo = objResultSet.getString(EMAIL);
             obj.setEmail(_correo);
             
-            boolean _habilitado = objResultSet.getBoolean(ENABLED);
-            obj.setEnabled(_habilitado);
+//            boolean _habilitado = objResultSet.getBoolean(ENABLED);
+//            obj.setEnabled(_habilitado);
             
             int _tipo = objResultSet.getInt(TYPE);
             obj.setType(_tipo);

@@ -80,7 +80,7 @@
             <div class="container">
                 <div class="contact_details_inner">
                     <div class="row">
-                        <form class="contact_us_form row" action="contact_process.php" method="post" id="contactForm" novalidate="novalidate">
+                        <form class="contact_us_form row" onsubmit="ingresar(); return false;" method="post" id="contactForm" novalidate="novalidate">
                             <div class="col-lg-6">
                                 <div class="main_title">
                                     <h2>Nuevo Proyecto</h2>
@@ -99,10 +99,24 @@
                                     <div class="form-group col-lg-12">
                                         <select class="form-control" id="categoria">
                                             <option>--</option>
-                                            <option>Diseño Web</option>
-                                            <option>Arquitectura</option>
-                                            <option>Finanzas</option>
+                                            <option>TI, páginas web y software                      </option>
+                                            <option>Redacción y contenidos                          </option>
+                                            <option>Diseño, comunicación y arquitectura             </option>
+                                            <option>Entrada de datos y administración               </option>
+                                            <option>Ingenieria y ciencias                           </option>
+                                            <option>Ventas y marketing                              </option>
+                                            <option>Negocios, contabilidad, recursos humanos y leyes</option>
+                                            <option>Abastecimiento y fabricacion                    </option>
+                                            <option>Agronomia                                       </option>
+                                            <option>Construcción                                    </option>
+                                            <option>Teléfonos móviles e informática                 </option>
+                                            <option>Traducción e idiomas                            </option>
+                                            <option>Otras                                           </option>
                                         </select>
+                                    </div>
+                                    <label for="fecha" class="form-group col-lg-12">fecha </label>
+                                    <div class="form-group col-lg-12">
+                                        <input type="date" class="form-control" id="fecha" name="fecha" >
                                     </div>
                                     <div class="form-group col-md-12">
                                         <button type="submit" value="submit" class="btn submit_btn2 form-control">Publicar Proyecto</button>
@@ -113,7 +127,7 @@
                             <div class="col-lg-6">
                                 <div class="contact_text">
                                     <div class="contact_d_list">
-                                        <textarea class="form-control form-text" name="message" id="descripcion" rows="10" placeholder="Descripcion"></textarea>
+                                        <textarea class="form-control form-text" name="message" id="descripcion" rows="10" cols="20" placeholder="Descripcion"></textarea>
                                     </div>
                                 </div>
                             </div>

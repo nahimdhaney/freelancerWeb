@@ -1,8 +1,10 @@
 function resultado(resultado) {
-    var nombreUsuario = $("#nombreUsuario").val();
-
+    var iDUsuario = $("#nombreUsuario").val();
+    var id = resultado.response.id;
+    
     if(resultado.success){
-        sessionStorage.setItem("usuarioId", nombreUsuario);
+        sessionStorage.setItem("usuarioId", iDUsuario);
+        sessionStorage.setItem("idUser", id);
         var url = "index.html"; 
         $(location).attr('href',url);
     }else{
@@ -27,4 +29,3 @@ function ingresar() {
         'success': resultado
     });
 }
-
