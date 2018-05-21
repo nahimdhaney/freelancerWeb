@@ -8,6 +8,7 @@ $(document).ready(function () {
         $(".registrarse").attr("href", "");
         $("#cambcon").attr("href", "modificaContraseña.html");
         $("#cambcon").text("Modificar Contraseña");
+        $("#indice").append('<li class="nav-item "><a class="nav-link" href="misProyectos.html">Mis Proyectos</a></li>');
 
 
 

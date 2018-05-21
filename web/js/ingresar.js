@@ -1,10 +1,12 @@
 function resultado(resultado) {
     var iDUsuario = $("#nombreUsuario").val();
     var id = resultado.response.id;
+    var tipo = resultado.response.type;
     
     if(resultado.success){
         sessionStorage.setItem("usuarioId", iDUsuario);
         sessionStorage.setItem("idUser", id);
+        sessionStorage.setItem("usuarioTipo", tipo);
         var url = "index.html"; 
         $(location).attr('href',url);
     }else{

@@ -200,6 +200,8 @@ i:before {
   z-index: 30;
   padding: 0px 75px;
   border-bottom: 1px solid #626571;
+  background-color: black;
+  
 }
 
 .main_menu_area .navbar {
@@ -2013,6 +2015,7 @@ i:before {
 .copy_right_area .float-md-right .nav li:hover a {
   color: #2bc0a4;
 }
+
 
 /* End Footer Area css
 ============================================================================================ */

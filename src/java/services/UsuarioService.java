@@ -36,10 +36,10 @@ public class UsuarioService {
     @Path("login")
     @POST
     @Produces(MediaType.APPLICATION_JSON) // lo que va a devolver
-    @Consumes(MediaType.APPLICATION_JSON) // lo que va a recibir
+    @Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8") // lo que va a recibir
     public String login(Usuario param) {
         Response respuesta = new Response();
-        
+         
         try {
             FactoryDao factory = FactoryDao.getOrCreate();
             UsuarioDao dao = factory.newUsuarioDao();
@@ -54,7 +54,7 @@ public class UsuarioService {
                 respuesta.setMessage("Ingreso correcto");
                 respuesta.setResponse(objUsuario);
             } else {
-                respuesta.setMessage("Usuario y/o contraseña incorrectos");
+                respuesta.setMessage("Usuario y/o contraseña incorrectos w " + param.getUser());
             }
             
         } catch (Exception e) {

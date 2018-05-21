@@ -4,16 +4,8 @@ function resultado(resultado) {
         $("#categoria").append(obj.category);
         $("#fecha").append(obj.date);
         $("#presupuesto").append(obj.price.toString() + "  USD");
- /*    "response": {
-        "id": 1,
-        "name": "PriceWaterHouse",
-        "description": "Desarrollo de pagina Web comercial",
-        "price": 8000,
-        "date": "2018-05-16 08:32:16.0",
-        "ownerId": 13,
-        "freelancerId": 0
-    }*/
-        
+        $("#titulo").text(obj.name);
+        $("#descripcion").text(obj.description);
     } else {
         $("#respuesta").html(resultado.message);
     }
