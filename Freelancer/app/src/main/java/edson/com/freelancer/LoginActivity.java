@@ -133,6 +133,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         String username = tv_nickname.getText().toString();
         String contraseña = edit_contraseña.getText().toString();
 
+        Intent itent = new Intent(LoginActivity.this, menuActivity.class);
+        startActivity(itent);
         //Logearse(username, contraseña);
     }
 
@@ -184,7 +186,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                        editor.putString("edson", user);
                        editor.putString("cito", contra);
                        editor.commit();
-                       Intent itent = new Intent(LoginActivity.this, edson.class);
+                       Intent itent = new Intent(LoginActivity.this, menuActivity.class);
                        startActivity(itent);
                    }
                }

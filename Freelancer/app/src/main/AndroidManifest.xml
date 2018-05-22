@@ -30,6 +30,10 @@
         <activity
             android:name=".NuevaPassActivity"
             android:label="@string/title_activity_nueva_pass"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".menuActivity"
+            android:label="@string/title_activity_menu"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
