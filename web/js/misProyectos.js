@@ -7,7 +7,7 @@ function resultado(resultado) {
                 + "                            <div class=\"l_news_item\">\n"
                 + "                                <!--<div class=\"l_news_img\"><a href=\"#\"><img class=\"img-fluid\" src=\"img/blog/l-news/l-news-1.jpg\" alt=\"\"></a></div>-->\n"
                 + "                                <div class=\"l_news_content\">\n"
-                + "                                    <a href=verProyecto.html?proyecto=" + obj.id + "><h4>" + obj.name + "</h4></a>\n"
+                + "                                    <a href=nuevoProyecto.html?proyecto=" + obj.id + "><h4>" + obj.name + "</h4></a>\n"
                 + "                                    <p> " + obj.description + "\n"
                 + "                                    </p>\n"
                 + "                                    <a class=\"more_btn\" href=\"#\">" + obj.category+ "</a>\n"
@@ -24,15 +24,22 @@ function resultado(resultado) {
 }
 
 $(document).ready(function () {
-    var val = getParameterByName('categoria');
+    
+    if (sessionStorage.getItem("usuarioId") !== null) {
+        
+    }else{
+        var url = "../ingresar.html"; 
+        $(location).attr('href',url);        
+    }    
 
+    
     jQuery.ajax({
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
         'type': 'GET',
-        'url': "../api/proyecto",
+        'url': "../api/proyecto/proyectos_contratista/" + sessionStorage.getItem("idUser"),
         'success': resultado
     });
 });

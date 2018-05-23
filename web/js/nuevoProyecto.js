@@ -6,41 +6,68 @@
 
 
 
-$(document).ready(function (){
+$(document).ready(function () {
     if (sessionStorage.getItem("usuarioId") !== null) {
-        
-    }else{
-        
-        var url = "../ingresar.html"; 
-        $(location).attr('href',url);        
-        
-    }    
+
+    } else {
+        var url = "../ingresar.html";
+        $(location).attr('href', url);
+    }
+    var val = getParameterByName('proyecto');
+    if (val !== null) { // si es nuevo hacer ajax para traer el proyecto y Editarlo
+        jQuery.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            'type': 'GET',
+            'url': "../api/proyecto/" + val,
+            'dataType': 'json',
+            'success': cargaProyecto
+        });
+    }
+    
 });
 
+
+function cargaProyecto(resultado) {
+    if (resultado.success) {
+        $("#name").val(resultado.response.name);
+        $("#descripcion").val(resultado.response.description);
+        $("#price").val(resultado.response.price);
+        $("#categoria").val(resultado.response.category.trim());
+        $("#fecha").val(resultado.response.date);
+        $("#confirmar").text("Editar");
+        
+    } else {
+        $("#respuesta").html(resultado.message);
+    }
+}
+
 function resultado(resultado) {
-    if(resultado.success){
-        var url = "index.html"; 
-        $(location).attr('href',url);
-    }else{
-        $("#respuesta").html(resultado.message);        
+    if (resultado.success) {
+        var url = "index.html";
+        $(location).attr('href', url);
+    } else {
+        $("#respuesta").html(resultado.message);
     }
 }
 
 function ingresar() {
-    
-    
-/*    {
-"id": 0,
-    "name": "Canchas",
-    "description": "Para hacer reservas de canchas en Santa Cruz",
-    "price": 800,
-    "date": "2018-05-16 08:32:16",
-    "start": null,
-    "end": null,
-    "ownerId": 6,
-    "freelancerId": 0
-}*/
-    
+
+
+    /*    {
+     "id": 0,
+     "name": "Canchas",
+     "description": "Para hacer reservas de canchas en Santa Cruz",
+     "price": 800,
+     "date": "2018-05-16 08:32:16",
+     "start": null,
+     "end": null,
+     "ownerId": 6,
+     "freelancerId": 0
+     }*/
+
     var name = $("#name").val();
     var description = $("#descripcion").val();
     var price = $("#price").val();
@@ -49,7 +76,7 @@ function ingresar() {
     var freelancerId = 0;
     var OwnerId = sessionStorage.getItem("idUser");
 
-    
+
     var proyecto = new Object();
     proyecto.name = name;
     proyecto.description = description;
@@ -76,3 +103,13 @@ function ingresar() {
 
 
 
+
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}

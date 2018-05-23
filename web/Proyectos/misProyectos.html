@@ -59,7 +59,7 @@
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav mr-auto">
+                    <ul id="indice" class="navbar-nav mr-auto">
                         <li class="nav-item active"><a class="nav-link" href="../index.html">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="nuevoProyecto.html">Crear Proyecto</a></li>
                         <li class="nav-item"><a class="nav-link" href="../Freelancers.html">Freelancers</a></li>
@@ -77,53 +77,17 @@
 
         <section class="latest_news_area p_100">
             <div class="container">
-            </div>
-        </section>
-        <section class="creative_feature_area">
-            <div class="container">
-                <div class="c_feature_box">
-                    <div class="row">
-                        <div class="col-lg-4">
-                            <div class="c_box_item">
-                                <a href="#" ><h4 id="categoria"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></h4></a>
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="c_box_item">
-                                <a href="#"  ><h4 id="fecha" ><i class="fa fa-clock-o" aria-hidden="true"></i></h4></a>
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="c_box_item">
-                                <a href="#"><h4 id="presupuesto" ><i class="fa fa-money" aria-hidden="true"></i> </h4></a>
-                            </div>
-                        </div>
+                <div class="b_center_title">
+                    <h2>Mis proyectos</h2>
+                    <p>todos los proyectos registrados</p>
+                </div>
+                <div class="l_news_inner">
+                    <div class="row" id="proyectos">
+
                     </div>
                 </div>
-                <div class="digital_feature p_100">
-                    <form class="contact_us_form row" onsubmit="postularse(); return false;" method="post" id="contactForm" novalidate="novalidate">
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <div class="d_feature_text">
-                                    <div class="main_title">
-                                        <h2 id="titulo">Titulo</h2>
-                                    </div>
-                                    <p id="descripcion"></p>
-                                                <button id="botonPostularme" class="read_btn" type="submit">Postularme</button>
-                                                <input id="idPostulacion" type="hidden" value="0">
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-
-                                <!--                            <div class="d_feature_img">
-                                                                <img src="img/feature-right.jpg" alt="">
-                                                            </div>-->
-                            </div>
-                        </div>
-                </div>
             </div>
-        </section>        
-
+        </section>
         <!--================Footer Area =================-->
         <footer class="footer_area">
             <div class="footer_widgets_area">
@@ -248,7 +212,6 @@
         <script src="../vendors/tweet/script.js"></script>
         <script src="../js/script.js" type="text/javascript"></script>
         <script src="../js/theme.js"></script>
-        <script src="../js/proyecto.js" type="text/javascript"></script>
-        <script src="../js/verProyecto.js" type="text/javascript"></script>
+        <script src="../js/misProyectos.js" type="text/javascript"></script>
     </body>
 </html>
