@@ -60,7 +60,7 @@ public class ProjectoService {
     @Path("actualizar")
     @POST
     @Produces(MediaType.APPLICATION_JSON) // lo que va a devolver
-    @Consumes(MediaType.APPLICATION_JSON) // lo que va a recibir
+    @Consumes(MediaType.APPLICATION_JSON+"; charset=utf-8") // lo que va a recibir
     public String actualizar(Proyecto param) {
         Response respuesta = new Response();
         

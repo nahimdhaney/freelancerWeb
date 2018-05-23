@@ -72,7 +72,7 @@ public class SolicitudProyectoDao {
         return filasAfectadas;
     }
 
-    public SolicitudProyecto get(int projectId) {
+    public List<SolicitudProyecto> get(int projectId) {
         try {
             Conexion objConexion = Conexion.getOrCreate();
             
@@ -81,18 +81,22 @@ public class SolicitudProyectoDao {
             PreparedStatement ps = objConexion.invocarProcedimiento(procedimiento);
             ps.setInt(1, projectId);
             
+            List<SolicitudProyecto> lista = new ArrayList<>();
+            
             ResultSet objResultSet = objConexion.ejecutar(ps);
-            if (objResultSet.next()) {
+            while (objResultSet.next()) {
                 SolicitudProyecto solicitud = getSolicitudProyectoDeResultSet(objResultSet);
-
-                return solicitud;
+                lista.add(solicitud);
             }
+            return lista;
+            
         } catch (SQLException e) {
         }
-        
         return null;
     }
 
+        
+        
     public List<SolicitudProyecto> get() {
         try {
             Conexion objConexion = Conexion.getOrCreate();
