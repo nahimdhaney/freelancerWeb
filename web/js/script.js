@@ -89,3 +89,14 @@ function Realizar() {
 //	return nroMayor(valor1,valor2,valor3);
 }
 
+
+function pressenter(e,inp){
+    var tecla=(document.all) ? e.keyCode : e.which;
+    if(tecla==13){
+        var valor = $(inp).val();
+        if(valor.length>0){
+            window.location="Proyectos/index.html?val="+valor;
+        }
+    }
+}
+

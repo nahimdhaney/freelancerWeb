@@ -1,3 +1,4 @@
+
 function resultado(resultado) {
     if (resultado.success) {
         for (var i in resultado.response) {
@@ -24,7 +25,13 @@ function resultado(resultado) {
 }
 
 $(document).ready(function () {
-    var val = getParameterByName('categoria');
+    var tipo = getParameterByName("val");
+    if(tipo){
+        $.get("../api/proyecto/buscar",{valor:tipo},function(resp){
+            resultado(resp);
+        });
+    }else{
+         var val = getParameterByName('categoria');
 
     jQuery.ajax({
         headers: {
@@ -35,6 +42,9 @@ $(document).ready(function () {
         'url': "../api/proyecto",
         'success': resultado
     });
+        
+    }
+   
 });
 function ingresar() {
 
