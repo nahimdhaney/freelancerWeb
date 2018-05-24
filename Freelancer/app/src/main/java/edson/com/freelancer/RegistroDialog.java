@@ -28,11 +28,14 @@ import edson.com.freelancer.httpclient.StandarRequestConfiguration;
 public class RegistroDialog extends DialogFragment implements View.OnClickListener {
 
 
-    private EditText edit_username;
     private EditText edit_email;
+    private EditText edit_nombreCompleto;
+    private EditText edit_username;
     private EditText edit_contraseña;
+
     private RadioButton radioButton_contrato;
     private RadioButton radioButton_trabajar;
+
     private Button btn_aceptar;
     private int valor;
 
@@ -64,8 +67,9 @@ public class RegistroDialog extends DialogFragment implements View.OnClickListen
         View v = inflater.inflate(R.layout.dialog_signin, null);
         builder.setView(v);
 
-        edit_username = (EditText) v.findViewById(R.id.Edit_Username);
         edit_email = (EditText) v.findViewById(R.id.Edit_email);
+        edit_nombreCompleto= (EditText) v.findViewById(R.id.Edit_nombreCompleto);
+        edit_username = (EditText) v.findViewById(R.id.Edit_Username);
         edit_contraseña = (EditText) v.findViewById(R.id.Edit_contraseña);
         radioButton_contrato = (RadioButton) v.findViewById(R.id.radioContratar);
         radioButton_trabajar = (RadioButton) v.findViewById(R.id.radioTrabajar);
@@ -124,20 +128,28 @@ public class RegistroDialog extends DialogFragment implements View.OnClickListen
     }
 
     private void registrar() {
+
+        String emailV = edit_email.getText().toString().trim();
+        String nombreCompletoV = edit_nombreCompleto.getText().toString().trim();
         String usernameV = edit_username.getText().toString().trim();
         String contraseñaV = edit_contraseña.getText().toString().trim();
-        String emailV = edit_email.getText().toString().trim();
+
         boolean isValid = true;
 
-        if (usernameV.isEmpty()) {
-            edit_username.setError("Debe ingresar su usuario");
-            isValid = false;
-        }
+
         if (emailV.isEmpty()) {
             edit_email.setError("Debe ingresar su correo");
             isValid = false;
         } else if (validarEmailSimple(emailV) == false) {
             edit_email.setError("email no valido");
+            isValid = false;
+        }
+        if (nombreCompletoV.isEmpty()) {
+            edit_username.setError("Debe ingresar su nombre");
+            isValid = false;
+        }
+        if (usernameV.isEmpty()) {
+            edit_username.setError("Debe ingresar su usuario");
             isValid = false;
         }
         if (contraseñaV.isEmpty()) {
@@ -150,12 +162,11 @@ public class RegistroDialog extends DialogFragment implements View.OnClickListen
         if (!isValid) {
             return;
         }
-
-        RegistrarUsuario(usernameV,contraseñaV,emailV,getValor());
+        RegistrarUsuario(emailV,usernameV,nombreCompletoV,contraseñaV,getValor());
     }
 
 
-    private void RegistrarUsuario(final String user, final String email, final String contra, final int valor) {
+    private void RegistrarUsuario( final String email, final String user, final String nombreCompleto , final String contra, final int valor) {
 
         //String token = FirebaseInstanceId.getInstance().getToken();
 
@@ -166,6 +177,7 @@ public class RegistroDialog extends DialogFragment implements View.OnClickListen
                     String url = "http://192.168.43.77:8080/RedSocialWeb/ServletRegistro";
 
                     Hashtable<String, String> params = new Hashtable<>();
+
                     params.put("username", strings[1]);
                     params.put("contraseña", strings[2]);
                     params.put("email", strings[3]);
