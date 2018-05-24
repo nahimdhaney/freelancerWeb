@@ -141,7 +141,7 @@ public class RegistroDialog extends DialogFragment implements View.OnClickListen
             isValid = false;
         }
         if (contraseñaV.isEmpty()) {
-            edit_contraseña.setError("Debe ingresar su comtraseña");
+            edit_contraseña.setError("Debe ingresar su contraseña");
             isValid = false;
         } else if (isPasswordValid(contraseñaV) == false) {
             edit_contraseña.setError("la contraseña debe ser mayor a 4 digitos");
