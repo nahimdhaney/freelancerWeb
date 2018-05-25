@@ -9,6 +9,7 @@ public class Usuario {
     private String email;
     private boolean enabled;
     private int type;
+    private String description;
 
     public Usuario() {
     }
@@ -67,6 +68,14 @@ public class Usuario {
 
     public void setType(int type) {
         this.type = type;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
     
 }

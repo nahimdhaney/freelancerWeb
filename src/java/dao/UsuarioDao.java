@@ -5,6 +5,8 @@ import dto.Usuario;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UsuarioDao {
 
@@ -15,10 +17,11 @@ public class UsuarioDao {
     private static final String EMAIL = "correo";
     private static final String ENABLED = "habilitado";
     private static final String TYPE = "tipo";
+    private static final String DESCRIPTION = "descripcion";
     
     public int insert(Usuario obj) throws Exception {
         Conexion objConexion = Conexion.getOrCreate();
-        String procedimiento = "call mk_usuario(?, ?, ?, ?, ?, ?)";
+        String procedimiento = "call mk_usuario(?, ?, ?, ?, ?, ?, ?)";
         
         PreparedStatement ps = objConexion.invocarProcedimiento(procedimiento);
         ps.setInt(1, obj.getId());
@@ -27,6 +30,7 @@ public class UsuarioDao {
         ps.setString(4, obj.getPassword());
         ps.setString(5, obj.getEmail());
         ps.setInt(6, obj.getType());
+        ps.setString(7, obj.getDescription());
         
         int filasAfectadas = objConexion.ejecutarSimple(ps);
         
@@ -49,7 +53,7 @@ public class UsuarioDao {
     public int update(Usuario obj) throws Exception {
         Conexion objConexion = Conexion.getOrCreate();
         
-        String procedimiento = "call mk_usuario(?, ?, ?, ?, ?, ?)";
+        String procedimiento = "call mk_usuario(?, ?, ?, ?, ?, ?, ?)";
         
         PreparedStatement ps = objConexion.invocarProcedimiento(procedimiento);
         ps.setInt(1, obj.getId());
@@ -58,6 +62,7 @@ public class UsuarioDao {
         ps.setString(4, obj.getPassword());
         ps.setString(5, obj.getEmail());
         ps.setInt(6, obj.getType());
+        ps.setString(7, obj.getDescription());
         
         int filasAfectadas = objConexion.ejecutarSimple(ps);
         
@@ -131,10 +136,57 @@ public class UsuarioDao {
             int _tipo = objResultSet.getInt(TYPE);
             obj.setType(_tipo);
             
+            String _descripcion = objResultSet.getString(DESCRIPTION);
+            obj.setDescription(_descripcion);
+            
             return obj;
         } catch (SQLException ex) {
             return null;
         }
     }
     
+    public Usuario get(int usuarioId) {
+        try {
+            Conexion objConexion = Conexion.getOrCreate();
+            
+            String procedimiento = "call get_user(?)";
+            
+            PreparedStatement ps = objConexion.invocarProcedimiento(procedimiento);
+            ps.setInt(1, usuarioId);
+            
+            ResultSet objResultSet = objConexion.ejecutar(ps);
+            if (objResultSet.next()) {
+                Usuario solicitud = getUsuarioDeResultSet(objResultSet);
+
+                return solicitud;
+            }
+        } catch (SQLException e) {
+        }
+        
+        return null;
+    }
+
+    public List<Usuario> get() {
+        try {
+            Conexion objConexion = Conexion.getOrCreate();
+            
+            String procedimiento = "call get_users()";
+            
+            PreparedStatement ps = objConexion.invocarProcedimiento(procedimiento);
+            
+            List<Usuario> lista = new ArrayList<>();
+            
+            ResultSet objResultSet = objConexion.ejecutar(ps);
+            while (objResultSet.next()) {
+                Usuario solicitud = getUsuarioDeResultSet(objResultSet);
+                lista.add(solicitud);
+            }
+            
+            return lista;
+        } catch (SQLException e) {
+        }
+        
+        return null;
+    }
+
 }

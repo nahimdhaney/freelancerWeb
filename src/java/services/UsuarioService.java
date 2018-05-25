@@ -14,6 +14,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -91,6 +92,7 @@ public class UsuarioService {
                 objUsuario.setId(idGenerado);
                 objUsuario.setEnabled(true);
                 objUsuario.setType(param.getType());
+                objUsuario.setDescription(param.getDescription());
             
                 respuesta.setSuccess(true);
                 respuesta.setMessage("Registro exitoso");
@@ -318,6 +320,81 @@ public class UsuarioService {
         SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String fechaFormateada = formato.format(dt);
         return fechaFormateada;
+    }
+    
+    // api/usuario/
+    @Path("/")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getUsuarios() {
+        Response respuesta = new Response();
+
+        try {
+            FactoryDao factory = FactoryDao.getOrCreate();
+            UsuarioDao dao = factory.newUsuarioDao();
+
+            List<Usuario> usuarios = dao.get();
+            
+            respuesta.setSuccess(true);
+            respuesta.setMessage("Lista de usuarios");
+            respuesta.setResponse(usuarios);
+        } catch (Exception e) {
+            respuesta.setMessage("Error de autenticación");
+        }
+
+        return new Gson().toJson(respuesta);
+    }
+    
+    @Path("/{id}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getProyecto(@PathParam("id") int id) {
+        Response respuesta = new Response();
+
+        try {
+            FactoryDao factory = FactoryDao.getOrCreate();
+            UsuarioDao dao = factory.newUsuarioDao();
+
+            Usuario objUsuario = dao.get(id);
+            
+            respuesta.setSuccess(true);
+            respuesta.setMessage("Usuario");
+            respuesta.setResponse(objUsuario);
+        } catch (Exception e) {
+        }
+        
+        return new Gson().toJson(respuesta);
+    }
+
+    @Path("update")
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public String actualizar(Usuario param) {
+        Response respuesta = new Response();
+        
+        try {
+            FactoryDao factory = FactoryDao.getOrCreate();
+            UsuarioDao dao = factory.newUsuarioDao();
+            
+            Usuario usuario = dao.getByUserName(param.getUser());
+            
+            param.setId(usuario.getId());
+            
+            int filasAfectadas = dao.update(param);
+            
+            if (filasAfectadas == 0) {
+                respuesta.setMessage("Hubo un error al actualizar los datos del usuario");
+            } else {
+                respuesta.setSuccess(true);
+                respuesta.setMessage("Usuario actualizado");
+                respuesta.setResponse("");
+            }
+        } catch (Exception e) {
+            respuesta.setMessage("Error de autenticación");
+        }
+        
+        return new Gson().toJson(respuesta);
     }
     
 }
