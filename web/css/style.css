@@ -2015,7 +2015,13 @@ i:before {
 .copy_right_area .float-md-right .nav li:hover a {
   color: #2bc0a4;
 }
-
+.btn_icon{
+    margin: 5px;
+    color: #41a1f6;
+}
+.btn_icon:hover{
+    cursor: pointer;
+}
 
 /* End Footer Area css
 ============================================================================================ */

@@ -3,7 +3,7 @@
 $(document).ready(function () {
     if (sessionStorage.getItem("usuarioId") !== null) {
         $(".ingresar").text(sessionStorage.getItem("usuarioId"));
-        $(".ingresar").attr("href", "");
+        $(".ingresar").attr("href", "perfil.html");
         $(".registrarse").text("Salir");
         $(".registrarse").attr("href", "");
         $("#cambcon").attr("href", "modificaContraseña.html");
