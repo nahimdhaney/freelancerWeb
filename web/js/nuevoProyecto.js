@@ -65,7 +65,8 @@ function enviar() {
     proyecto.description = description;
     proyecto.price = price;
     proyecto.id = id;
-    proyecto.freelancerId = freelancerId;
+//    proyecto.freelancerId = freelancerId;
+    proyecto.freelancerId = 7; // hardcodeando 7
     proyecto.date = date;
     proyecto.category = $("#categoria option:selected").text();
     proyecto.ownerId = OwnerId;
