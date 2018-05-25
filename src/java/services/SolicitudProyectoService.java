@@ -139,7 +139,7 @@ public class SolicitudProyectoService {
             FactoryDao factory = FactoryDao.getOrCreate();
             SolicitudProyectoDao dao = factory.newSolicitudProyectoDao();
 
-            SolicitudProyecto objProyecto = dao.get(id);
+            List<SolicitudProyecto> objProyecto = dao.get(id);
             
             respuesta.setSuccess(true);
             respuesta.setMessage("Solicitud de proyecto");

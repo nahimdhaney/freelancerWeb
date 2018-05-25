@@ -2,6 +2,18 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+<<<<<<< HEAD
         <group/>
+=======
+        <group>
+            <file>file:/C:/Users/L855/Documents/Nahim%20NUR/7%20semestre/Ingenieria%20de%20software%203/Proyectos%20git/freelancer/Freelancer/freelancerWeb.git/src/java/services/ProjectoService.java</file>
+            <file>file:/C:/Users/L855/Documents/Nahim%20NUR/7%20semestre/Ingenieria%20de%20software%203/Proyectos%20git/freelancer/Freelancer/freelancerWeb.git/src/java/dto/SolicitudProyecto.java</file>
+            <file>file:/C:/Users/L855/Documents/Nahim%20NUR/7%20semestre/Ingenieria%20de%20software%203/Proyectos%20git/freelancer/Freelancer/freelancerWeb.git/src/java/dao/SolicitudProyectoDao.java</file>
+            <file>file:/C:/Users/L855/Documents/Nahim%20NUR/7%20semestre/Ingenieria%20de%20software%203/Proyectos%20git/freelancer/Freelancer/freelancerWeb.git/src/java/dao/ProyectoDao.java</file>
+            <file>file:/C:/Users/L855/Documents/Nahim%20NUR/7%20semestre/Ingenieria%20de%20software%203/Proyectos%20git/freelancer/Freelancer/freelancerWeb.git/src/java/services/SolicitudProyectoService.java</file>
+            <file>file:/C:/Users/L855/Documents/Nahim%20NUR/7%20semestre/Ingenieria%20de%20software%203/Proyectos%20git/freelancer/Freelancer/freelancerWeb.git/src/java/services/UsuarioService.java</file>
+            <file>file:/C:/Users/L855/Documents/Nahim%20NUR/7%20semestre/Ingenieria%20de%20software%203/Proyectos%20git/freelancer/Freelancer/freelancerWeb.git/src/java/conexion/Conexion.java</file>
+        </group>
+>>>>>>> c9fec36694ecd01da11c30c23580535596033412
     </open-files>
 </project-private>

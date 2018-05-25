@@ -26,19 +26,16 @@ $(document).ready(function () {
             'success': cargaProyecto
         });
     }
-    
+
 });
-
-
 function cargaProyecto(resultado) {
     if (resultado.success) {
         $("#name").val(resultado.response.name);
         $("#descripcion").val(resultado.response.description);
         $("#price").val(resultado.response.price);
         $("#categoria").val(resultado.response.category.trim());
-        $("#fecha").val(resultado.response.date);
+        $("#fecha").val(resultado.response.date.substring(0, 10));
         $("#confirmar").text("Editar");
-        
     } else {
         $("#respuesta").html(resultado.message);
     }
@@ -53,21 +50,7 @@ function resultado(resultado) {
     }
 }
 
-function ingresar() {
-
-
-    /*    {
-     "id": 0,
-     "name": "Canchas",
-     "description": "Para hacer reservas de canchas en Santa Cruz",
-     "price": 800,
-     "date": "2018-05-16 08:32:16",
-     "start": null,
-     "end": null,
-     "ownerId": 6,
-     "freelancerId": 0
-     }*/
-
+function enviar() {
     var name = $("#name").val();
     var description = $("#descripcion").val();
     var price = $("#price").val();
@@ -86,17 +69,33 @@ function ingresar() {
     proyecto.date = date;
     proyecto.category = $("#categoria option:selected").text();
     proyecto.ownerId = OwnerId;
-    jQuery.ajax({
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        'type': 'POST',
-        'url': "../api/proyecto/insertar",
-        'data': JSON.stringify(proyecto),
-        'dataType': 'json',
-        'success': resultado
-    });
+    var val = getParameterByName('proyecto');
+    if (val !== null) { //editar
+        proyecto.id = parseInt(val);
+                jQuery.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            'type': 'POST',
+            'url': "../api/proyecto/actualizar",
+            'data': JSON.stringify(proyecto),
+            'dataType': 'json',
+            'success': resultado
+        });
+    } else { // crear  
+        jQuery.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            'type': 'POST',
+            'url': "../api/proyecto/insertar",
+            'data': JSON.stringify(proyecto),
+            'dataType': 'json',
+            'success': resultado
+        });
+    }
 }
 
 
@@ -105,11 +104,14 @@ function ingresar() {
 
 
 function getParameterByName(name, url) {
-    if (!url) url = window.location.href;
+    if (!url)
+        url = window.location.href;
     name = name.replace(/[\[\]]/g, "\\$&");
     var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-        results = regex.exec(url);
-    if (!results) return null;
-    if (!results[2]) return '';
+            results = regex.exec(url);
+    if (!results)
+        return null;
+    if (!results[2])
+        return '';
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
