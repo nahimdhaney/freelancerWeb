@@ -7,7 +7,8 @@
 
 $(document).ready(function () {
     if (sessionStorage.getItem("usrLog")) {
-        var usr_log = sessionStorage.getItem("usrLog");
+        var usrVal = sessionStorage.getItem("usrLog");
+        var usr_log =JSON.parse(usrVal);
         $("#correo").val(usr_log.email);
         $("#nombreUsuario").val(usr_log.user);
         $("#nombreCompleto").val(usr_log.fullName);
@@ -31,7 +32,8 @@ function aceptar_modifi() {
     if (correcto) {
 
         var usuario = new Object();
-        usuario.id = sessionStorage.getItem("usuarioId");
+        usuario.id = sessionStorage.getItem("idUser");
+        usuario.user = sessionStorage.getItem("usuarioId");
         usuario.fullName = nombreCompleto;
         usuario.description = biblio;
         jQuery.ajax({
@@ -40,7 +42,7 @@ function aceptar_modifi() {
                 'Content-Type': 'application/json'
             },
             'type': 'POST',
-            'url': "api/usuario/login",
+            'url': "api/usuario/update",
             'data': JSON.stringify(usuario),
             'dataType': 'json',
             'success': resultado
@@ -59,13 +61,13 @@ function resultado(resultado) {
 
 function get_proyectos() {
          
-        var id = sessionStorage.getItem("usuarioId");
+        var id = sessionStorage.getItem("idUser");
         jQuery.ajax({
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            'type': 'POST',
+            'type': 'GET',
             'url': "api/proyecto/proyectos_contratista/"+id,
             'dataType': 'json',
             'success': cargar_proyectos

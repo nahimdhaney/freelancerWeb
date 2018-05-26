@@ -4,9 +4,9 @@ function resultado(resultado) {
     var tipo = resultado.response.type;
     if(resultado.success){
         sessionStorage.setItem("usuarioId", iDUsuario);
-        sessionStorage.setItem("idUser", id);
+        sessionStorage.setItem("idUser", id); // este es el ID
         sessionStorage.setItem("usuarioTipo", tipo);
-        sessionStorage.setItem("usrLog",resultado.response);
+        sessionStorage.setItem("usrLog",JSON.stringify(resultado.response));
         var url = "index.html"; 
         $(location).attr('href',url);
     }else{

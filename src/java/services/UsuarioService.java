@@ -391,7 +391,7 @@ public class UsuarioService {
                 respuesta.setResponse("");
             }
         } catch (Exception e) {
-            respuesta.setMessage("Error de autenticación");
+            respuesta.setMessage("Error de ");
         }
         
         return new Gson().toJson(respuesta);
