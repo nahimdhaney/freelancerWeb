@@ -106,8 +106,9 @@ function postularse() {
 
 function postula(resultado) {
     if (resultado.success) {
-        var url = "index.html";
-        $(location).attr('href', url);
+        window.location.reload(false); 
+//        var url = "index.html";
+//        $(location).attr('href', url);
 
     } else {
         $("#respuesta").html(resultado.message);

@@ -7,6 +7,23 @@
 
 
 $(document).ready(function () {
+
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth() + 1; //January is 0!
+    var yyyy = today.getFullYear();
+    if (dd < 10) {
+        dd = '0' + dd
+    }
+    if (mm < 10) {
+        mm = '0' + mm
+    }
+
+    today = yyyy + '-' + mm + '-' + dd;
+    document.getElementById("fecha").setAttribute("min", today);
+
+
+
     if (sessionStorage.getItem("usuarioId") !== null) {
 
     } else {
@@ -26,6 +43,8 @@ $(document).ready(function () {
             'success': cargaProyecto
         });
     }
+
+
 
 });
 function cargaProyecto(resultado) {
@@ -73,7 +92,7 @@ function enviar() {
     var val = getParameterByName('proyecto');
     if (val !== null) { //editar
         proyecto.id = parseInt(val);
-                jQuery.ajax({
+        jQuery.ajax({
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'

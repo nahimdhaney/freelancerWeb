@@ -112,7 +112,34 @@ public class ProjectoService {
         return new Gson().toJson(respuesta);
     }
 
-    // api/proyecto/
+    // api/proyecto/categoria/ejemplo
+    @Path("/categoria/{id}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getProyectoConCategoria(@PathParam("id") String id) {
+        Response respuesta = new Response();
+
+        try {
+            FactoryDao factory = FactoryDao.getOrCreate();
+            ProyectoDao dao = factory.newProyectoDao();
+
+            List<Proyecto> proyectos = dao.get();
+            for (Proyecto proyecto : proyectos) {
+                if(!proyecto.getCategory().equals(id)){
+                    proyectos.remove(proyecto);
+                }
+            }
+            respuesta.setSuccess(true);
+            respuesta.setMessage("Lista de proyectos");
+            respuesta.setResponse(proyectos);
+        } catch (Exception e) {
+            respuesta.setMessage("Error de autenticación");
+        }
+
+        return new Gson().toJson(respuesta);
+    }    // api/proyecto/categoria/ejemplo
+    
+    
     @Path("/")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -124,7 +151,6 @@ public class ProjectoService {
             ProyectoDao dao = factory.newProyectoDao();
 
             List<Proyecto> proyectos = dao.get();
-
             respuesta.setSuccess(true);
             respuesta.setMessage("Lista de proyectos");
             respuesta.setResponse(proyectos);
@@ -134,7 +160,10 @@ public class ProjectoService {
 
         return new Gson().toJson(respuesta);
     }
+    // api/proyecto/proyectos_contratista/
 
+    
+    
     @Path("/{id}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)

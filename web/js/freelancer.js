@@ -3,23 +3,30 @@ function resultado(resultado) {
     if (resultado.success) {
         for (var i in resultado.response) {
             var obj = resultado.response[i];
-
+            var text = obj.description;
+            if(text == null){
+                text = " ";
+            }
+              if (text.length > 120) {
+                var text = text.substr(0, text.lastIndexOf(' ', 117)) + '...';
+              } 
+//            var text = 'pequeña descripcion del usuario';
             var val = "			<div class=\"col-lg-4 col-md-6\">\n"
                     + "                            <div class=\"l_news_item\">\n"
                     + "                                <!--<div class=\"l_news_img\"><a href=\"#\"><img class=\"img-fluid\" src=\"img/blog/l-news/l-news-1.jpg\" alt=\"\"></a></div>-->\n"
                     + "                                <div class=\"l_news_content\">\n"
-                    + "                                    <a href=verProyecto.html?proyecto=" + obj.id + "><h4>" + obj.name + "</h4></a>\n"
-                    + "                                    <p> " + obj.description + "\n"
+                    + "                                    <a href=verFreelancer.html?freelancer=" + obj.id + "><h4>" + obj.fullName + "</h4></a>\n"
+                    + "                                    <p> " + text + "\n"
                     + "                                    </p>\n"
-                    + "                                    <a class=\"more_btn\" href=\"#\">" + obj.category + "</a>\n"
+                    + "                                    <a class=\"more_btn\" href=\"#\">" + obj.email + "</a>\n"
                     + "                                    <p class=\"text-danger\" id='postulacion" + obj.id + "'  ></p>\n"
-                    + "                                    <p class=\"text-sm-right collor text-success\">" + obj.price + " $</p>\n"
+                    + "                                    <p class=\"text-sm-right collor text-success\"> 10" + " $ x hora</p>\n"
                     + "                                </div>\n"
                     + "                            </div>\n"
                     + "                        </div>";
             $("#proyectos").append(val);
         }
-        jQuery.ajax({
+       /* jQuery.ajax({
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
@@ -27,12 +34,12 @@ function resultado(resultado) {
             'type': 'GET',
             'url': "../api/solicitud",
             'success': aumetarPostuaciones
-        });
+        });*/
     } else {
         $("#respuesta").html(resultado.message);
     }
 }
-
+/*
 function aumetarPostuaciones(resultado) {
     if (resultado.success) {
         var array_elements = [];
@@ -71,7 +78,7 @@ function aumetarPostuaciones(resultado) {
 
     }
 }
-
+*/
 
 
 $(document).ready(function () {
@@ -89,7 +96,7 @@ $(document).ready(function () {
             'Content-Type': 'application/json'
         },
         'type': 'GET',
-        'url': "../api/proyecto",
+        'url': "../api/usuario/contratistas",
         'success': resultado
     });
         
