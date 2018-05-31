@@ -78,6 +78,11 @@ function aumetarPostuaciones(resultado) {
 
 
 $(document).ready(function () {
+    // aca se corrige la referencia hacia el perfil del usuario
+    if (sessionStorage.getItem("usuarioId") !== null) {
+        $(".ingresar").attr("href", "../perfil.html");
+    }
+    
     var tipo = getParameterByName("val");
     if(tipo){
         $.get("../api/proyecto/buscar",{valor:tipo},function(resp){
@@ -116,4 +121,14 @@ function getParameterByName(name, url) {
     if (!results[2])
         return '';
     return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+
+function pressenter(e,inp){
+    var tecla=(document.all) ? e.keyCode : e.which;
+    if(tecla==13){
+        var valor = $(inp).val();
+        if(valor.length>0){
+            window.location="index.html?val="+valor;
+        }
+    }
 }

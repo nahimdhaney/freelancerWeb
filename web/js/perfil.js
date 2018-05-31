@@ -32,7 +32,7 @@ function aceptar_modifi() {
     if (correcto) {
 
         var usuario = new Object();
-        usuario.id = sessionStorage.getItem("idUser");
+//        usuario.id = sessionStorage.getItem("idUser");
         usuario.user = sessionStorage.getItem("usuarioId");
         usuario.fullName = nombreCompleto;
         usuario.description = biblio;

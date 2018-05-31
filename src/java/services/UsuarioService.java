@@ -425,8 +425,10 @@ public class UsuarioService {
             Usuario usuario = dao.getByUserName(param.getUser());
 
             param.setId(usuario.getId());
+            usuario.setFullName(param.getFullName());
+            usuario.setDescription(param.getDescription());
 
-            int filasAfectadas = dao.update(param);
+            int filasAfectadas = dao.update(usuario);
 
             if (filasAfectadas == 0) {
                 respuesta.setMessage("Hubo un error al actualizar los datos del usuario");

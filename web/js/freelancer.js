@@ -82,6 +82,13 @@ function aumetarPostuaciones(resultado) {
 
 
 $(document).ready(function () {
+    // aca se corrige la referencia hacia el perfil del usuario, y "mis proyectos"
+    if (sessionStorage.getItem("usuarioId") !== null) {
+        $(".ingresar").attr("href", "../perfil.html");
+        $(".mis-proyectos").attr("href", "../Proyectos/misProyectos.html");
+    }
+
+    
     var tipo = getParameterByName("val");
     if(tipo){
         $.get("../api/proyecto/buscar",{valor:tipo},function(resp){
@@ -120,4 +127,14 @@ function getParameterByName(name, url) {
     if (!results[2])
         return '';
     return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+
+function pressenter(e,inp){
+    var tecla=(document.all) ? e.keyCode : e.which;
+    if(tecla==13){
+        var valor = $(inp).val();
+        if(valor.length>0){
+            window.location="../Proyectos/index.html?val="+valor;
+        }
+    }
 }

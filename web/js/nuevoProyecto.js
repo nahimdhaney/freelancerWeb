@@ -7,7 +7,11 @@
 
 
 $(document).ready(function () {
-
+    // aca se corrige la referencia hacia el perfil del usuario
+    if (sessionStorage.getItem("usuarioId") !== null) {
+        $(".ingresar").attr("href", "../perfil.html");
+    }
+    
     var today = new Date();
     var dd = today.getDate();
     var mm = today.getMonth() + 1; //January is 0!
@@ -134,4 +138,14 @@ function getParameterByName(name, url) {
     if (!results[2])
         return '';
     return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+
+function pressenter(e,inp){
+    var tecla=(document.all) ? e.keyCode : e.which;
+    if(tecla==13){
+        var valor = $(inp).val();
+        if(valor.length>0){
+            window.location="index.html?val="+valor;
+        }
+    }
 }
