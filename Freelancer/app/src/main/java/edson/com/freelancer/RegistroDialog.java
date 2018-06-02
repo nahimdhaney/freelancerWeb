@@ -2,7 +2,6 @@ package edson.com.freelancer;
 
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -12,13 +11,19 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Hashtable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import edson.com.freelancer.httpclient.HttpConnection;
-import edson.com.freelancer.httpclient.MethodType;
-import edson.com.freelancer.httpclient.StandarRequestConfiguration;
 
 
 /**
@@ -76,9 +81,7 @@ public class RegistroDialog extends DialogFragment implements View.OnClickListen
         btn_aceptar = (Button) v.findViewById(R.id.btn_aceptar);
 
         btn_aceptar.setOnClickListener(this);
-
         Radio();
-
         return builder.create();
     }
 
@@ -165,60 +168,63 @@ public class RegistroDialog extends DialogFragment implements View.OnClickListen
         RegistrarUsuario(emailV,usernameV,nombreCompletoV,contraseñaV,getValor());
     }
 
+    public void RegistrarUsuario(String email, String user,  String nombreCompleto , String contra, int valor){
 
-    private void RegistrarUsuario( final String email, final String user, final String nombreCompleto , final String contra, final int valor) {
+        String url = "http://192.168.43.32:8080/freelancerWeb/api/usuario/register";
+        JSONObject obj = new JSONObject();
+        try {
+            obj.put("email",email);
+            obj.put("user",user);
+            obj.put("fullName",nombreCompleto);
+            obj.put("password",contra);
+            obj.put("type",valor);
 
-        //String token = FirebaseInstanceId.getInstance().getToken();
-
-            AsyncTask<String, Integer, String> RegistrarUsuario = new AsyncTask<String, Integer, String>() {
-                @Override
-                protected String doInBackground(String... strings) {
-
-                    String url = "http://192.168.43.77:8080/RedSocialWeb/ServletRegistro";
-
-                    Hashtable<String, String> params = new Hashtable<>();
-
-                    params.put("username", strings[1]);
-                    params.put("contraseña", strings[2]);
-                    params.put("email", strings[3]);
-                    params.put("opcion", strings[4]);
-                    //params.put("token", strings[4]);
-                    params.put("accion", "registro");
-
-                    String respuesta = HttpConnection.sendRequest(new StandarRequestConfiguration(url, MethodType.POST, params));
-                    return respuesta;
-                }
-
-                @Override
-                protected void onPostExecute(String getnick) {
-
-                    if (getnick.contains("invalido")) {
-                        edit_username.setError("este nick ya esta registrado");
-                        return;
-                    } else if (getnick.contains("ok")) {
-                        try {
-                            dismiss();
-                            Toast.makeText(getContext(), "exito", Toast.LENGTH_LONG).show();
-
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            //Log.e(RegistroActivity.APP_TAG, "Error al registrarse", e);
-                        }
-                    }
-                }
-            };
-
-            String[] parametros = {user, contra, email, String.valueOf(valor)};
-            RegistrarUsuario.execute(parametros);
-        //}catch (Exception e){
-          //  Toast.makeText(getContext(),"No hay conexión al servidor", Toast.LENGTH_LONG).show();
-        //}
-    }
-
-        private AsyncTask<String, Integer, String> execuse(String[] p) {
-            return execuse(p);
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
 
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
 
+        JsonObjectRequest objectRequest= new JsonObjectRequest(
+                Request.Method.POST,
+                url,
+                obj,
+                new Response.Listener<JSONObject>(){
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            boolean success = (boolean) response.get("success");
+                            if (success) {
+                                //JSONObject usuario = (JSONObject) response.get("response");
+                                String message = (String) response.get("message");
+                                Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+                                dismiss();
+//                                Usuario objUsuario = new Usuario();
+//                                objUsuario.setId(usuario.getInt("id"));
+//                                objUsuario.setFullName(usuario.getString("fullName"));
+//                                objUsuario.setUser(usuario.getString("user"));
+//                                objUsuario.setEmail(usuario.getString("email"));
+//                                objUsuario.setType(usuario.getInt("type"));
+//                                Usuario.setUsuario(objUsuario);
+                            } else {
+                                String message = (String) response.get("message");
+                                Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener(){
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }
+        );
+        requestQueue.add(objectRequest);
     }
+ }
+
 

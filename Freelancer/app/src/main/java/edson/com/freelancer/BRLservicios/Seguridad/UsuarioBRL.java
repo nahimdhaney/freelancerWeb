@@ -59,8 +59,8 @@ public class UsuarioBRL {
 
                     } else if (getContenido.contains("ok")) {
 
-                        Usuario usr = new Usuario();
-                        usr.setUsername(user);
+//                        Usuario usr = new Usuario();
+//                        usr.setUsername(user);
 
                     //    SharedPreferences.Editor editor = sharedPreferences.edit();
                     //    editor.putString("edson", user);

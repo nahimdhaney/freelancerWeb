@@ -153,8 +153,6 @@ public class menuActivity extends AppCompatActivity implements ExplorarFragment.
 
 
 
-
-
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
         public SectionsPagerAdapter(FragmentManager fm) {

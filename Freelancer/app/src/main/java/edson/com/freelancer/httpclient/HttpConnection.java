@@ -24,7 +24,7 @@ public class HttpConnection {
 
             con = (HttpURLConnection) ( new URL(config.getRequestUrl()).openConnection());
             con.setRequestMethod(config.getType().toString());
-            con.setConnectTimeout(800);
+            con.setConnectTimeout(8000);
             //con.setDoInput(true);
             //con.setDoOutput(true);
 

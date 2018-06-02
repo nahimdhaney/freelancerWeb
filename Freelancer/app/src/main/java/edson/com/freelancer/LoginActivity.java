@@ -4,7 +4,6 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -15,14 +14,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.Hashtable;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 
-import edson.com.freelancer.BRLservicios.Seguridad.RestablecerPassBRL;
-import edson.com.freelancer.BRLservicios.Seguridad.UsuarioBRL;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import edson.com.freelancer.Model.Usuario;
-import edson.com.freelancer.httpclient.HttpConnection;
-import edson.com.freelancer.httpclient.MethodType;
-import edson.com.freelancer.httpclient.StandarRequestConfiguration;
 
 
 /**
@@ -112,7 +114,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-
     private void acceder() {
         String nickname2 = tv_nickname.getText().toString().trim();
         String contraseña2 = edit_contraseña.getText().toString().trim();
@@ -129,17 +130,71 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if (!isValid) {
             return;
         }
-
         String username = tv_nickname.getText().toString();
         String contraseña = edit_contraseña.getText().toString();
-
-        Intent itent = new Intent(LoginActivity.this, menuActivity.class);
-        startActivity(itent);
-        //Logearse(username, contraseña);
+        //Intent itent = new Intent(LoginActivity.this, menuActivity.class);
+        //startActivity(itent);
+        logearse(username, contraseña);
     }
 
+    public void logearse(String usr, String pass){
+        String url = "http://192.168.43.32:8080/freelancerWeb/api/usuario/login";
+        JSONObject obj = new JSONObject();
+        try {
+            obj.put("user",usr);
+            obj.put("password",pass);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
-   private void Logearse(final String user, final String contra) {
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        JsonObjectRequest objectRequest= new JsonObjectRequest(
+                Request.Method.POST,
+                url,
+                obj,
+                new Response.Listener<JSONObject>(){
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            boolean success = (boolean) response.get("success");
+
+                            if (success) {
+                                JSONObject usuario = (JSONObject) response.get("response");
+
+                                Usuario objUsuario = new Usuario();
+                                objUsuario.setId(usuario.getInt("id"));
+                                objUsuario.setFullName(usuario.getString("fullName"));
+                                objUsuario.setUser(usuario.getString("user"));
+                                objUsuario.setEmail(usuario.getString("email"));
+                                objUsuario.setType(usuario.getInt("type"));
+
+                                Usuario.setUsuario(objUsuario);
+
+                                Intent intent = new Intent(LoginActivity.this, Activity_List_Estado.class);
+                                startActivity(intent);
+                            } else {
+                                String message = (String) response.get("message");
+                                Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener(){
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }
+        );
+        requestQueue.add(objectRequest);
+    }
+
+   /* private void Logearse(final String user, final String contra) {
        //String token = FirebaseInstanceId.getInstance().getToken();
        try {
            AsyncTask<String, Integer, String> task = new AsyncTask<String, Integer, String>() {
@@ -150,19 +205,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                    //String url = "http://192.168.1.4:8080/RedSocialWeb/ServletRegistro";
 
                    //micelu
-                   String url = "http://192.168.43.77:8080/RedSocialWeb/ServletRegistro";
+                   String url = "http://192.168.0.21:8080/freelancerWeb/api/usuario/login";
 
                    Hashtable<String, String> params = new Hashtable<>();
-                   params.put("username", strings[0]);
+                   params.put("user", strings[0]);
                    params.put("password", strings[1]);
-                   params.put("accion", "obtenerUsuario");
-
                    String respuesta = HttpConnection.sendRequest(new StandarRequestConfiguration(url, MethodType.POST, params));
                    return respuesta;
                }
                @Override
                protected void onPostExecute(String getContenido) {
-
+                    if (getContenido == null) return;
                    if (getContenido.contains("name")) {
                        //es por que esta mal el nick
                        tv_nickname.setError("el nickname es incorrecto");
@@ -199,7 +252,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
      private AsyncTask<String, Integer, String> execuse(String[] p) {
          return execuse(p);
-    }
+    }*/
 
 }
 

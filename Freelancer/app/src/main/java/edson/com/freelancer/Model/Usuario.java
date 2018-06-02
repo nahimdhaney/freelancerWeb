@@ -6,50 +6,80 @@ package edson.com.freelancer.Model;
 
 public class Usuario {
 
-    private String username;
-    private String contraseña;
-    private char estado;
-    private String correoElectronico;
+    private int id;
+    private String fullName;
+    private String user;
+    private String password;
+    private String email;
+    private boolean enabled;
+    private int type;
+
+    private static Usuario singleton;
 
     public Usuario(){
     }
 
-    public Usuario(String usuario, String contraseña, char estado, String correoElectronico) {
-        this.username = usuario;
-        this.contraseña = contraseña;
-        this.estado = estado;
-        this.correoElectronico = correoElectronico;
+    public static Usuario getUsuario() {
+        return singleton;
     }
 
-    public String getUsername() {
-        return username;
+    public static void setUsuario(Usuario usuario) {
+        singleton = usuario;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public int getId() {
+        return id;
     }
 
-    public String getContraseña() {
-        return contraseña;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public void setContraseña(String contraseña) {
-        this.contraseña = contraseña;
+    public String getFullName() {
+        return fullName;
     }
 
-    public char getEstado() {
-        return estado;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
-    public void setEstado(char estado) {
-        this.estado = estado;
+    public String getUser() {
+        return user;
     }
 
-    public String getCorreoElectronico() {
-        return correoElectronico;
+    public void setUser(String user) {
+        this.user = user;
     }
 
-    public void setCorreoElectronico(String correoElectronico) {
-        this.correoElectronico = correoElectronico;
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 }
