@@ -45,6 +45,7 @@ begin
     ;
 end
 	
-	
+alter table solicitudes_proyecto add column oferta double;
+
 	
 	
