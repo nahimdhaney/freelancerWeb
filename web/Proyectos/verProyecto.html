@@ -39,7 +39,7 @@
         <!--================Search Area =================-->
         <section class="search_area">
             <div class="search_inner">
-                <input type="text" placeholder="Enter Your Search..." onkeypress="pressenter(event,this);"/>
+                <input type="text" placeholder="Enter Your Search..." onkeypress="pressenter(event, this);"/>
                 <i class="ti-close"></i>
             </div>
         </section>
@@ -101,25 +101,48 @@
                     </div>
                 </div>
                 <div class="digital_feature p_100">
-                    <form class="contact_us_form row" onsubmit="postularse(); return false;" method="post" id="contactForm" novalidate="novalidate">
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <div class="d_feature_text">
-                                    <div class="main_title">
-                                        <h2 id="titulo">Titulo</h2>
-                                    </div>
-                                    <p id="descripcion"></p>
-                                                <button id="botonPostularme" class="read_btn" type="submit">Postularme</button>
-                                                <input id="idPostulacion" type="hidden" value="0">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="d_feature_text">
+                                <div class="main_title">
+                                    <h2 id="titulo">Titulo</h2>
                                 </div>
+                                <p id="descripcion"></p>
+                                <button id="botonPostularme"  data-toggle="modal" data-target="#myModal" class="read_btn" type="submit">Postularme</button>
                             </div>
-                            <div class="col-lg-6">
+                            <form class="contact_us_form row" onsubmit="postularse(); return false;" method="post" id="contactForm" novalidate="novalidate">
+                                <div class="modal" id="myModal">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
 
-                                <!--                            <div class="d_feature_img">
-                                                                <img src="img/feature-right.jpg" alt="">
-                                                            </div>-->
-                            </div>
+                                            <!-- Modal Header -->
+                                            <div class="modal-header">
+                                                <h4 id="tit2" class="modal-title" >Indica tu oferta</h4>
+                                            </div>
+
+                                            <!-- Modal body -->
+                                            <div class="modal-body centered">
+                                                <input id="idPostulacion" type="hidden" value="0">
+                                                <input type="number" id="idOferta" class="form-group" value="0">
+                                                <button  id="botonPostular" type="submit"  class="read_btn btn-group-sm" >Aceptar</button>
+                                            </div>
+
+                                            <!-- Modal footer -->
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
                         </div>
+                        <div class="col-lg-6">
+
+                            <!--                            <div class="d_feature_img">
+                                                            <img src="img/feature-right.jpg" alt="">
+                                                        </div>-->
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>        

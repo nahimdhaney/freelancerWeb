@@ -17,6 +17,7 @@ public class UsuarioDao {
     private static final String EMAIL = "correo";
     private static final String ENABLED = "habilitado";
     private static final String TYPE = "tipo";
+    private static final String PRECIO = "precio";
     private static final String DESCRIPTION = "descripcion";
 
     public int insert(Usuario obj) throws Exception {
@@ -134,7 +135,14 @@ public class UsuarioDao {
 //            obj.setEnabled(_habilitado);
             int _tipo = objResultSet.getInt(TYPE);
             obj.setType(_tipo);
-
+            try {
+                double _precio = objResultSet.getDouble(PRECIO);                
+                obj.setPrecio(_precio);
+            } catch (Exception e) {
+                
+            }
+            
+            
             String _descripcion = objResultSet.getString(DESCRIPTION);
             obj.setDescription(_descripcion);
 

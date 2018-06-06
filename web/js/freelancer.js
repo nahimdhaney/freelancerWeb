@@ -4,12 +4,12 @@ function resultado(resultado) {
         for (var i in resultado.response) {
             var obj = resultado.response[i];
             var text = obj.description;
-            if(text == null){
+            if (text == null) {
                 text = " ";
             }
-              if (text.length > 120) {
+            if (text.length > 120) {
                 var text = text.substr(0, text.lastIndexOf(' ', 117)) + '...';
-              } 
+            }
 //            var text = 'pequeña descripcion del usuario';
             var val = "			<div class=\"col-lg-4 col-md-6\">\n"
                     + "                            <div class=\"l_news_item\">\n"
@@ -20,65 +20,69 @@ function resultado(resultado) {
                     + "                                    </p>\n"
                     + "                                    <a class=\"more_btn\" href=\"#\">" + obj.email + "</a>\n"
                     + "                                    <p class=\"text-danger\" id='postulacion" + obj.id + "'  ></p>\n"
-                    + "                                    <p class=\"text-sm-right collor text-success\"> 10" + " $ x hora</p>\n"
-                    + "                                </div>\n"
+//            if (obj.precio == '0.0') {
+                +"                                    <p class=\"text-sm-right collor text-success\">" + obj.precio + " $ x hora</p>\n"
+//            } else {
+//                +"                                    <p class=\"text-sm-right collor text-success\">" + obj.precio + " $ x hora</p>\n"
+//            }
+            +"                                </div>\n"
                     + "                            </div>\n"
                     + "                        </div>";
             $("#proyectos").append(val);
         }
-       /* jQuery.ajax({
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            'type': 'GET',
-            'url': "../api/solicitud",
-            'success': aumetarPostuaciones
-        });*/
+        /* jQuery.ajax({
+         headers: {
+         'Accept': 'application/json',
+         'Content-Type': 'application/json'
+         },
+         'type': 'GET',
+         'url': "../api/solicitud",
+         'success': aumetarPostuaciones
+         });*/
     } else {
         $("#respuesta").html(resultado.message);
     }
 }
 /*
-function aumetarPostuaciones(resultado) {
-    if (resultado.success) {
-        var array_elements = [];
-        for (var i in resultado.response) {
-            var obj = resultado.response[i];
-            array_elements.push(obj.projectId);
-        }
-        array_elements.sort();
-
-        var current = null;
-        var cnt = 0;
-        for (var i = 0; i < array_elements.length; i++) {
-            if (array_elements[i] != current) {
-                if (cnt > 0) {
-                    if (cnt > 1) {
-                        $("#postulacion" + current).text(cnt + " postulaciones");
-                    } else {
-                        $("#postulacion" + current).text(cnt + " postulacion");
-                    }
-//                    console.log(current + ' comes --> ' + cnt + ' times<br>');
-                }
-                current = array_elements[i];
-                cnt = 1;
-            } else {
-                cnt++;
-            }
-        }
-        if (cnt > 0) {
-                    if (cnt > 1) {
-                        $("#postulacion" + current).text(cnt + " postulaciones");
-                    } else {
-                        $("#postulacion" + current).text(cnt + " postulacion");
-                    }
-        }
-
-
-    }
-}
-*/
+ function aumetarPostuaciones(resultado) {
+ if (resultado.success) {
+ var array_elements = [];
+ for (var i in resultado.response) {
+ var obj = resultado.response[i];
+ array_elements.push(obj.projectId);
+ }
+ array_elements.sort();
+ 
+ var current = null;
+ var cnt = 0;
+ for (var i = 0; i < array_elements.length; i++) {
+ if (array_elements[i] != current) {
+ if (cnt > 0) {
+ if (cnt > 1) {
+ $("#postulacion" + current).text(cnt + " postulaciones");
+ } else {
+ $("#postulacion" + current).text(cnt + " postulacion");
+ }
+ //                    console.log(current + ' comes --> ' + cnt + ' times<br>');
+ }
+ current = array_elements[i];
+ cnt = 1;
+ } else {
+ cnt++;
+ }
+ }
+ if (cnt > 0) {
+ if (cnt > 1) {
+ $("#postulacion" + current).text(cnt + " postulaciones");
+ } else {
+ $("#postulacion" + current).text(cnt + " postulacion");
+ }
+ }
+ 
+ 
+ }
+ }
+ */
 
 
 $(document).ready(function () {
@@ -88,27 +92,27 @@ $(document).ready(function () {
         $(".mis-proyectos").attr("href", "../Proyectos/misProyectos.html");
     }
 
-    
+
     var tipo = getParameterByName("val");
-    if(tipo){
-        $.get("../api/proyecto/buscar",{valor:tipo},function(resp){
+    if (tipo) {
+        $.get("../api/proyecto/buscar", {valor: tipo}, function (resp) {
             resultado(resp);
         });
-    }else{
-         var val = getParameterByName('categoria');
+    } else {
+        var val = getParameterByName('categoria');
 
-    jQuery.ajax({
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        'type': 'GET',
-        'url': "../api/usuario/contratistas",
-        'success': resultado
-    });
-        
+        jQuery.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            'type': 'GET',
+            'url': "../api/usuario/contratistas",
+            'success': resultado
+        });
+
     }
-   
+
 });
 function ingresar() {
 
@@ -129,12 +133,12 @@ function getParameterByName(name, url) {
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 
-function pressenter(e,inp){
-    var tecla=(document.all) ? e.keyCode : e.which;
-    if(tecla==13){
+function pressenter(e, inp) {
+    var tecla = (document.all) ? e.keyCode : e.which;
+    if (tecla == 13) {
         var valor = $(inp).val();
-        if(valor.length>0){
-            window.location="../Proyectos/index.html?val="+valor;
+        if (valor.length > 0) {
+            window.location = "../Proyectos/index.html?val=" + valor;
         }
     }
 }

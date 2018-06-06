@@ -21,6 +21,10 @@ function verSolicitudes(resultado) {
             var obj = resultado.response[i];
             if (pry == obj.projectId && obj.freelancerId == usuarioID) {
                 $("#botonPostularme").html("Despostularme");
+                $("#tit2").text("Confirmar Despostulacion");
+                $("#botonPostular").html("Confirmar");
+                $("#idOferta").attr('type','hidden');
+                
                 $("#idPostulacion").val(obj.id);
             }
         }
@@ -63,6 +67,8 @@ function postularse() {
         if ($("#idPostulacion").val() == 0) {
             var proyecto = getParameterByName('proyecto');
             var usuarioID = sessionStorage.getItem("idUser");
+            var oferta = $("#idOferta").val();
+
             var id = 0;
             var state = "";
             var solicitud = new Object();
@@ -70,6 +76,8 @@ function postularse() {
             solicitud.freelancerId = usuarioID;
             solicitud.id = id;
             solicitud.state = state;
+            solicitud.oferta = oferta;
+            
             jQuery.ajax({
                 headers: {
                     'Accept': 'application/json',

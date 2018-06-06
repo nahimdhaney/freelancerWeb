@@ -9,6 +9,15 @@ public class Usuario {
     private String email;
     private boolean enabled;
     private int type;
+    private double precio;
+
+    public double getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(double precio) {
+        this.precio = precio;
+    }
     private String description;
 
     public Usuario() {

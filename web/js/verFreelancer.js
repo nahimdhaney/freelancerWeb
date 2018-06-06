@@ -1,11 +1,13 @@
 function resultado(resultado) {
     if (resultado.success) {
         var obj = resultado.response;
-        $("#categoria").append(obj.category);
+        $("#carta").append(obj.email);
+        $("#preciohora").append(obj.precio.toString() + " USD");
         $("#fecha").append(obj.date);
-        $("#presupuesto").append(obj.price.toString() + "  USD");
-        $("#titulo").text(obj.name);
+//        $("#presupuesto").append(obj.price.toString() + "  USD");
+        $("#titulo").text(obj.fullName);
         $("#descripcion").text(obj.description);
+        
         var val = getParameterByName('proyecto');
 //        $("#postularse").attr("href", "../Postulacion/nuevaPostulacion.html?proyecto="+val);
 
@@ -32,7 +34,7 @@ function verSolicitudes(resultado) {
 
 
 $(document).ready(function () {
-    var val = getParameterByName('proyecto');
+    var val = getParameterByName('freelancer');
 
     jQuery.ajax({
         headers: {
@@ -40,10 +42,10 @@ $(document).ready(function () {
             'Content-Type': 'application/json'
         },
         'type': 'GET',
-        'url': "../api/proyecto/" + val,
+        'url': "../api/usuario/" + val,
         'success': resultado
     });
-
+/*
     if (sessionStorage.getItem("usuarioId") !== null) {
         jQuery.ajax({
             headers: {
@@ -55,6 +57,7 @@ $(document).ready(function () {
             'success': verSolicitudes
         });
     }
+    */
 });
 
 

@@ -6,7 +6,16 @@ public class SolicitudProyecto {
     private int projectId;
     private int freelancerId;
     private String state;
+    private double oferta;
 
+    public double getOferta() {
+        return oferta;
+    }
+
+    public void setOferta(double oferta) {
+        this.oferta = oferta;
+    }
+    
     public SolicitudProyecto() {
     }
 

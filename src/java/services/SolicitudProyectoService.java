@@ -37,6 +37,7 @@ public class SolicitudProyectoService {
                 objSolicitud.setId(idGenerado);
                 objSolicitud.setProjectId(param.getProjectId());
                 objSolicitud.setFreelancerId(0);
+                objSolicitud.setOferta(param.getOferta());
                 objSolicitud.setState("");
             
                 respuesta.setSuccess(true);

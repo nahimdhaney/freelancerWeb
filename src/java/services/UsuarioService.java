@@ -406,6 +406,7 @@ public class UsuarioService {
             respuesta.setMessage("Usuario");
             respuesta.setResponse(objUsuario);
         } catch (Exception e) {
+            
         }
 
         return new Gson().toJson(respuesta);
