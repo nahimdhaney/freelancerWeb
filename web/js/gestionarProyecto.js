@@ -7,12 +7,48 @@ function resultado(resultado) {
         $("#titulo").text(obj.name);
         $("#descripcion").text(obj.description);
         var val = getParameterByName('proyecto');
+
+
+        var val = getParameterByName('proyecto');
+        jQuery.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            'type': 'GET',
+            'url': "../api/solicitud/solicitudes/" + val,
+            'success': aumetarPostuaciones
+        });
+
 //        $("#postularse").attr("href", "../Postulacion/nuevaPostulacion.html?proyecto="+val);
 
     } else {
         $("#respuesta").html(resultado.message);
     }
 }
+
+function aumetarPostuaciones(resultado) {
+    if (resultado.success) {
+        for (var i in resultado.response) {
+            var obj = resultado.response[i];
+            var tabla = "                                        <tr>\n" +
+                    "                                            <td class=\"filterable-cell\">"+ obj.fullName +"</td>\n" +
+                    "                                            <td class=\"filterable-cell\">"+ obj.oferta+" $</td>\n" +
+                    "                                        </tr>\n";
+            $("#tablaCuerpo").append(tabla);
+            var opcion = "<option name="+obj.freelancerId+">"+obj.fullName +" - " + obj.oferta  +"$ </option>"
+            
+            $("#freelancerSelect").append(opcion);
+            
+        }
+    } else {
+
+    }
+
+}
+
+/*
+
 function verSolicitudes(resultado) {
     if (resultado.success) {
         var usuarioID = sessionStorage.getItem("idUser");
@@ -23,8 +59,8 @@ function verSolicitudes(resultado) {
                 $("#botonPostularme").html("Despostularme");
                 $("#tit2").text("Confirmar Despostulacion");
                 $("#botonPostular").html("Confirmar");
-                $("#idOferta").attr('type','hidden');
-                
+                $("#idOferta").attr('type', 'hidden');
+
                 $("#idPostulacion").val(obj.id);
             }
         }
@@ -34,7 +70,7 @@ function verSolicitudes(resultado) {
     }
 }
 
-
+*/
 $(document).ready(function () {
     var val = getParameterByName('proyecto');
 
@@ -63,58 +99,55 @@ $(document).ready(function () {
 
 
 function postularse() {
-    if (sessionStorage.getItem("usuarioId") !== null) {
-        if ($("#idPostulacion").val() == 0) {
-            var proyecto = getParameterByName('proyecto');
-            var usuarioID = sessionStorage.getItem("idUser");
-            var oferta = $("#idOferta").val();
+        var val = getParameterByName('proyecto');
 
-            var id = 0;
-            var state = "";
-            var solicitud = new Object();
-            solicitud.projectId = proyecto;
-            solicitud.freelancerId = usuarioID;
-            solicitud.id = id;
-            solicitud.state = state;
-            solicitud.oferta = oferta;
-            
-            jQuery.ajax({
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                'type': 'POST',
-                'url': "../api/solicitud/insertar",
-                'data': JSON.stringify(solicitud),
-                'dataType': 'json',
-                'success': postula
-            });
-        } else {
-            var solicitud = new Object();
-            solicitud = new Object();
-            solicitud.id = $("#idPostulacion").val();
-
-            jQuery.ajax({
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                'type': 'POST',
-                'url': "../api/solicitud/eliminar",
-                'data': JSON.stringify(solicitud),
-                'dataType': 'json',
-                'success': postula
-            });
-        }
-    } else {
-        var url = "../ingresar.html";
-        $(location).attr('href', url);
-    }
+    jQuery.ajax({
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        'type': 'GET',
+        'url': "../api/proyecto/" + val,
+        'success': aceptaProyecto
+    });
+              
 }
 
+function aceptaProyecto(resultado) {
+    var val =  $("#freelancerSelect option:selected").attr('name');// getParameterByName('proyecto');
+    if (resultado.success) {
+            var proyecto = new Object();
+            proyecto.name = resultado.response.name;
+            proyecto.description = resultado.response.description;
+            proyecto.price = resultado.response.price;
+            proyecto.id = resultado.response.id;
+        //    proyecto.freelancerId = freelancerId;
+            proyecto.freelancerId = val; // hardcodeando 7
+            proyecto.date = resultado.response.date;
+            proyecto.category = resultado.response.category;
+            proyecto.ownerId = resultado.response.ownerId;
+            jQuery.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            'type': 'POST',
+            'url': "../api/proyecto/actualizar",
+            'data': JSON.stringify(proyecto),
+            'dataType': 'json',
+            'success': postula
+        });
+//        window.location.reload(false);
+//        var url = "index.html";
+//        $(location).attr('href', url);
+
+    } else {
+        $("#respuesta").html(resultado.message);
+    }
+}
 function postula(resultado) {
     if (resultado.success) {
-        window.location.reload(false); 
+        window.location.reload(false);
 //        var url = "index.html";
 //        $(location).attr('href', url);
 

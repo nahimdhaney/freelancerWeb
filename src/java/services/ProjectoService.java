@@ -149,7 +149,7 @@ public class ProjectoService {
         try {
             FactoryDao factory = FactoryDao.getOrCreate();
             ProyectoDao dao = factory.newProyectoDao();
-
+            
             List<Proyecto> proyectos = dao.get();
             respuesta.setSuccess(true);
             respuesta.setMessage("Lista de proyectos");

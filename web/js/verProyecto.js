@@ -100,7 +100,7 @@ function postularse() {
                     'Content-Type': 'application/json'
                 },
                 'type': 'POST',
-                'url': "../api/solicitud/eliminar",
+                'url': "../api/solicitud/eliminar/",
                 'data': JSON.stringify(solicitud),
                 'dataType': 'json',
                 'success': postula

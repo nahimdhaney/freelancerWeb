@@ -2,7 +2,7 @@ function resultado(resultado) {
     if (resultado.success) {
         var obj = resultado.response;
         $("#carta").append(obj.email);
-        $("#preciohora").append(obj.precio.toString() + " USD");
+        $("#preciohora").append(obj.precio + " USD");
         $("#fecha").append(obj.date);
 //        $("#presupuesto").append(obj.price.toString() + "  USD");
         $("#titulo").text(obj.fullName);

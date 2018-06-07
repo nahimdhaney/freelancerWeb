@@ -139,7 +139,7 @@ public class UsuarioDao {
                 double _precio = objResultSet.getDouble(PRECIO);                
                 obj.setPrecio(_precio);
             } catch (Exception e) {
-                
+                obj.setPrecio(222);
             }
             
             
