@@ -32,7 +32,7 @@ public class Conexion {
         baseDeDatos = "freelancer";
         puerto = 3306;
         usuario = "root";
-        password = "root";
+        password = "";
     }
 
     public void conectar() {
