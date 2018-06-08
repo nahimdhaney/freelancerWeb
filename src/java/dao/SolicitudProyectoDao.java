@@ -3,6 +3,7 @@ package dao;
 import conexion.Conexion;
 import dto.SolicitudFreelancer;
 import dto.SolicitudProyecto;
+import dto.VistaSolicitudes;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -104,6 +105,7 @@ public class SolicitudProyectoDao {
         }
         return null;
     }
+    
     public List<SolicitudFreelancer> getSolicitudes(int projectId) {
         try {
             Conexion objConexion = Conexion.getOrCreate();
@@ -119,6 +121,41 @@ public class SolicitudProyectoDao {
             while (objResultSet.next()) {
                 SolicitudFreelancer solicitud = getSolicitudFreelancerDeResultSet(objResultSet);
                 lista.add(solicitud);
+            }
+            return lista;
+
+        } catch (SQLException e) {
+        }
+        return null;
+    }
+
+    public List<VistaSolicitudes> getSolicitudes5(int projectId) {
+        try {
+            Conexion objConexion = Conexion.getOrCreate();
+
+            String procedimiento = "call ver_solicitudes_5(?)";
+
+            PreparedStatement ps = objConexion.invocarProcedimiento(procedimiento);
+            ps.setInt(1, projectId);
+
+            List<VistaSolicitudes> lista = new ArrayList<>();
+
+            ResultSet objResultSet = objConexion.ejecutar(ps);
+            while (objResultSet.next()) {
+                VistaSolicitudes obj = new VistaSolicitudes();
+                int _id_solicitud = objResultSet.getInt("id_solicitud");
+                obj.setId_solicitud(_id_solicitud);
+
+                int _id_freelancer = objResultSet.getInt("id_freelancer");
+                obj.setId_freelancer(_id_freelancer);
+                
+                String _freelancer = objResultSet.getString("nombre_completo");
+                obj.setFreelancer(_freelancer);
+                
+                double _oferta = objResultSet.getDouble("oferta");
+                obj.setOferta(_oferta);
+                
+                lista.add(obj);
             }
             return lista;
 

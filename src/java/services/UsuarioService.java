@@ -425,7 +425,7 @@ public class UsuarioService {
 
             Usuario usuario = dao.getByUserName(param.getUser());
 
-            param.setId(usuario.getId());
+//            param.setId(usuario.getId());
             usuario.setFullName(param.getFullName());
             usuario.setDescription(param.getDescription());
 

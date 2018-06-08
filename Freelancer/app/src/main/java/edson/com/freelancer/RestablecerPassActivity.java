@@ -37,6 +37,7 @@ public class RestablecerPassActivity extends AppCompatActivity implements View.O
     private EditText edit_email;
     private Button btn_restablecer;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +45,11 @@ public class RestablecerPassActivity extends AppCompatActivity implements View.O
 
         edit_email = (EditText) findViewById(R.id.Edit_emailConfimacion);
         btn_restablecer = (Button) findViewById(R.id.btn_restablcer);
+
+
+
         btn_restablecer.setOnClickListener(this);
+
     }
 
     @Override

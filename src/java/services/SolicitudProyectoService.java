@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import dao.SolicitudProyectoDao;
 import dto.SolicitudFreelancer;
 import dto.SolicitudProyecto;
+import dto.VistaSolicitudes;
 import factory.FactoryDao;
 import java.util.List;
 import javax.ws.rs.Consumes;
@@ -173,4 +174,27 @@ public class SolicitudProyectoService {
         return new Gson().toJson(respuesta);
     }
 
+    
+    @Path("/solicitudes5/{id}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getSolicitudes5(@PathParam("id") int id) {
+        Response respuesta = new Response();
+
+        try {
+            FactoryDao factory = FactoryDao.getOrCreate();
+            SolicitudProyectoDao dao = factory.newSolicitudProyectoDao();
+
+            List<VistaSolicitudes> lista = dao.getSolicitudes5(id);
+            
+            respuesta.setSuccess(true);
+            respuesta.setMessage("Solicitudes de proyecto");
+            respuesta.setResponse(lista);
+        } catch (Exception e) {
+            
+        }
+        
+        return new Gson().toJson(respuesta);
+    }
+    
 }
