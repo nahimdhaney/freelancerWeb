@@ -197,4 +197,32 @@ public class SolicitudProyectoService {
         return new Gson().toJson(respuesta);
     }
     
+    // api/solicitud/aceptar5
+    @Path("aceptar5")
+    @POST
+    @Produces(MediaType.APPLICATION_JSON) // lo que va a devolver
+    @Consumes(MediaType.APPLICATION_JSON) // lo que va a recibir
+    public String aceptar5(SolicitudProyecto param) {
+        Response respuesta = new Response();
+        
+        try {
+            FactoryDao factory = FactoryDao.getOrCreate();
+            SolicitudProyectoDao dao = factory.newSolicitudProyectoDao();
+            
+            int filasAfectadas = dao.aceptar5(param.getId());
+            
+            if (filasAfectadas == 0) {
+                respuesta.setMessage("Hubo un error al aceptar la solicitud de proyecto");
+            } else {
+                respuesta.setSuccess(true);
+                respuesta.setMessage("Solicitud de proyecto aceptada");
+                respuesta.setResponse("");
+            }
+        } catch (Exception e) {
+            respuesta.setMessage("Error de autenticación");
+        }
+        
+        return new Gson().toJson(respuesta);
+    }
+    
 }

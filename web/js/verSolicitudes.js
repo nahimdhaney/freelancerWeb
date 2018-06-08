@@ -23,7 +23,7 @@ $(document).ready(function(){
  function resultado(resp){
      if(resp.success){
          // id_solicitud, id_freelancer, freelancer, oferta
-         var json=$.parseJSON(resp);
+         var json=$.parseJSON(JSON.stringify(resp));
          var arr = json.response;
          var html="";
          $.each(arr,function(i,obj){
