@@ -87,7 +87,7 @@ function postularse() {
                 'url': "../api/solicitud/insertar",
                 'data': JSON.stringify(solicitud),
                 'dataType': 'json',
-                'success': postula
+                'success': postula  
             });
         } else {
             var solicitud = new Object();

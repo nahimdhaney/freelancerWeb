@@ -46,6 +46,8 @@ $(document).ready(function () {
             'dataType': 'json',
             'success': cargaProyecto
         });
+    }else{
+        $("#btn_ver_solicitudes").css('display',"none")
     }
 
 
@@ -93,6 +95,8 @@ function enviar() {
     proyecto.date = date;
     proyecto.category = $("#categoria option:selected").text();
     proyecto.ownerId = OwnerId;
+    proyecto.start = "";
+    proyecto.end = "";
     var val = getParameterByName('proyecto');
     if (val !== null) { //editar
         proyecto.id = parseInt(val);
@@ -147,5 +151,12 @@ function pressenter(e,inp){
         if(valor.length>0){
             window.location="index.html?val="+valor;
         }
+    }
+}
+
+function ver_solicitudes(){
+      var val = getParameterByName('proyecto');
+        if (val !== null) { // si es nuevo hacer ajax para traer el proyecto y Editarlo
+            window.location.href="verSolicitudes.html?proyecto="+val;
     }
 }

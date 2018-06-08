@@ -7,7 +7,7 @@
 
         <link rel="icon" href="../img/fav-icon.png" type="image/x-icon" />
         <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-        <title>Freelancer</title>
+        <title>Freelancer: Ver Solisitudes.</title>
 
         <!-- Icon css link -->
         <link href="../css/font-awesome.min.css" rel="stylesheet">
@@ -15,7 +15,7 @@
         <link href="../vendors/themify-icon/themify-icons.css" rel="stylesheet">
         <!-- Bootstrap -->
         <link href="../css/bootstrap.min.css" rel="stylesheet">
-
+        <link href="../css/bootstrap-grid.min.css" rel="stylesheet" type="text/css"/>
         <!-- Rev slider css -->
         <link href="../vendors/revolution/css/settings.css" rel="stylesheet">
         <link href="../vendors/revolution/css/layers.css" rel="stylesheet">
@@ -59,7 +59,7 @@
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav mr-auto">
+                    <ul id="indice" class="navbar-nav mr-auto">
                         <li class="nav-item active"><a class="nav-link" href="../index.html">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="nuevoProyecto.html">Crear Proyecto</a></li>
                         <li class="nav-item"><a class="nav-link" href="../Freelancer/freelancer.html">Freelancers</a></li>
@@ -75,75 +75,28 @@
         </header>
         <!--================End Header Menu Area =================-->
 
-
-        <section class="contact_us_area">
+        <section class="latest_news_area p_100">
             <div class="container">
-                <div class="contact_details_inner">
-                    <div class="row">
-                        <form class="contact_us_form row" onsubmit="enviar(); return false;" method="post" id="contactForm" novalidate="novalidate">
-                            <div class="col-lg-6">
-                                <div class="main_title">
-                                    <h2>Nuevo Proyecto</h2>
-                                    <p>Publica tu proyecto y comienza a trabajar ya!</p>
-                                </div>
-                                <div class="row d-flex justify-content-center">
-                                    <button  id="btn_ver_solicitudes" type="button" class="btn btn-primary" onclick="ver_solicitudes();" >
-                                        Ver Solicitudes
-                                    </button>
-                                </div>
-                                <div class="contact_form">
-                                    <label for="name" class="form-group col-lg-12">Nombre</label>
-                                    <div class="form-group col-lg-12">
-                                        <input type="text" class="form-control" id="name" name="name"  placeholder="name" required>
-                                    </div>
-                                    <label for="price" class="form-group col-lg-12">Presupuesto</label>
-                                    <div class="form-group col-lg-12">
-                                        <input type="number" class="form-control" id="price" name="price" placeholder="Presupuesto" required>
-                                    </div>
-                                    <label for="categoria" class="form-group col-lg-12">Categoria</label>
-                                    <div class="form-group col-lg-12">
-                                        <select class="form-control" id="categoria">
-                                            <option>--</option>
-                                            <option>TI, páginas web y software</option>
-                                            <option>Redacción y contenidos</option>
-                                            <option>Diseño, comunicación y arquitectura</option>
-                                            <option>Entrada de datos y administración</option>
-                                            <option>Ingenieria y ciencias</option>
-                                            <option>Ventas y marketing</option>
-                                            <option>Negocios, contabilidad, recursos humanos y leyes</option>
-                                            <option>Abastecimiento y fabricacion</option>
-                                            <option>Agronomia</option>
-                                            <option>Construcción</option>
-                                            <option>Teléfonos móviles e informática</option>
-                                            <option>Traducción e idiomas</option>
-                                            <option>Otras</option>
-                                        </select>
-                                    </div>
-                                    <label for="fecha" class="form-group col-lg-12">Fecha </label>
-                                    <div class="form-group col-lg-12">
-                                        <input type="date" class="form-control" id="fecha" min='2000-01-01'  name="fecha" required>
-                                    </div>
-                                    <div class="form-group col-md-12">
-                                        <button type="submit" value="submit" id="confirmar" class="btn submit_btn2 form-control">Publicar Proyecto</button>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="contact_text">
-                                    <div class="contact_d_list">
-                                        <textarea class="form-control form-text" name="message" id="descripcion" rows="10" cols="20" placeholder="Descripcion"></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
+                <div class="b_center_title">
+                    <h2>Mis Solicitudes</h2>
+                    <p>todos los proyectos registrados</p>
+                </div>
+                <div class="l_news_inner">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">FreeLancer</th>
+                                <th scope="col">Oferta $</th>
+                                <th scope="col">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table_versol">
+                       
+                        </tbody>
+                    </table>
                 </div>
             </div>
-        </section>        
-
-
-
+        </section>
         <!--================Footer Area =================-->
         <footer class="footer_area">
             <div class="footer_widgets_area">
@@ -267,8 +220,7 @@
         <script src="../vendors/tweet/tweetie.min.js"></script>
         <script src="../vendors/tweet/script.js"></script>
         <script src="../js/script.js" type="text/javascript"></script>
-
         <script src="../js/theme.js"></script>
-        <script src="../js/nuevoProyecto.js" type="text/javascript"></script>
+        <script src="../js/verSolicitudes.js" type="text/javascript"></script>
     </body>
 </html>

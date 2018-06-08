@@ -12,7 +12,7 @@ $(document).ready(function () {
         $("#correo").val(usr_log.email);
         $("#nombreUsuario").val(usr_log.user);
         $("#nombreCompleto").val(usr_log.fullName);
-        $("#biblografia").val(usr_log.description);
+        $("#bibliografia").val(usr_log.description);
         get_proyectos();
     }
 });
