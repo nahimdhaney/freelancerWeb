@@ -67,7 +67,7 @@ public class CodigoVerificacionActivity extends AppCompatActivity implements Vie
     }
 
 
-    private void Restablecer(String usuario, String codigo) {
+    private void Restablecer(final String usuario, final String codigo) {
 
         String url = "http://192.168.43.32:8080/freelancerWeb/api/usuario/validateCode";
 
@@ -92,6 +92,10 @@ public class CodigoVerificacionActivity extends AppCompatActivity implements Vie
                                 String message = (String) response.get("message");
                                 Toast.makeText(CodigoVerificacionActivity.this, message, Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(CodigoVerificacionActivity.this, NuevaPassActivity.class);
+                                Bundle params = new Bundle();
+                                params.putString("usr",usuario);
+                                params.putString("codigo",codigo);
+                                intent.putExtras(params);
                                 startActivity(intent);
                             } else {
                                 String message = (String) response.get("message");
