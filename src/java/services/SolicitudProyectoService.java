@@ -225,4 +225,32 @@ public class SolicitudProyectoService {
         return new Gson().toJson(respuesta);
     }
     
+    // api/solicitud/confirmar5
+    @Path("confirmar5")
+    @POST
+    @Produces(MediaType.APPLICATION_JSON) // lo que va a devolver
+    @Consumes(MediaType.APPLICATION_JSON) // lo que va a recibir
+    public String confirmar5(SolicitudProyecto param) {
+        Response respuesta = new Response();
+        
+        try {
+            FactoryDao factory = FactoryDao.getOrCreate();
+            SolicitudProyectoDao dao = factory.newSolicitudProyectoDao();
+            
+            int filasAfectadas = dao.confirmar5(param.getId());
+            
+            if (filasAfectadas == 0) {
+                respuesta.setMessage("Hubo un error al confirmar la solicitud de proyecto");
+            } else {
+                respuesta.setSuccess(true);
+                respuesta.setMessage("Solicitud de proyecto confirmada");
+                respuesta.setResponse("");
+            }
+        } catch (Exception e) {
+            respuesta.setMessage("Error de autenticación");
+        }
+        
+        return new Gson().toJson(respuesta);
+    }
+    
 }

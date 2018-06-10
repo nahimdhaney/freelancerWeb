@@ -27,6 +27,49 @@ function resultado(resultado) {
     }
 }
 
+function procesarProyectosFreelancer(resp) {
+    if (resp.success) {
+        var json = $.parseJSON(JSON.stringify(resp));
+        var arr = json.response;
+        
+        var html = "";
+        
+        $.each(arr, function(i, obj) {
+            html += "<tr>";
+            html += "  <td>" + obj.nombre + "</td>";
+            html += "  <td>" + obj.estado + "</td>";
+            html += "  <td><button onclick='confirmarSolicitud(" + obj.id_solicitud + ");'><i class='fas fa-check-circle'></i>Aceptar</button></td>";
+            html += "</tr>";
+        });
+        
+        $("#table_versol").html(html);
+        
+    } else {
+        alert(resp.message);
+    }
+}
+
+function procesarConfirmarSolicitud(resp) {
+    alert(resp.message);
+}
+
+function confirmarSolicitud(id) {
+    var obj = new Object();
+    obj.id = id;
+    
+        jQuery.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            'type': 'POST',
+            'url': "../api/solicitud/confirmar5",
+            'data': JSON.stringify(obj),
+            'dataType': 'json',
+            'success': procesarConfirmarSolicitud
+        });
+}
+
 $(document).ready(function () {
     // aca se corrige la referencia hacia el perfil del usuario
     if (sessionStorage.getItem("usuarioId") !== null) {
@@ -36,16 +79,48 @@ $(document).ready(function () {
         $(location).attr('href',url);        
     }    
 
+    var objUser = sessionStorage.getItem("usrLog");
     
-    jQuery.ajax({
+    if (!objUser) return;
+    
+    objUser = JSON.parse(objUser);
+    
+    // SI ES DE TIPO FREELANCER, traigo todos los proyectos
+    if (objUser.type == 2) {
+        jQuery.ajax({
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
-        'type': 'GET',
-        'url': "../api/proyecto/proyectos_contratista/" + sessionStorage.getItem("idUser"),
-        'success': resultado
-    });
+            'type': 'GET',
+            'url': "../api/proyecto/proyectos_freelancer5/" + sessionStorage.getItem("idUser"),
+            'success': procesarProyectosFreelancer
+        });
+    } else { // SI ES DE TIPO CONTRATISTA
+        jQuery.ajax({
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+            'type': 'GET',
+            'url': "../api/proyecto/proyectos_contratista/" + sessionStorage.getItem("idUser"),
+            'success': resultado
+        });
+        
+        $("#tabla-proyectos").hide();
+    }
+    
+    
+    
+//    jQuery.ajax({
+//        headers: {
+//            'Accept': 'application/json',
+//            'Content-Type': 'application/json'
+//        },
+//        'type': 'GET',
+//        'url': "../api/proyecto/proyectos_contratista/" + sessionStorage.getItem("idUser"),
+//        'success': resultado
+//    });
 });
 function ingresar() {
 

@@ -33,3 +33,11 @@ begin
     on (sp.freelancer_id = u.id)
     where sp.proyecto_id = proyecto_id;
 end//
+
+drop procedure if exists aceptar5//
+create procedure aceptar5(in id_solicitud int)
+begin
+	update solicitudes_proyecto sp
+    set sp.estado = "pendiente"
+    where sp.id = id_solicitud;
+end//

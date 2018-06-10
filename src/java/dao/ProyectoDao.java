@@ -2,6 +2,7 @@ package dao;
 
 import conexion.Conexion;
 import dto.Proyecto;
+import dto.VistaProyectosFreelancer;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -174,6 +175,46 @@ public class ProyectoDao {
             while (objResultSet.next()) {
                 Proyecto solicitud = getProyectoDeResultSet(objResultSet);
                 lista.add(solicitud);
+            }
+            
+            return lista;
+        } catch (SQLException e) {
+        }
+        
+        return null;
+    }
+
+    public List<VistaProyectosFreelancer> getProjectsOfFreelancer5(int freelancerId) {
+        try {
+            Conexion objConexion = Conexion.getOrCreate();
+            
+            String procedimiento = "call get_proyectos_de_freelancer5(?)";
+            
+            PreparedStatement ps = objConexion.invocarProcedimiento(procedimiento);
+            ps.setInt(1, freelancerId);
+
+            List<VistaProyectosFreelancer> lista = new ArrayList<>();
+            
+            ResultSet objResultSet = objConexion.ejecutar(ps);
+            while (objResultSet.next()) {
+                VistaProyectosFreelancer obj = new VistaProyectosFreelancer();
+                
+                int _idSolicitud = objResultSet.getInt("id_solicitud");
+                obj.setId_solicitud(_idSolicitud);
+
+                int _idProyecto = objResultSet.getInt("id_proyecto");
+                obj.setId_solicitud(_idProyecto);
+
+                String _estado = objResultSet.getString("estado");
+                obj.setEstado(_estado);
+
+                String _nombre = objResultSet.getString("nombre");
+                obj.setNombre(_nombre);
+
+                String _descripcion = objResultSet.getString("descripcion");
+                obj.setDescripcion(_descripcion);
+            
+                lista.add(obj);
             }
             
             return lista;

@@ -3,6 +3,7 @@ package services;
 import com.google.gson.Gson;
 import dao.ProyectoDao;
 import dto.Proyecto;
+import dto.VistaProyectosFreelancer;
 import factory.FactoryDao;
 import java.util.List;
 import javax.ws.rs.Consumes;
@@ -251,6 +252,29 @@ public class ProjectoService {
             respuesta.setSuccess(true);
             respuesta.setMessage("Lista de proyectos");
             respuesta.setResponse(proyectos);
+        } catch (Exception e) {
+            respuesta.setMessage("Error de autenticación");
+        }
+
+        return new Gson().toJson(respuesta);
+    }
+
+    // api/proyecto/proyectos_freelancer/
+    @Path("proyectos_freelancer5/{id}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getProyectosDeFrelancer5(@PathParam("id") int id) {
+        Response respuesta = new Response();
+
+        try {
+            FactoryDao factory = FactoryDao.getOrCreate();
+            ProyectoDao dao = factory.newProyectoDao();
+
+            List<VistaProyectosFreelancer> lista = dao.getProjectsOfFreelancer5(id);
+
+            respuesta.setSuccess(true);
+            respuesta.setMessage("Lista de proyectos");
+            respuesta.setResponse(lista);
         } catch (Exception e) {
             respuesta.setMessage("Error de autenticación");
         }

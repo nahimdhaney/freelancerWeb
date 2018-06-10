@@ -177,6 +177,19 @@ public class SolicitudProyectoDao {
         return filasAfectadas;
     }
 
+    public int confirmar5(int id) throws Exception {
+        Conexion objConexion = Conexion.getOrCreate();
+
+        String procedimiento = "call confirmar5(?)";
+
+        PreparedStatement ps = objConexion.invocarProcedimiento(procedimiento);
+        ps.setInt(1, id);
+
+        int filasAfectadas = objConexion.ejecutarSimple(ps);
+
+        return filasAfectadas;
+    }
+
     public List<SolicitudProyecto> get() {
         try {
             Conexion objConexion = Conexion.getOrCreate();
