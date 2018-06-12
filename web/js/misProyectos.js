@@ -38,7 +38,11 @@ function procesarProyectosFreelancer(resp) {
             html += "<tr>";
             html += "  <td>" + obj.nombre + "</td>";
             html += "  <td>" + obj.estado + "</td>";
-            html += "  <td><button onclick='confirmarSolicitud(" + obj.id_solicitud + ");'><i class='fas fa-check-circle'></i>Aceptar</button></td>";
+            
+            if (obj.estado == "pendiente") {
+                html += "  <td><button onclick='confirmarSolicitud(" + obj.id_solicitud + ");'><i class='fas fa-check-circle'></i>Aceptar</button></td>";
+            }
+            
             html += "</tr>";
         });
         

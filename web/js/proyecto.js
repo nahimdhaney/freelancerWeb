@@ -102,6 +102,13 @@ $(document).ready(function () {
     });
         
     }
+    
+    var usr = sessionStorage.getItem("usrLog");
+    usr = JSON.parse(usr);
+    
+    if (usr.type == 2) {
+        $("#botonCrearProyecto").hide();
+    }
    
 });
 function ingresar() {

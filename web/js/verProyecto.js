@@ -3,7 +3,7 @@ function resultado(resultado) {
         var obj = resultado.response;
         $("#categoria").append(obj.category);
         $("#fecha").append(obj.date);
-        $("#presupuesto").append(obj.price.toString() + "  USD");
+        $("#presupuesto").append(obj.price + "  USD");
         $("#titulo").text(obj.name);
         $("#descripcion").text(obj.description);
         var val = getParameterByName('proyecto');
@@ -34,7 +34,6 @@ function verSolicitudes(resultado) {
     }
 }
 
-
 $(document).ready(function () {
     var val = getParameterByName('proyecto');
 
@@ -47,7 +46,16 @@ $(document).ready(function () {
         'url': "../api/proyecto/" + val,
         'success': resultado
     });
+    
+    // ok, si el usuario es contratista, el boton Postularme debe cambiar a Editar
+    var usr = sessionStorage.getItem("usrLog");
+    usr = JSON.parse(usr);
 
+    // SI ES CONTRATISTA, el boton Postularme cambia su texto a Editar
+    if (usr.type == 1) {
+        $("#botonPostularme").html("Editar");
+    }
+    
     if (sessionStorage.getItem("usuarioId") !== null) {
         jQuery.ajax({
             headers: {
@@ -64,6 +72,19 @@ $(document).ready(function () {
 
 function postularse() {
     if (sessionStorage.getItem("usuarioId") !== null) {
+        var usr = sessionStorage.getItem("usrLog");
+        usr = JSON.parse(usr);
+        
+        // SI ES CONTRATISTA, 
+        if (usr.type == 1) {
+            // Proyectos/nuevoProyecto.html?proyecto=1
+            var proyectoId = getParameterByName('proyecto');
+            
+            var url = "nuevoProyecto.html?proyecto=" + proyectoId;
+            $(location).attr('href', url);
+            return;
+        }
+    
         if ($("#idPostulacion").val() == 0) {
             var proyecto = getParameterByName('proyecto');
             var usuarioID = sessionStorage.getItem("idUser");
