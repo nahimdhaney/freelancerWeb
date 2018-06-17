@@ -1,13 +1,13 @@
 package edson.com.freelancer;
 
-import android.net.Uri;
+import android.content.Intent;
 import android.os.Bundle;
-import android.app.Fragment;
-import android.view.LayoutInflater;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -26,30 +26,35 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import edson.com.freelancer.Model.Proyectos;
 import edson.com.freelancer.Model.Usuario;
 import edson.com.freelancer.adapter.categoriaListAdapter;
 
-public class ProyectosFragment extends android.support.v4.app.Fragment implements View.OnClickListener {
+import static android.R.attr.id;
+import static edson.com.freelancer.LoginActivity.pass;
 
-    private static final String TAG ="fragment_proyectos";
+public class Activity_List_Estado extends AppCompatActivity implements View.OnClickListener{
 
     private ListView listView;
     private TextView edit_buscar;
     private Button btn_buscar;
-
+//    public static AppCompatActivity activityclear;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
-        View view =  inflater.inflate(R.layout.activity_list_estado, container, false);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_list_estado);
 
         Usuario usuario = Usuario.getUsuario();
 
-        listView = (ListView) view.findViewById(R.id.list_vista);
-        edit_buscar = (EditText) view.findViewById(R.id.edit_buscar);
-        btn_buscar = (Button) view.findViewById(R.id.btn_buscar);
+//        activityclear = this;
+
+        listView = (ListView) findViewById(R.id.list_vista);
+        edit_buscar = (EditText) findViewById(R.id.edit_buscar);
+        btn_buscar = (Button) findViewById(R.id.btn_buscar);
 
         btn_buscar.setOnClickListener(this);
 
@@ -81,14 +86,14 @@ public class ProyectosFragment extends android.support.v4.app.Fragment implement
                 startActivity(intent);*/
             }
         });
-
-        return view;
+//        registerForContextMenu(listView);
     }
+
     private void actualizarLista() {
 
         String url = "http://192.168.43.32:8080/freelancerWeb/api/proyecto/";
 
-        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonObjectRequest objectRequest= new JsonObjectRequest(
                 Request.Method.GET,
                 url,
@@ -120,12 +125,12 @@ public class ProyectosFragment extends android.support.v4.app.Fragment implement
 //                                    listView.setAdapter(new ArrayAdapter<>(Activity_List_Estado.this, android.R.layout.simple_list_item_1, ));
                                 }
 
-                                categoriaListAdapter adaptador  = new categoriaListAdapter(getContext(), listaProyectos);
+                                categoriaListAdapter adaptador  = new categoriaListAdapter(Activity_List_Estado.this, listaProyectos);
                                 listView.setAdapter(adaptador);
 
                             }else{
                                 String message = (String) response.get("message");
-                                Toast.makeText(getContext(), message , Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Activity_List_Estado.this, message , Toast.LENGTH_SHORT).show();
                             }
 //                            JSONObject usuario = (JSONObject) response.get("response");
 //
@@ -154,12 +159,12 @@ public class ProyectosFragment extends android.support.v4.app.Fragment implement
 
     //actualizar la lista
     @Override
-    public void onResume() {
+    protected void onResume() {
         super.onResume();
         actualizarLista();
     }
 
-
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         return true;
     }
@@ -191,7 +196,7 @@ public class ProyectosFragment extends android.support.v4.app.Fragment implement
 
         String url = "http://192.168.43.32:8080/freelancerWeb/api/proyecto/buscar/"+buscar;
 
-        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonObjectRequest objectRequest= new JsonObjectRequest(
                 Request.Method.GET,
                 url,
@@ -221,12 +226,12 @@ public class ProyectosFragment extends android.support.v4.app.Fragment implement
 //                                    listView.setAdapter(new ArrayAdapter<>(Activity_List_Estado.this, android.R.layout.simple_list_item_1, ));
                                 }
 
-                                categoriaListAdapter adaptador  = new categoriaListAdapter(getContext(), listaProyectos);
+                                categoriaListAdapter adaptador  = new categoriaListAdapter(Activity_List_Estado.this, listaProyectos);
                                 listView.setAdapter(adaptador);
 
                             }else{
                                 String message = (String) response.get("message");
-                                Toast.makeText(getContext(), message , Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Activity_List_Estado.this, message , Toast.LENGTH_SHORT).show();
                             }
 //                            JSONObject usuario = (JSONObject) response.get("response");
 //
@@ -251,4 +256,8 @@ public class ProyectosFragment extends android.support.v4.app.Fragment implement
         );
         requestQueue.add(objectRequest);
     }
+
+
+
+
 }
