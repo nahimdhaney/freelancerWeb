@@ -29,43 +29,68 @@
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
     </head>
-    <body>
-        <div class="container">
-            <div class="col-md-12">
-            <h1>MIS PROYECTOS</h1>
-            <table class="table">
-                <thead>
-                <th>Nombre</th>
-                <th>Categoria</th>
-                <th>Acciones</th>
-                </thead>
-                <tbody id="table_mis_proyectos">
+    <body style="padding-top: 0; padding-bottom: 0">
+        <div class="container-fluid h-100">
+            <div class="row h-100">
+                <aside class="col-12 col-md-2 p-0 bg-dark">
+                    <nav class="navbar navbar-expand navbar-dark bg-dark flex-md-column flex-row align-items-start">
+                        <h3 style="color: white; margin: 12px 0">Mis proyectos</h3>
+                        <div class="collapse navbar-collapse">
 
-                </tbody>
-            </table>
-        </div>
-        <div class="col-md-12">
-            <form class="form-signin">
-                <!--<img class="mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">-->
-                <h1 class="h3 mb-3 font-weight-normal">Modificar Perfil</h1>
-                <label for="correo" class="sr-only">Correo Electronico</label>
-                <input type="text" id="correo" class="form-control"  placeholder="Correo Electronico" disabled>
-                <label for="nombreUsuario" class="sr-only">Nombre de usuario</label>
-                <input type="text" id="nombreUsuario" class="form-control" placeholder="Nombre de usuario" disabled >
-                <label for="nombreCompleto" class="sr-only">Nombre Completo</label>
-                <input type="text" id="nombreCompleto" class="form-control" placeholder="Nombre Completo" autofocus>
-                <label for="biblografia" class="sr-only">Bibliografia</label>
-                <textarea id="biblografia" class="form-control"  placeholder="Bibliografia"></textarea>
-                <button class="btn btn-lg btn-primary btn-block" type="button" onclick="aceptar_modifi();">Aceptar</button>
-                <!--<a> olvide mi contraseña</a>-->
-                <h5 id="respuesta" class="alert-danger"> </h5>
-                <p class="mt-5 mb-3 text-muted">&copy; 2017-2018</p>
-            </form>
-        </div>
-        </div>
-        
+                            <div class="list-group" id="lista-proyectos">
+                                <!--<div id="lista-proyectos"></div>-->
+        <!--                      <button type="button" class="list-group-item list-group-item-action">
+                                Cras justo odio
+                              </button>-->
+                                <!--
+                              <button type="button" class="list-group-item list-group-item-action"
+                                      onclick="verProyecto2()">
+                                  Dapibus ac facilisis in
+                                </button>
+                              <button type="button" class="list-group-item list-group-item-action">Morbi leo risus</button>
+                              <button type="button" class="list-group-item list-group-item-action">Porta ac consectetur ac</button>
+                              <button type="button" class="list-group-item list-group-item-action">Vestibulum at eros</button>-->
+                            </div>
+                        </div>
+                    </nav>
+                </aside>
+                <main class="col" style="padding-top: 40px">
 
-
+                    <div class="container">
+                        <!--<div class="col-md-12">-->
+            <!--            <h1>MIS PROYECTOS</h1>
+                        <table class="table">
+                            <thead>
+                            <th>Nombre</th>
+                            <th>Categoria</th>
+                            <th>Acciones</th>
+                            </thead>
+                            <tbody id="table_mis_proyectos">
+                            </tbody>
+                        </table>-->
+                    <!--</div>-->
+                        <div class="col-md-12">
+                            <form class="form-signin">
+                                <!--<img class="mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">-->
+                                <h1 class="h3 mb-3 font-weight-normal">Modificar Perfil</h1>
+                                <label for="correo" class="sr-only">Correo Electronico</label>
+                                <input type="text" id="correo" class="form-control"  placeholder="Correo Electronico" disabled>
+                                <label for="nombreUsuario" class="sr-only">Nombre de usuario</label>
+                                <input type="text" id="nombreUsuario" class="form-control" placeholder="Nombre de usuario" disabled >
+                                <label for="nombreCompleto" class="sr-only">Nombre Completo</label>
+                                <input type="text" id="nombreCompleto" class="form-control" placeholder="Nombre Completo" autofocus>
+                                <label for="biblografia" class="sr-only">Bibliografia</label>
+                                <textarea id="biblografia" class="form-control"  placeholder="Bibliografia"></textarea>
+                                <button class="btn btn-lg btn-primary btn-block" type="button" onclick="aceptar_modifi();">Aceptar</button>
+                                <!--<a> olvide mi contraseña</a>-->
+                                <h5 id="respuesta" class="alert-danger"> </h5>
+                                <p class="mt-5 mb-3 text-muted">&copy; 2017-2018</p>
+                            </form>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
         <!--<script src="js/ingresar.js" type="text/javascript"></script>-->
         <script src="js/perfil.js" type="text/javascript"></script>
     </body>

@@ -1,8 +1,17 @@
 
 function resultado(resultado) {
+    var objUser = sessionStorage.getItem("usrLog");
+    objUser = JSON.parse(objUser);
+            
     if (resultado.success) {
         for (var i in resultado.response) {
             var obj = resultado.response[i];
+            
+            // SI ES DE TIPO FREELANCER, y el proyecto YA TIENE UN FREELANCER, no lo muestro
+            if (obj.freelancerId != 0 && (objUser && objUser.type == 2)) {
+                continue;
+            }
+            
             var text = obj.description;
               if (text.length > 120) {
                 var text = text.substr(0, text.lastIndexOf(' ', 117)) + '...';

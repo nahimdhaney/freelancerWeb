@@ -1,11 +1,3 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-
-
 $(document).ready(function () {
     // aca se corrige la referencia hacia el perfil del usuario
     if (sessionStorage.getItem("usuarioId") !== null) {
@@ -25,7 +17,6 @@ $(document).ready(function () {
 
     today = yyyy + '-' + mm + '-' + dd;
     document.getElementById("fecha").setAttribute("min", today);
-
 
 
     if (sessionStorage.getItem("usuarioId") !== null) {
@@ -49,12 +40,11 @@ $(document).ready(function () {
     }else{
         $("#btn_ver_solicitudes").css('display',"none")
     }
-
-
-
 });
+
 function cargaProyecto(resultado) {
     if (resultado.success) {
+        $("#freelancer").val(resultado.response.freelancerId);
         $("#name").val(resultado.response.name);
         $("#descripcion").val(resultado.response.description);
         $("#price").val(resultado.response.price);
@@ -81,17 +71,16 @@ function enviar() {
     var price = $("#price").val();
     var date = $("#fecha").val();
     var id = 0;
-    var freelancerId = 0;
+    var freelancerId = $("#freelancer");
     var OwnerId = sessionStorage.getItem("idUser");
-
 
     var proyecto = new Object();
     proyecto.name = name;
     proyecto.description = description;
     proyecto.price = price;
     proyecto.id = id;
-//    proyecto.freelancerId = freelancerId;
-    proyecto.freelancerId = 7; // hardcodeando 7
+    proyecto.freelancerId = freelancerId;
+//    proyecto.freelancerId = 7; // hardcodeando 7
     proyecto.date = date;
     proyecto.category = $("#categoria option:selected").text();
     proyecto.ownerId = OwnerId;

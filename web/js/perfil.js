@@ -60,34 +60,49 @@ function resultado(resultado) {
 }
 
 function get_proyectos() {
-         
-        var id = sessionStorage.getItem("idUser");
-        jQuery.ajax({
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            'type': 'GET',
-            'url': "api/proyecto/proyectos_contratista/"+id,
-            'dataType': 'json',
-            'success': cargar_proyectos
-        });
-    }
+    var id = sessionStorage.getItem("idUser");
+    jQuery.ajax({
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        'type': 'GET',
+        'url': "api/proyecto/proyectos_contratista/"+id,
+        'dataType': 'json',
+        'success': cargar_proyectos
+    });
+}
+    
 function cargar_proyectos(resultado){
-      if (resultado.success) {
-      var html="";
-      $.each(resultado.response,function(i,obj){
-          html+="<tr><td>"+obj.name+"</td><td>"+obj.category+"</td><td><i class='fas fa-edit btn_icon' onclick='editar_proyecto("+obj.id+");'></i><i class='far fa-list-alt btn_icon' onclick='ver_proyecto("+obj.id+");'></i></td></tr>";
-      });
-      $("#table_mis_proyectos").html(html);
+//      if (resultado.success) {
+//      var html="";
+//      $.each(resultado.response,function(i,obj){
+//          html+="<tr><td>"+obj.name+"</td><td>"+obj.category+"</td><td><i class='fas fa-edit btn_icon' onclick='editar_proyecto("+obj.id+");'></i><i class='far fa-list-alt btn_icon' onclick='ver_proyecto("+obj.id+");'></i></td></tr>";
+//      });
+//      $("#table_mis_proyectos").html(html);
+//    } else {
+//        alert(resultado.mensaje);
+//    }
+    if (resultado.success) {
+        var html = "";
+        
+        $.each(resultado.response, function(i, obj) {
+            html += "<button type='button' class='list-group-item list-group-item-action' onclick='ver_proyecto(" + obj.id + ")'>";
+//            html += "<button type='button' class='list-group-item list-group-item-action' >";
+            html += obj.name;
+            html += "</button>";
+        });
+        
+        $("#lista-proyectos").html(html);
     } else {
         alert(resultado.mensaje);
     }
 }
 
-function editar_proyecto(id){
+function editar_proyecto(id) {
     window.location="";
 }
-function ver_proyecto(id){
+
+function ver_proyecto(id) {
   window.location="Proyectos/verProyecto.html?proyecto="+id;
 }

@@ -34,8 +34,8 @@ public class ProyectoDao {
         ps.setString(4, obj.getCategory());
         ps.setDouble(5, obj.getPrice());
         ps.setString(6, obj.getDate());
-        ps.setString(7, obj.getStart());
-        ps.setString(8, obj.getEnd());
+        ps.setNull(7, Types.DATE); // start
+        ps.setNull(8, Types.DATE); // end
         ps.setInt(9, obj.getOwnerId());
         ps.setNull(10, Types.INTEGER);
         
@@ -69,10 +69,26 @@ public class ProyectoDao {
         ps.setString(4, obj.getCategory());
         ps.setDouble(5, obj.getPrice());
         ps.setString(6, obj.getDate());
-        ps.setString(7, obj.getStart());
-        ps.setString(8, obj.getEnd());
+        
+        if (obj.getStart() == "") {
+            ps.setNull(7, Types.DATE);
+        } else {
+            ps.setString(7, obj.getStart());
+        }
+        
+        if (obj.getEnd() == "") {
+            ps.setNull(8, Types.DATE);
+        } else {
+            ps.setString(8, obj.getEnd());
+        }
+        
         ps.setInt(9, obj.getOwnerId());
-        ps.setInt(10, obj.getFreelancerId());
+        
+        if (obj.getFreelancerId() == 0) {
+            ps.setNull(10, Types.INTEGER);
+        } else {
+            ps.setInt(10, obj.getFreelancerId());
+        }
 
         int filasAfectadas = objConexion.ejecutarSimple(ps);
         

@@ -35,6 +35,12 @@ function verSolicitudes(resultado) {
 
 $(document).ready(function () {
     var val = getParameterByName('freelancer');
+    
+    $(".ingresar").text(sessionStorage.getItem("usuarioId"));
+    $(".ingresar").attr("href", "../perfil.html");
+    
+    $(".nuevo-proyecto").attr("href", "../Proyectos/nuevoProyecto.html");
+    $(".freelancers").attr("href", "../Freelancer/freelancer.html")
 
     jQuery.ajax({
         headers: {
