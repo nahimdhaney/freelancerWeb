@@ -88,13 +88,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 startActivity(intent);
                 break;
             case R.id.btn_acceder:
-                acceder();
+                Intent i = new Intent(this , menuActivity.class);
+                startActivity(i);
+                //acceder();
                 break;
         }
     }
 
     private void isSesion() {
-
         sharedPreferences = getSharedPreferences(mipreferencia, Context.MODE_PRIVATE);
         String nickname = sharedPreferences.getString("edson", "");
         String password = sharedPreferences.getString("cito", "");
@@ -102,6 +103,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         try {
             if (nickname.equals("") && password.equals("")) {
                 Toast.makeText(this, "no hay registros", Toast.LENGTH_LONG).show();
+                return;
             } else {
                 //obtener("edson" ,"cito");
                 //      Intent itent = new Intent(LoginActivity.this, RespuestaActivity.class);
@@ -138,7 +140,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     public void logearse(String usr, String pass){
-        String url = "http://192.168.43.32:8080/freelancerWeb/api/usuario/login";
+        String url = "http://172.20.10.3:8080/ingenieria_de_software_3/api/usuario/login";
         JSONObject obj = new JSONObject();
         try {
             obj.put("user",usr);
@@ -193,66 +195,5 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         );
         requestQueue.add(objectRequest);
     }
-
-   /* private void Logearse(final String user, final String contra) {
-       //String token = FirebaseInstanceId.getInstance().getToken();
-       try {
-           AsyncTask<String, Integer, String> task = new AsyncTask<String, Integer, String>() {
-               @Override
-               protected String doInBackground(String... strings) {
-
-                   //casa de elmer
-                   //String url = "http://192.168.1.4:8080/RedSocialWeb/ServletRegistro";
-
-                   //micelu
-                   String url = "http://192.168.0.21:8080/freelancerWeb/api/usuario/login";
-
-                   Hashtable<String, String> params = new Hashtable<>();
-                   params.put("user", strings[0]);
-                   params.put("password", strings[1]);
-                   String respuesta = HttpConnection.sendRequest(new StandarRequestConfiguration(url, MethodType.POST, params));
-                   return respuesta;
-               }
-               @Override
-               protected void onPostExecute(String getContenido) {
-                    if (getContenido == null) return;
-                   if (getContenido.contains("name")) {
-                       //es por que esta mal el nick
-                       tv_nickname.setError("el nickname es incorrecto");
-                       return;
-                   } else if (getContenido.contains("pass")) {
-                       //es por que esta mal la contraseña
-                       edit_contraseña.setError("la contraseña es incorrecto   ");
-                       return;
-                   } else if (getContenido.contains("incorrecto")) {
-                       //es por que ambas estan mal
-                       tv_nickname.setError("el nickname es incorrecto");
-                       edit_contraseña.setError("la contraseña es incorrecto");
-                       return;
-
-                   } else if (getContenido.contains("ok")) {
-
-                       Usuario usr = new Usuario();
-                       usr.setUsername(user);
-
-                       SharedPreferences.Editor editor = sharedPreferences.edit();
-                       editor.putString("edson", user);
-                       editor.putString("cito", contra);
-                       editor.commit();
-                       Intent itent = new Intent(LoginActivity.this, menuActivity.class);
-                       startActivity(itent);
-                   }
-               }
-           };
-           String[] parametros = {user, contra};
-           task.execute(parametros);
-       } catch (Exception e) {
-           Toast.makeText(this,  "No hay conexión al servidor", Toast.LENGTH_LONG).show();
-       }
-    }
-     private AsyncTask<String, Integer, String> execuse(String[] p) {
-         return execuse(p);
-    }*/
-
 }
 

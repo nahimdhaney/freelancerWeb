@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#fff"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="edson.com.freelancer.LoginActivity"
     tools:showIn="@layout/activity_login">
@@ -88,16 +89,15 @@
 
             <ImageView
                 android:id="@+id/imageView2"
-                android:layout_width="125dp"
-                android:layout_height="125dp"
+                android:layout_width="308dp"
+                android:layout_height="88dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
-                android:layout_marginTop="38dp"
-                android:background="@drawable/logofreelance"
+                android:layout_marginTop="55dp"
+                android:background="@drawable/free_logo"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintHorizontal_bias="0.502" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <View
                 android:layout_width="330dp"

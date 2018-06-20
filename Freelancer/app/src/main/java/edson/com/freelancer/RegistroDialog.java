@@ -53,7 +53,6 @@ public class RegistroDialog extends DialogFragment implements View.OnClickListen
 
     public static String APP_TAG = "registro";
 
-
     private static final String TAG = RegistroDialog.class.getSimpleName();
 
     public RegistroDialog() {
@@ -118,7 +117,6 @@ public class RegistroDialog extends DialogFragment implements View.OnClickListen
                 break;
         }
     }
-
     public static boolean validarEmailSimple(String email) {
         String regex = "^(.+)@(.+)$";
         Pattern pattern = Pattern.compile(regex);
@@ -138,7 +136,6 @@ public class RegistroDialog extends DialogFragment implements View.OnClickListen
         String contraseñaV = edit_contraseña.getText().toString().trim();
 
         boolean isValid = true;
-
 
         if (emailV.isEmpty()) {
             edit_email.setError("Debe ingresar su correo");
@@ -182,9 +179,7 @@ public class RegistroDialog extends DialogFragment implements View.OnClickListen
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
-
         JsonObjectRequest objectRequest= new JsonObjectRequest(
                 Request.Method.POST,
                 url,
