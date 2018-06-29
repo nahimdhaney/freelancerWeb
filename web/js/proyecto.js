@@ -1,4 +1,3 @@
-
 function resultado(resultado) {
     var objUser = sessionStorage.getItem("usrLog");
     objUser = JSON.parse(objUser);
@@ -90,7 +89,7 @@ $(document).ready(function () {
     // aca se corrige la referencia hacia el perfil del usuario
     if (sessionStorage.getItem("usuarioId") !== null) {
         $(".ingresar").attr("href", "../perfil.html");
-    }
+    } 
     
     var tipo = getParameterByName("val");
     if(tipo){

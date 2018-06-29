@@ -53,7 +53,7 @@ $(document).ready(function () {
 
     // SI ES CONTRATISTA, el boton Postularme cambia su texto a Editar
     if (usr.type == 1) {
-        $("#botonPostularme").html("Editar");
+        $("#botonPostularme").hide();
     }
     
     if (sessionStorage.getItem("usuarioId") !== null) {

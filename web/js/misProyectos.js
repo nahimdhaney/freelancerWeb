@@ -49,7 +49,9 @@ function procesarProyectosFreelancer(resp) {
             }
                   
             if (obj.estado == "pendiente") {
-                html += "  <td><button onclick='confirmarSolicitud(" + obj.id_solicitud + ");'><i class='fas fa-check-circle'></i>Aceptar</button></td>";
+                html += "  <td><button class='btn btn-primary' onclick='confirmarSolicitud(" + obj.id_solicitud + ");'>Aceptar</button></td>";
+            } else if (obj.estado == "aceptado") {
+                html += "  <td><button class='btn btn-info' onclick='verComentarios(" + obj.id_solicitud + ");'>Interactuar con el contratista</button></td>";
             }
             
             html += "</tr>";
@@ -64,6 +66,10 @@ function procesarProyectosFreelancer(resp) {
 
 function procesarConfirmarSolicitud(resp) {
     alert(resp.message);
+}
+
+function verComentarios(idSolicitud) {
+    window.location="../chat.html?id="+idSolicitud;
 }
 
 function confirmarSolicitud(id) {
@@ -90,7 +96,7 @@ $(document).ready(function () {
     }else{
         var url = "../ingresar.html"; 
         $(location).attr('href',url);        
-    }    
+    }
 
     var objUser = sessionStorage.getItem("usrLog");
     
@@ -100,6 +106,8 @@ $(document).ready(function () {
     
     // SI ES DE TIPO FREELANCER, traigo todos los proyectos
     if (objUser.type == 2) {
+        $(".item-crear-proyecto").hide();
+        
         jQuery.ajax({
         headers: {
             'Accept': 'application/json',
