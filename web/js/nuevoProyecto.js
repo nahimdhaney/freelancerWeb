@@ -44,6 +44,12 @@ $(document).ready(function () {
 
 function cargaProyecto(resultado) {
     if (resultado.success) {
+        if (resultado.response.freelancerId) {
+            $("#btn_ver_solicitudes").hide(); 
+        } else {
+            $("#btn_interactuar").hide();
+        }
+        
         $("#freelancer").val(resultado.response.freelancerId);
         $("#name").val(resultado.response.name);
         $("#descripcion").val(resultado.response.description);
@@ -148,4 +154,53 @@ function ver_solicitudes(){
         if (val !== null) { // si es nuevo hacer ajax para traer el proyecto y Editarlo
             window.location.href="verSolicitudes.html?proyecto="+val;
     }
+}
+
+function ver_mensajes() {
+    var projectId = getParameterByName('proyecto');
+    var freelancerId = $("#freelancer").val;
+    
+    var obj = {
+        projectId: projectId,
+        freelancerId: freelancerId
+    }
+    
+    jQuery.ajax({
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        'type': 'POST',
+        'url': "../api/solicitud/getSolicitudEntreFreelancerYproyecto",
+        'data': JSON.stringify(obj),
+        'dataType': 'json',
+        'success': procesarSolicitud
+    });
+        
+//    window.location.href="chat?proyecto="+val;
+}
+
+function procesarSolicitud(resultado) {
+    if (resultado.success) {
+        var primeroEnLaLista = resultado.response[0];
+        var solicitud = primeroEnLaLista.id;
+        
+        window.location.href="../chat.html?id="+solicitud;
+//        jQuery.ajax({
+//            headers: {
+//                'Accept': 'application/json',
+//                'Content-Type': 'application/json'
+//            },
+//            'type': 'GET',
+//            'url': "../api/comentario/" + solicitud,
+//            'success': procesarComentarios
+//        });
+    }
+}
+
+function procesarComentarios(resultado) {
+//    if (resultado.success) {
+//        window.location.href="chat?id="+val;
+//    }
+    
 }

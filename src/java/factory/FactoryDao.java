@@ -1,6 +1,7 @@
 package factory;
 
 import dao.CodigoRecuperacionDao;
+import dao.ComentarioDao;
 import dao.ProyectoDao;
 import dao.SolicitudProyectoDao;
 import dao.UsuarioDao;
@@ -34,6 +35,10 @@ public class FactoryDao {
     
     public SolicitudProyectoDao newSolicitudProyectoDao() {
         return new SolicitudProyectoDao();
+    }
+    
+    public ComentarioDao newComentarioDao() {
+        return new ComentarioDao();
     }
     
 }

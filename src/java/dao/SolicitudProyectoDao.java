@@ -292,4 +292,29 @@ public class SolicitudProyectoDao {
         }
     }
 
+    public List<SolicitudProyecto> getSolicitudEntreFrelancerYproyecto(int freelancerId, int projectId) {
+        try {
+            Conexion objConexion = Conexion.getOrCreate();
+
+            String procedimiento = "call get_chats_desde_freelancer(?, ?)";
+
+            PreparedStatement ps = objConexion.invocarProcedimiento(procedimiento);
+            ps.setInt(1, freelancerId);
+            ps.setInt(2, projectId);
+
+            List<SolicitudProyecto> lista = new ArrayList<>();
+
+            ResultSet objResultSet = objConexion.ejecutar(ps);
+            while (objResultSet.next()) {
+                SolicitudProyecto solicitud = getSolicitudProyectoDeResultSet(objResultSet);
+                lista.add(solicitud);
+            }
+
+            return lista;
+        } catch (SQLException e) {
+        }
+
+        return null;
+    }
+
 }

@@ -219,7 +219,7 @@ public class ProyectoDao {
                 obj.setId_solicitud(_idSolicitud);
 
                 int _idProyecto = objResultSet.getInt("id_proyecto");
-                obj.setId_solicitud(_idProyecto);
+                obj.setId_proyecto(_idProyecto);
 
                 String _estado = objResultSet.getString("estado");
                 obj.setEstado(_estado);

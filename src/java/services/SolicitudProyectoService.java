@@ -152,6 +152,7 @@ public class SolicitudProyectoService {
         
         return new Gson().toJson(respuesta);
     }
+    
     @Path("/solicitudes/{id}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -245,6 +246,35 @@ public class SolicitudProyectoService {
                 respuesta.setSuccess(true);
                 respuesta.setMessage("Solicitud de proyecto confirmada");
                 respuesta.setResponse("");
+            }
+        } catch (Exception e) {
+            respuesta.setMessage("Error de autenticación");
+        }
+        
+        return new Gson().toJson(respuesta);
+    }
+    
+    // api/solicitud/getSolicitudEntreFreelancerYproyecto
+    @Path("getSolicitudEntreFreelancerYproyecto")
+    @POST
+    @Produces(MediaType.APPLICATION_JSON) // lo que va a devolver
+    @Consumes(MediaType.APPLICATION_JSON) // lo que va a recibir
+    public String getSolicitudEntreFreelancerYproyecto(SolicitudFreelancer param) {
+        Response respuesta = new Response();
+        
+        try {
+            FactoryDao factory = FactoryDao.getOrCreate();
+            SolicitudProyectoDao dao = factory.newSolicitudProyectoDao();
+            
+            int filasAfectadas = dao.confirmar5(param.getId());
+            List<SolicitudProyecto> lista = dao.getSolicitudEntreFrelancerYproyecto(param.getFreelancerId(), param.getProjectId());
+            
+            if (filasAfectadas == 0) {
+                respuesta.setMessage("Hubo un error al confirmar la solicitud de proyecto");
+            } else {
+                respuesta.setSuccess(true);
+                respuesta.setMessage("Solicitud de proyecto confirmada");
+                respuesta.setResponse(lista);
             }
         } catch (Exception e) {
             respuesta.setMessage("Error de autenticación");

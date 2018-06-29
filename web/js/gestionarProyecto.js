@@ -16,7 +16,7 @@ function resultado(resultado) {
                 'Content-Type': 'application/json'
             },
             'type': 'GET',
-            'url': "../api/solicitud/solicitudes/" + val,
+            'url': "../api/solicitud/solicitudes5/" + val,
             'success': aumetarPostuaciones
         });
 
@@ -32,11 +32,11 @@ function aumetarPostuaciones(resultado) {
         for (var i in resultado.response) {
             var obj = resultado.response[i];
             var tabla = "                                        <tr>\n" +
-                    "                                            <td class=\"filterable-cell\">"+ obj.fullName +"</td>\n" +
+                    "                                            <td class=\"filterable-cell\">"+ obj.freelancer +"</td>\n" +
                     "                                            <td class=\"filterable-cell\">"+ obj.oferta+" $</td>\n" +
                     "                                        </tr>\n";
             $("#tablaCuerpo").append(tabla);
-            var opcion = "<option name="+obj.freelancerId+">"+obj.fullName +" - " + obj.oferta  +"$ </option>"
+            var opcion = "<option value="+obj.id_solicitud+">"+obj.freelancer +" - " + obj.oferta  +"$ </option>"
             
             $("#freelancerSelect").append(opcion);
             
@@ -114,33 +114,55 @@ function postularse() {
 }
 
 function aceptaProyecto(resultado) {
-    var val =  $("#freelancerSelect option:selected").attr('name');// getParameterByName('proyecto');
+    var val =  $("#freelancerSelect option:selected").attr('value');// getParameterByName('proyecto');
+    //
+    var obj = new Object();
+    obj.id = val;
+//    if (resultado.success) {
+//            var proyecto = new Object();
+//            proyecto.name = resultado.response.name;
+//            proyecto.description = resultado.response.description;
+//            proyecto.price = resultado.response.price;
+//            proyecto.id = resultado.response.id;
+//        //    proyecto.freelancerId = freelancerId;
+//            proyecto.freelancerId = val; // hardcodeando 7
+//            proyecto.date = resultado.response.date;
+//            proyecto.category = resultado.response.category;
+//            proyecto.ownerId = resultado.response.ownerId;
+//            jQuery.ajax({
+//            headers: {
+//                'Accept': 'application/json',
+//                'Content-Type': 'application/json'
+//            },
+//            'type': 'POST',
+//            'url': "../api/proyecto/actualizar",
+//            'data': JSON.stringify(proyecto),
+//            'dataType': 'json',
+//            'success': postula
+//        });
+////        window.location.reload(false);
+////        var url = "index.html";
+////        $(location).attr('href', url);
+//
+//    } else {
+//        $("#respuesta").html(resultado.message);
+//    }
     if (resultado.success) {
-            var proyecto = new Object();
-            proyecto.name = resultado.response.name;
-            proyecto.description = resultado.response.description;
-            proyecto.price = resultado.response.price;
-            proyecto.id = resultado.response.id;
-        //    proyecto.freelancerId = freelancerId;
-            proyecto.freelancerId = val; // hardcodeando 7
-            proyecto.date = resultado.response.date;
-            proyecto.category = resultado.response.category;
-            proyecto.ownerId = resultado.response.ownerId;
-            jQuery.ajax({
+        jQuery.ajax({
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
             'type': 'POST',
-            'url': "../api/proyecto/actualizar",
-            'data': JSON.stringify(proyecto),
+            'url': "../api/solicitud/aceptar5",
+            'data': JSON.stringify(obj),
             'dataType': 'json',
             'success': postula
         });
+        
 //        window.location.reload(false);
 //        var url = "index.html";
 //        $(location).attr('href', url);
-
     } else {
         $("#respuesta").html(resultado.message);
     }

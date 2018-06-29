@@ -35,10 +35,19 @@ function procesarProyectosFreelancer(resp) {
         var html = "";
         
         $.each(arr, function(i, obj) {
+            if (obj.estado == "") {
+                return true;
+            }
+            
             html += "<tr>";
             html += "  <td>" + obj.nombre + "</td>";
-            html += "  <td>" + obj.estado + "</td>";
             
+            if (obj.estado == "pendiente") {
+                html += "  <td>Solicitud en espera de confirmacion</td>";
+            } else {
+                html += "  <td>" + obj.estado + "</td>";
+            }
+                  
             if (obj.estado == "pendiente") {
                 html += "  <td><button onclick='confirmarSolicitud(" + obj.id_solicitud + ");'><i class='fas fa-check-circle'></i>Aceptar</button></td>";
             }
