@@ -1,5 +1,6 @@
 package conexion;
 
+import dao.UsuarioDao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -240,5 +241,29 @@ public class Conexion {
     }
     
     // </editor-fold>
+
+    public void setHost(String host) {
+        this.host = host;
+    }
+
+    public void setBaseDeDatos(String baseDeDatos) {
+        this.baseDeDatos = baseDeDatos;
+    }
+
+    public void setPuerto(int puerto) {
+        this.puerto = puerto;
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setCon(Connection con) {
+        this.con = con;
+    }
     
 }
