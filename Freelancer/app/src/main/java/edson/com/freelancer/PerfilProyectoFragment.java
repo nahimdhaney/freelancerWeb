@@ -2,16 +2,11 @@ package edson.com.freelancer;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -36,7 +31,7 @@ import java.util.List;
 
 import edson.com.freelancer.Model.Usuario;
 
-public class NuevoPoyectoFragment extends AppCompatActivity implements View.OnClickListener{
+public class PerfilProyectoFragment extends AppCompatActivity implements View.OnClickListener{
 
     private EditText nombre;
     private EditText presupuesto;
@@ -48,16 +43,10 @@ public class NuevoPoyectoFragment extends AppCompatActivity implements View.OnCl
 
     protected void onCreate(Bundle onSaveInstanceState){
         super.onCreate(onSaveInstanceState);
-        setContentView(R.layout.fragment_nuevoproyecto);
+        setContentView(R.layout.fragment_perfilproyecto);
 
         //this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-        nombre = (EditText) findViewById(R.id.edit_nombre);
-        presupuesto = (EditText) findViewById(R.id.edit_presupuesto);
-        categoria = (Spinner) findViewById(R.id.edit_spinner);
-        descripcion = (EditText) findViewById(R.id.edit_descripcion);
-        edit_fecha = (EditText) findViewById(R.id.edit_fecha);
-        btn_publicar = (Button) findViewById(R.id.btn_publicar);
 
         AgregarListaNivelDeActividad();
 
@@ -90,7 +79,7 @@ public class NuevoPoyectoFragment extends AppCompatActivity implements View.OnCl
         switch (view.getId()) {
             case R.id.edit_fecha:
                 ShowDatapinckerDialog();
-                Toast.makeText(NuevoPoyectoFragment.this, "fechaa", Toast.LENGTH_SHORT).show();
+                Toast.makeText(PerfilProyectoFragment.this, "fechaa", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.btn_publicar:
                 acceder();
@@ -99,9 +88,9 @@ public class NuevoPoyectoFragment extends AppCompatActivity implements View.OnCl
     }
 
     private void ShowDatapinckerDialog(){
-        final java.util.Calendar c = java.util.Calendar.getInstance();
-        int año = c.get(java.util.Calendar.YEAR);
-        int mes = c.get(java.util.Calendar.MONTH);
+        final Calendar c = Calendar.getInstance();
+        int año = c.get(Calendar.YEAR);
+        int mes = c.get(Calendar.MONTH);
         int dia = c.get(Calendar.DAY_OF_MONTH);
         final DatePickerDialog datePickerDialog = new DatePickerDialog
                 (this ,new DatePickerDialog.OnDateSetListener() {
@@ -229,11 +218,11 @@ public class NuevoPoyectoFragment extends AppCompatActivity implements View.OnCl
 
                                 Usuario.setUsuario(objUsuario);
 
-                                Intent intent = new Intent(NuevoPoyectoFragment.this, Activity_List_Estado.class);
+                                Intent intent = new Intent(PerfilProyectoFragment.this, Activity_List_Estado.class);
                                 startActivity(intent);
                             } else {
                                 String message = (String) response.get("message");
-                                Toast.makeText(NuevoPoyectoFragment.this, message, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(PerfilProyectoFragment.this, message, Toast.LENGTH_SHORT).show();
                             }
 
                         } catch (JSONException e) {

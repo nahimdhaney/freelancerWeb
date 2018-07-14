@@ -40,7 +40,6 @@ public class ProyectosFragment extends android.support.v4.app.Fragment implement
     private TextView edit_buscar;
     private Button btn_buscar;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.activity_list_estado, container, false);

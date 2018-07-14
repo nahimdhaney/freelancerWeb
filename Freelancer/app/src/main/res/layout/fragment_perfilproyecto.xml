@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-
-    tools:context="edson.com.freelancer.NuevoPoyectoFragment">
+    tools:context="edson.com.freelancer.PerfilProyectoFragment">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -20,59 +19,60 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center">
+        android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/edit_nombre"
+        <TextView
+            android:id="@+id/edit_nomsbre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="40dp"
             android:layout_marginStart="40dp"
             android:layout_marginTop="10dp"
-            android:hint="Nombre"
-            android:textSize="20dp" />
+            android:text="Titulo"
+            android:textAlignment="center"
+            android:textSize="35dp" />
 
-        <EditText
-            android:id="@+id/edit_presupuesto"
+        <TextView
+            android:id="@+id/edit_presdupuesto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="40dp"
             android:layout_marginStart="40dp"
             android:layout_marginTop="10dp"
-            android:hint="Presupuesto"
             android:inputType="number"
-            android:textSize="20dp" />
+            android:text="Presupuesto"
+            android:textSize="25dp" />
 
-        <Spinner
-            android:id="@+id/edit_spinner"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_marginEnd="40dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="10dp" />
-
-        <EditText
-            android:id="@+id/edit_fecha"
+        <TextView
+            android:id="@+id/edit_fedcha"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="40dp"
             android:layout_marginStart="40dp"
             android:layout_marginTop="10dp"
             android:hint="fecha"
-            android:enabled="false"
-            android:textSize="20dp" />
+            android:textSize="25dp" />
 
-        <EditText
-            android:id="@+id/edit_descripcion"
+        <TextView
+            android:id="@+id/edit_descripcsdion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="40dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="10dp"
+            android:text="Precio"
+            android:textSize="25dp" />
+
+        <TextView
+            android:id="@+id/edit_monto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="40dp"
             android:layout_marginStart="40dp"
             android:layout_marginTop="10dp"
             android:inputType="textMultiLine"
-            android:hint="descripcion"
-            android:textSize="20dp" />
+            android:text="monto"
+            android:textSize="25dp" />
 
         <Button
             android:id="@+id/btn_publicar"
@@ -83,13 +83,8 @@
             android:layout_marginTop="30dp"
             android:background="@drawable/buttonredondeado"
             android:padding="10dp"
-            android:text="Publicar Poryecto"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
+            android:text="Postularse" />
 
     </LinearLayout>
-</LinearLayout>
 
+</LinearLayout>
