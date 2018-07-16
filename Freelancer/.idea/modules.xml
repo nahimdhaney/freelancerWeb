@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Freelancer.iml" filepath="$PROJECT_DIR$/Freelancer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../../../Usuario/Desktop/Ingenieria de software 3/Freelancer/Freelancer.iml" filepath="$PROJECT_DIR$/../../../../Usuario/Desktop/Ingenieria de software 3/Freelancer/Freelancer.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../../../Usuario/Desktop/Ingenieria de software 3/Freelancer/app/app.iml" filepath="$PROJECT_DIR$/../../../../Usuario/Desktop/Ingenieria de software 3/Freelancer/app/app.iml" />
     </modules>
   </component>
 </project>

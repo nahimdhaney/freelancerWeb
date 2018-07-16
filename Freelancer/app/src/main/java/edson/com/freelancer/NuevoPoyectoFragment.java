@@ -193,7 +193,7 @@ public class NuevoPoyectoFragment extends AppCompatActivity implements View.OnCl
 
     public void publicar(String nombre, String descripcion, String fecha, String categoria, String presupuesto ){
 
-        String url = "http://192.168.0.15:8080/ingenieria_de_software_3//api/proyecto/insertar/";
+        String url = "http://172.20.10.3:8080/ingenieria_de_software_3/api/usuario/login";
 
         JSONObject obj = new JSONObject();
         try {

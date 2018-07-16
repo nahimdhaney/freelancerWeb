@@ -29,6 +29,4 @@
     <string name="title_notifications">Notifications</string>
     <string name="title_activity_mis_proyectos">MisProyectosActivity</string>
 
-    <string name="api">http://192.168.0.15:8080/Ingenieria_de_software_3</string>
-
 </resources>

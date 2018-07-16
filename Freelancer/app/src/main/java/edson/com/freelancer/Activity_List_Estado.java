@@ -58,7 +58,7 @@ public class Activity_List_Estado extends AppCompatActivity implements View.OnCl
 
         btn_buscar.setOnClickListener(this);
 
-        actualizarLista();
+        //actualizarLista();
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -118,8 +118,8 @@ public class Activity_List_Estado extends AppCompatActivity implements View.OnCl
                                     objProyecto.setCategory(proyecto.getString("category"));
                                     objProyecto.setPrice(proyecto.getDouble("price"));
                                     objProyecto.setDate(proyecto.getString("date"));
-                                    objProyecto.setOwnerd(proyecto.getDouble("ownerId"));
-                                    objProyecto.setFreelancer(proyecto.getInt("freelancerId"));
+                                    objProyecto.setOwnerdId(proyecto.getDouble("ownerId"));
+                                    objProyecto.setFreelancerId(proyecto.getInt("freelancerId"));
 
                                     listaProyectos.add(objProyecto);
 //                                    listView.setAdapter(new ArrayAdapter<>(Activity_List_Estado.this, android.R.layout.simple_list_item_1, ));
@@ -218,8 +218,8 @@ public class Activity_List_Estado extends AppCompatActivity implements View.OnCl
                                     objProyecto.setCategory(proyecto.getString("category"));
                                     objProyecto.setPrice(proyecto.getDouble("price"));
                                     objProyecto.setDate(proyecto.getString("date"));
-                                    objProyecto.setOwnerd(proyecto.getDouble("ownerId"));
-                                    objProyecto.setFreelancer(proyecto.getInt("freelancerId"));
+                                    objProyecto.setOwnerdId(proyecto.getDouble("ownerId"));
+                                    objProyecto.setFreelancerId(proyecto.getInt("freelancerId"));
 
                                     listaProyectos.add(objProyecto);
 

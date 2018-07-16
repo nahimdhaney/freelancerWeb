@@ -20,6 +20,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,7 +33,7 @@ import edson.com.freelancer.Model.Usuario;
  */
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
-//dxasas
+
     private AutoCompleteTextView tv_nickname;
     private EditText edit_contraseña;
     private Button btn_acceder;
@@ -71,7 +72,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         tv_nuevacuenta.setOnClickListener(this);
         tv_RestablecerPass.setOnClickListener(this);
         btn_acceder.setOnClickListener(this);
-        isSesion();
+        //isSesion();
+
+        Usuario usuario = this.obtenerUsuarioDePreferencias();
+
+        if (usuario != null) {
+            Usuario.setUsuario(usuario);
+
+            Intent intent = new Intent(LoginActivity.this, menuActivity.class);
+            startActivity(intent);
+        }
     }
 
     //tv.setTextColor(Color.GREEN);
@@ -88,8 +98,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 startActivity(intent);
                 break;
             case R.id.btn_acceder:
-                //Intent i = new Intent(this , menuActivity.class);
-                //startActivity(i);
+//                Intent i = new Intent(this , menuActivity.class);
+//                startActivity(i);
                 acceder();
                 break;
         }
@@ -140,9 +150,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     public void logearse(String usr, String pass){
-
         String url = "http://192.168.0.15:8080/Ingenieria_de_software_3/api/usuario/login";
-
         JSONObject obj = new JSONObject();
         try {
             obj.put("user",usr);
@@ -173,14 +181,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 objUsuario.setEmail(usuario.getString("email"));
                                 objUsuario.setType(usuario.getInt("type"));
 
+                                LoginActivity.this.guardarUsuarioEnPreferencias(objUsuario);
                                 Usuario.setUsuario(objUsuario);
 
+                                // Intent intent = new Intent(LoginActivity.this, Activity_List_Estado.class);
                                 Intent intent = new Intent(LoginActivity.this, menuActivity.class);
                                 startActivity(intent);
                             } else {
                                 String message = (String) response.get("message");
                                 Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
                             }
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -196,5 +207,22 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         );
         requestQueue.add(objectRequest);
     }
+
+    private Usuario obtenerUsuarioDePreferencias() {
+        SharedPreferences preferencias = getSharedPreferences("preferencias", Context.MODE_PRIVATE);
+
+        String usuario = preferencias.getString("usuario", null);
+
+        return usuario != null ? new Gson().fromJson(usuario, Usuario.class) : null;
+    }
+
+    private void guardarUsuarioEnPreferencias(Usuario usuario) {
+        SharedPreferences preferencias = getSharedPreferences("preferencias", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferencias.edit();
+
+        editor.putString("usuario", new Gson().toJson(usuario));
+        editor.commit();
+    }
+
 }
 

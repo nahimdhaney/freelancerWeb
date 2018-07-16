@@ -8,6 +8,33 @@ public class Proyectos {
 
     private int id;
     private String name;
+    private String description;
+    private String category;
+    private double price;
+    private String date;
+
+    public double getOwnerdId() {
+        return ownerdId;
+    }
+
+    public void setOwnerdId(double ownerdId) {
+        this.ownerdId = ownerdId;
+    }
+
+    public int getFreelancerId() {
+        return freelancerId;
+    }
+
+    public void setFreelancerId(int freelancerId) {
+        this.freelancerId = freelancerId;
+    }
+
+    private double ownerdId;
+    private int freelancerId;
+
+
+    public Proyectos() {
+    }
 
     public String getName() {
         return name;
@@ -15,17 +42,6 @@ public class Proyectos {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    private String description;
-    private String category;
-    private double price;
-    private String date;
-    private double ownerd;
-    private int freelancer;
-
-
-    public Proyectos() {
     }
 
     public int getId() {
@@ -68,19 +84,4 @@ public class Proyectos {
         this.date = date;
     }
 
-    public double getOwnerd() {
-        return ownerd;
-    }
-
-    public void setOwnerd(double ownerd) {
-        this.ownerd = ownerd;
-    }
-
-    public int getFreelancer() {
-        return freelancer;
-    }
-
-    public void setFreelancer(int freelancer) {
-        this.freelancer = freelancer;
-    }
 }
