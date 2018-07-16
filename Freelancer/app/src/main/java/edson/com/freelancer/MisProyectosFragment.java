@@ -1,5 +1,6 @@
 package edson.com.freelancer;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -12,9 +13,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import edson.com.freelancer.Model.Usuario;
 
 public class MisProyectosFragment extends android.support.v4.app.Fragment implements View.OnClickListener{
 
+    private static final int TIPO_CONTRATISTA = 1;
+    private static final int TIPO_FREELANCER = 2;
 
      @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -26,6 +32,16 @@ public class MisProyectosFragment extends android.support.v4.app.Fragment implem
 
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
         fab.setOnClickListener(this);
+
+         Usuario usuario = Usuario.getUsuario();
+         switch (usuario.getType()) {
+             case TIPO_CONTRATISTA:
+                 Toast.makeText(getActivity(), "Consumir proyectos_contratista", Toast.LENGTH_SHORT).show();
+                 break;
+             case TIPO_FREELANCER:
+                 Toast.makeText(getActivity(), "Consumir proyectos_freelancer5", Toast.LENGTH_SHORT).show();
+                 break;
+         }
 
         return view;
     }
