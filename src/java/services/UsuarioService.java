@@ -33,7 +33,6 @@ public class UsuarioService {
         return new Gson().toJson(respuesta);
     }
 
-    // api/usuario/login
     @Path("login")
     @POST
     @Produces(MediaType.APPLICATION_JSON) // lo que va a devolver
@@ -41,27 +40,30 @@ public class UsuarioService {
     public String login(Usuario param) {
         Response respuesta = new Response();
 
-        try {
-            FactoryDao factory = FactoryDao.getOrCreate();
-            UsuarioDao dao = factory.newUsuarioDao();
-
-            Usuario objUsuario = dao.login(param.getUser(), param.getPassword());
-
-            if (objUsuario != null) {
-                objUsuario.setPassword("");
-                objUsuario.setEnabled(true);
-
-                respuesta.setSuccess(true);
-                respuesta.setMessage("Ingreso correcto");
-                respuesta.setResponse(objUsuario);
-            } else {
-                respuesta.setMessage("Usuario y/o contraseña incorrectos w " + param.getUser());
-            }
-
-        } catch (Exception e) {
-            respuesta.setMessage("Error de autenticación");
+        FactoryDao factory = FactoryDao.getOrCreate();
+        UsuarioDao dao = factory.newUsuarioDao();
+        
+        Usuario objUsuario = dao.getByUserName(param.getUser());
+        
+        if (objUsuario == null) {
+            respuesta.setMessage("El usuario no existe");
+            return new Gson().toJson(respuesta);
         }
-
+        
+        objUsuario = dao.login(param.getUser(), param.getPassword());
+        
+        if (objUsuario == null) {
+            respuesta.setMessage("Contraseña incorrecta");
+            return new Gson().toJson(respuesta);
+        }
+        
+        objUsuario.setPassword(null);
+        objUsuario.setEnabled(true);
+        
+        respuesta.setSuccess(true);
+        respuesta.setMessage("Ingreso correcto");
+        respuesta.setResponse(objUsuario);
+        
         return new Gson().toJson(respuesta);
     }
 
@@ -72,35 +74,36 @@ public class UsuarioService {
     public String registrarse(Usuario param) {
         Response respuesta = new Response();
 
-        try {
-            FactoryDao factory = FactoryDao.getOrCreate();
-            UsuarioDao dao = factory.newUsuarioDao();
-
-            Usuario usuario = dao.getByUserName(param.getUser());
-
-            if (usuario != null) {
-                respuesta.setMessage("El nombre de usuario ya está siendo ocupado");
-                return new Gson().toJson(respuesta);
-            }
-
-            int idGenerado = dao.insert(param);
-
-            if (idGenerado == 0) {
-                respuesta.setMessage("El nombre de usuario/correo ya está siendo ocupado");
-            } else {
-                Usuario objUsuario = new Usuario();
-                objUsuario.setId(idGenerado);
-                objUsuario.setEnabled(true);
-                objUsuario.setType(param.getType());
-                objUsuario.setDescription(param.getDescription());
-
-                respuesta.setSuccess(true);
-                respuesta.setMessage("Registro exitoso");
-                respuesta.setResponse(objUsuario);
-            }
-        } catch (Exception e) {
-            respuesta.setMessage("Error de autenticación");
+        FactoryDao factory = FactoryDao.getOrCreate();
+        UsuarioDao dao = factory.newUsuarioDao();
+        
+        Usuario objUsuario = dao.getByUserName(param.getUser());
+        
+        if (objUsuario != null) {
+            respuesta.setMessage("El nombre de usuario ya está siendo ocupado");
+            return new Gson().toJson(respuesta);
         }
+        
+        int idGenerado = 0;
+        
+        try {
+            idGenerado = dao.insert(param);
+        } catch (Exception ex) {
+            respuesta.setMessage("Hubo un error al registrar el usuario");
+            return new Gson().toJson(respuesta);
+        }
+        
+        if (idGenerado == 0) {
+            respuesta.setMessage("El nombre de usuario/correo ya está siendo ocupado");
+            return new Gson().toJson(respuesta);
+        }
+        
+        param.setId(idGenerado);
+        param.setEnabled(true);
+        
+        respuesta.setSuccess(true);
+        respuesta.setMessage("Registro exitoso");
+        respuesta.setResponse(param);
 
         return new Gson().toJson(respuesta);
     }
@@ -112,31 +115,42 @@ public class UsuarioService {
     public String cambiarContraseña(UsuarioRecuperacion param) {
         Response respuesta = new Response();
 
-        try {
-            FactoryDao factory = FactoryDao.getOrCreate();
-            UsuarioDao dao = factory.newUsuarioDao();
+        FactoryDao factory = FactoryDao.getOrCreate();
+        UsuarioDao dao = factory.newUsuarioDao();
 
-            Usuario objUsuario = dao.login(param.getUser(), param.getPassword());
-
-            if (objUsuario != null) {
-                objUsuario.setPassword(param.getNewPassword());
-                int filasAfectadas = dao.update(objUsuario);
-
-                if (filasAfectadas > 0) {
-                    respuesta.setSuccess(true);
-                    respuesta.setMessage("Contraseña cambiada correctamente");
-                } else {
-                    respuesta.setMessage(("Hubo un error al cambiar la contraseña"));
-                }
-
-            } else {
-                respuesta.setMessage("Contraseña incorrecta");
-            }
-
-        } catch (Exception e) {
-            respuesta.setMessage("Error de autenticación");
+        Usuario objUsuario = dao.getByUserName(param.getUser());
+        
+        if (objUsuario == null) {
+            respuesta.setMessage("El usuario no existe");
+            return new Gson().toJson(respuesta);
         }
-
+        
+        objUsuario = dao.login(param.getUser(), param.getPassword());
+        
+        if (objUsuario == null) {
+            respuesta.setMessage("Contraseña incorrecta");
+            return new Gson().toJson(respuesta);
+        }
+        
+        objUsuario.setPassword(param.getNewPassword());
+        
+        int filasAfectadas = 0;
+        
+        try {
+            filasAfectadas = dao.update(objUsuario);
+        } catch (Exception ex) {
+            respuesta.setMessage("Hubo un error al cambiar la contraseña");
+            return new Gson().toJson(respuesta);
+        }
+        
+        if (filasAfectadas == 0) {
+            respuesta.setMessage("Hubo un error al cambiar la contraseña");
+            return new Gson().toJson(respuesta);
+        } 
+        
+        respuesta.setSuccess(true);
+        respuesta.setMessage("Contraseña cambiada correctamente");
+                    
         return new Gson().toJson(respuesta);
     }
 
@@ -322,48 +336,38 @@ public class UsuarioService {
         return fechaFormateada;
     }
 
-    // api/usuario/
     @Path("/")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public String getUsuarios() {
         Response respuesta = new Response();
 
-        try {
-            FactoryDao factory = FactoryDao.getOrCreate();
-            UsuarioDao dao = factory.newUsuarioDao();
+        FactoryDao factory = FactoryDao.getOrCreate();
+        UsuarioDao dao = factory.newUsuarioDao();
 
-            List<Usuario> usuarios = dao.get();
+        List<Usuario> usuarios = dao.get();
 
-            respuesta.setSuccess(true);
-            respuesta.setMessage("Lista de usuarios");
-            respuesta.setResponse(usuarios);
-        } catch (Exception e) {
-            respuesta.setMessage("Error de autenticación");
-        }
+        respuesta.setSuccess(true);
+        respuesta.setMessage("Lista de usuarios");
+        respuesta.setResponse(usuarios);
 
         return new Gson().toJson(respuesta);
     }
 
-    // api/usuario/freelancers
     @Path("/freelancers")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public String getFreelancers() {
         Response respuesta = new Response();
 
-        try {
-            FactoryDao factory = FactoryDao.getOrCreate();
-            UsuarioDao dao = factory.newUsuarioDao();
+        FactoryDao factory = FactoryDao.getOrCreate();
+        UsuarioDao dao = factory.newUsuarioDao();
 
-            List<Usuario> usuarios = dao.getFreelancers();
+        List<Usuario> usuarios = dao.getFreelancers();
 
-            respuesta.setSuccess(true);
-            respuesta.setMessage("Lista de freelancers");
-            respuesta.setResponse(usuarios);
-        } catch (Exception e) {
-            respuesta.setMessage("Error de autenticación");
-        }
+        respuesta.setSuccess(true);
+        respuesta.setMessage("Lista de freelancers");
+        respuesta.setResponse(usuarios);
 
         return new Gson().toJson(respuesta);
     }
@@ -374,18 +378,14 @@ public class UsuarioService {
     public String getContratistas() {
         Response respuesta = new Response();
 
-        try {
-            FactoryDao factory = FactoryDao.getOrCreate();
-            UsuarioDao dao = factory.newUsuarioDao();
+        FactoryDao factory = FactoryDao.getOrCreate();
+        UsuarioDao dao = factory.newUsuarioDao();
 
-            List<Usuario> usuarios = dao.getFreelancers();
+        List<Usuario> usuarios = dao.getFreelancers();
 
-            respuesta.setSuccess(true);
-            respuesta.setMessage("Lista de freelancers");
-            respuesta.setResponse(usuarios);
-        } catch (Exception e) {
-            respuesta.setMessage("Error de autenticación");
-        }
+        respuesta.setSuccess(true);
+        respuesta.setMessage("Lista de freelancers");
+        respuesta.setResponse(usuarios);
 
         return new Gson().toJson(respuesta);
     }
@@ -396,18 +396,14 @@ public class UsuarioService {
     public String getProyecto(@PathParam("id") int id) {
         Response respuesta = new Response();
 
-        try {
-            FactoryDao factory = FactoryDao.getOrCreate();
-            UsuarioDao dao = factory.newUsuarioDao();
+        FactoryDao factory = FactoryDao.getOrCreate();
+        UsuarioDao dao = factory.newUsuarioDao();
 
-            Usuario objUsuario = dao.get(id);
+        Usuario objUsuario = dao.get(id);
 
-            respuesta.setSuccess(true);
-            respuesta.setMessage("Usuario");
-            respuesta.setResponse(objUsuario);
-        } catch (Exception e) {
-            
-        }
+        respuesta.setSuccess(true);
+        respuesta.setMessage("Usuario");
+        respuesta.setResponse(objUsuario);
 
         return new Gson().toJson(respuesta);
     }
@@ -419,28 +415,35 @@ public class UsuarioService {
     public String actualizar(Usuario param) {
         Response respuesta = new Response();
 
-        try {
-            FactoryDao factory = FactoryDao.getOrCreate();
-            UsuarioDao dao = factory.newUsuarioDao();
+        FactoryDao factory = FactoryDao.getOrCreate();
+        UsuarioDao dao = factory.newUsuarioDao();
 
-            Usuario usuario = dao.getByUserName(param.getUser());
+        Usuario objUsuario = dao.get(param.getId());
 
-//            param.setId(usuario.getId());
-            usuario.setFullName(param.getFullName());
-            usuario.setDescription(param.getDescription());
-
-            int filasAfectadas = dao.update(usuario);
-
-            if (filasAfectadas == 0) {
-                respuesta.setMessage("Hubo un error al actualizar los datos del usuario");
-            } else {
-                respuesta.setSuccess(true);
-                respuesta.setMessage("Usuario actualizado");
-                respuesta.setResponse("");
-            }
-        } catch (Exception e) {
-            respuesta.setMessage("Error de ");
+        if (objUsuario == null) {
+            respuesta.setMessage("El usuario no existe");
+            return new Gson().toJson(respuesta);
         }
+        
+        objUsuario.setFullName(param.getFullName());
+        objUsuario.setDescription(param.getDescription());
+
+        int filasAfectadas = 0;
+        
+        try {
+            filasAfectadas = dao.update(objUsuario);
+        } catch (Exception ex) {
+            respuesta.setMessage("Hubo un error al actualizar los datos del usuario");
+            return new Gson().toJson(respuesta);
+        }
+
+        if (filasAfectadas == 0) {
+            respuesta.setMessage("Hubo un error al actualizar los datos del usuario");
+            return new Gson().toJson(respuesta);
+        } 
+        
+        respuesta.setSuccess(true);
+        respuesta.setMessage("Usuario actualizado");
 
         return new Gson().toJson(respuesta);
     }

@@ -16,7 +16,6 @@ import javax.ws.rs.core.MediaType;
 @Path("comentario")
 public class ComentarioService {
 
-    // api/solicitud/insertar
     @Path("insertar")
     @POST
     @Produces(MediaType.APPLICATION_JSON) // lo que va a devolver
@@ -24,25 +23,29 @@ public class ComentarioService {
     public String insertar(Comentario param) {
         Response respuesta = new Response();
         
-        try {
-            FactoryDao factory = FactoryDao.getOrCreate();
-            ComentarioDao dao = factory.newComentarioDao();
+        FactoryDao factory = FactoryDao.getOrCreate();
+        ComentarioDao dao = factory.newComentarioDao();
             
-            int idGenerado = dao.insert(param);
-            
-            if (idGenerado == 0) {
-                respuesta.setMessage("Hubo un error al insertar el comentario");
-            } else {
-                param.setId(idGenerado);
-            
-                respuesta.setSuccess(true);
-                respuesta.setMessage("Comentario creado");
-                respuesta.setResponse(param);
-            }
-        } catch (Exception e) {
-            respuesta.setMessage("Error de autenticación");
-        }
+        int idGenerado = 0;
         
+        try {
+            idGenerado = dao.insert(param);
+        } catch (Exception ex) {
+            respuesta.setMessage("Hubo un error al insertar el comentario");
+            return new Gson().toJson(respuesta);
+        }
+            
+        if (idGenerado == 0) {
+            respuesta.setMessage("Hubo un error al insertar el comentario");
+            return new Gson().toJson(respuesta);
+        } 
+        
+        param.setId(idGenerado);
+            
+        respuesta.setSuccess(true);
+        respuesta.setMessage("Comentario creado");
+        respuesta.setResponse(param);
+                
         return new Gson().toJson(respuesta);
     }
     
@@ -52,17 +55,14 @@ public class ComentarioService {
     public String getComentariosDeSolicitud(@PathParam("id") int id) {
         Response respuesta = new Response();
 
-        try {
-            FactoryDao factory = FactoryDao.getOrCreate();
-            ComentarioDao dao = factory.newComentarioDao();
+        FactoryDao factory = FactoryDao.getOrCreate();
+        ComentarioDao dao = factory.newComentarioDao();
 
-            List<Comentario> lista = dao.get(id);
-            
-            respuesta.setSuccess(true);
-            respuesta.setMessage("Comentarios");
-            respuesta.setResponse(lista);
-        } catch (Exception e) {
-        }
+        List<Comentario> lista = dao.get(id);
+
+        respuesta.setSuccess(true);
+        respuesta.setMessage("Comentarios");
+        respuesta.setResponse(lista);
         
         return new Gson().toJson(respuesta);
     }

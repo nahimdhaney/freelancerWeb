@@ -24,7 +24,6 @@ public class SolicitudProyectoDao {
     private static final String TYPE = "tipo";
     private static final String PRECIO = "precio";
     
-    
     public int insert(SolicitudProyecto obj) throws Exception {
         Conexion objConexion = Conexion.getOrCreate();
         String procedimiento = "call mk_solicitud_proyecto(?, ?, ?, ? , ?)";

@@ -5,7 +5,10 @@ import dao.ProyectoDao;
 import dto.Proyecto;
 import dto.VistaProyectosFreelancer;
 import factory.FactoryDao;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -17,7 +20,6 @@ import javax.ws.rs.core.MediaType;
 @Path("proyecto")
 public class ProjectoService {
 
-    // api/proyecto/insertar
     @Path("insertar")
     @POST
     @Produces(MediaType.APPLICATION_JSON) // lo que va a devolver
@@ -25,39 +27,40 @@ public class ProjectoService {
     public String insertar(Proyecto param) {
         Response respuesta = new Response();
 
+        FactoryDao factory = FactoryDao.getOrCreate();
+        ProyectoDao dao = factory.newProyectoDao();
+
+        int idGenerado = 0;
+        
         try {
-            FactoryDao factory = FactoryDao.getOrCreate();
-            ProyectoDao dao = factory.newProyectoDao();
-
-            int idGenerado = dao.insert(param);
-
-            if (idGenerado == 0) {
-                respuesta.setMessage("Hubo un error al insertar el proyecto");
-            } else {
-                Proyecto objProyecto = new Proyecto();
-                objProyecto.setId(idGenerado);
-                objProyecto.setName(param.getName());
-                objProyecto.setDescription(param.getDescription());
-                objProyecto.setCategory(param.getCategory());
-                objProyecto.setPrice(param.getPrice());
-                objProyecto.setDate(param.getDate());
-                objProyecto.setStart("");
-                objProyecto.setEnd("");
-                objProyecto.setOwnerId(param.getOwnerId());
-                objProyecto.setFreelancerId(0);
-
-                respuesta.setSuccess(true);
-                respuesta.setMessage("Proyecto creado");
-                respuesta.setResponse(objProyecto);
-            }
-        } catch (Exception e) {
-            respuesta.setMessage("Error de autenticación");
+            idGenerado = dao.insert(param);
+        } catch (Exception ex) {
+            respuesta.setMessage("Hubo un error al insertar el proyecto");
+            return new Gson().toJson(respuesta);
         }
+        
+        if (idGenerado == 0) {
+            respuesta.setMessage("Hubo un error al insertar el proyecto");
+            return new Gson().toJson(respuesta);
+        } 
+        
+        Proyecto objProyecto = new Proyecto();
+        
+        objProyecto.setId(idGenerado);
+        objProyecto.setName(param.getName());
+        objProyecto.setDescription(param.getDescription());
+        objProyecto.setCategory(param.getCategory());
+        objProyecto.setPrice(param.getPrice());
+        objProyecto.setDate(param.getDate());
+        objProyecto.setOwnerId(param.getOwnerId());
+        
+        respuesta.setSuccess(true);
+        respuesta.setMessage("Proyecto creado");
+        respuesta.setResponse(objProyecto);
 
         return new Gson().toJson(respuesta);
     }
 
-    // api/proyecto/actualizar
     @Path("actualizar")
     @POST
     @Produces(MediaType.APPLICATION_JSON) // lo que va a devolver
@@ -65,27 +68,29 @@ public class ProjectoService {
     public String actualizar(Proyecto param) {
         Response respuesta = new Response();
 
+        FactoryDao factory = FactoryDao.getOrCreate();
+        ProyectoDao dao = factory.newProyectoDao();
+
+        int filasAfectadas = 0;
+        
         try {
-            FactoryDao factory = FactoryDao.getOrCreate();
-            ProyectoDao dao = factory.newProyectoDao();
-
-            int filasAfectadas = dao.update(param);
-
-            if (filasAfectadas == 0) {
-                respuesta.setMessage("Hubo un error al actualizar los datos del proyecto");
-            } else {
-                respuesta.setSuccess(true);
-                respuesta.setMessage("Proyecto actualizado");
-                respuesta.setResponse("");
-            }
-        } catch (Exception e) {
-            respuesta.setMessage("Error de autenticación");
+            filasAfectadas = dao.update(param);
+        } catch (Exception ex) {
+            respuesta.setMessage("Hubo un error al actualizar los datos del proyecto");
+            return new Gson().toJson(respuesta);
         }
+
+        if (filasAfectadas == 0) {
+            respuesta.setMessage("Hubo un error al actualizar los datos del proyecto");
+            return new Gson().toJson(respuesta);
+        } 
+        
+        respuesta.setSuccess(true);
+        respuesta.setMessage("Proyecto actualizado");
 
         return new Gson().toJson(respuesta);
     }
 
-    // api/proyecto/eliminar
     @Path("eliminar")
     @POST
     @Produces(MediaType.APPLICATION_JSON) // lo que va a devolver
@@ -93,22 +98,25 @@ public class ProjectoService {
     public String eliminar(Proyecto param) {
         Response respuesta = new Response();
 
+        FactoryDao factory = FactoryDao.getOrCreate();
+        ProyectoDao dao = factory.newProyectoDao();
+
+        int filasAfectadas = 0;
+        
         try {
-            FactoryDao factory = FactoryDao.getOrCreate();
-            ProyectoDao dao = factory.newProyectoDao();
-
-            int filasAfectadas = dao.delete(param.getId());
-
-            if (filasAfectadas == 0) {
-                respuesta.setMessage("Hubo un error al eliminar el proyecto");
-            } else {
-                respuesta.setSuccess(true);
-                respuesta.setMessage("Proyecto eliminado");
-                respuesta.setResponse("");
-            }
-        } catch (Exception e) {
-            respuesta.setMessage("Error de autenticación");
+            filasAfectadas = dao.delete(param.getId());
+        } catch (SQLException ex) {
+            respuesta.setMessage("Hubo un error al eliminar el proyecto");
+            return new Gson().toJson(respuesta);
         }
+
+        if (filasAfectadas == 0) {
+            respuesta.setMessage("Hubo un error al eliminar el proyecto");
+            return new Gson().toJson(respuesta);
+        } 
+        
+        respuesta.setSuccess(true);
+        respuesta.setMessage("Proyecto eliminado");
 
         return new Gson().toJson(respuesta);
     }
@@ -140,30 +148,23 @@ public class ProjectoService {
         return new Gson().toJson(respuesta);
     }    // api/proyecto/categoria/ejemplo
     
-    
     @Path("/")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public String getProyectos() {
         Response respuesta = new Response();
 
-        try {
-            FactoryDao factory = FactoryDao.getOrCreate();
-            ProyectoDao dao = factory.newProyectoDao();
-            
-            List<Proyecto> proyectos = dao.get();
-            respuesta.setSuccess(true);
-            respuesta.setMessage("Lista de proyectos");
-            respuesta.setResponse(proyectos);
-        } catch (Exception e) {
-            respuesta.setMessage("Error de autenticación");
-        }
+        FactoryDao factory = FactoryDao.getOrCreate();
+        ProyectoDao dao = factory.newProyectoDao();
+
+        List<Proyecto> proyectos = dao.get();
+        
+        respuesta.setSuccess(true);
+        respuesta.setMessage("Lista de proyectos");
+        respuesta.setResponse(proyectos);
 
         return new Gson().toJson(respuesta);
     }
-    // api/proyecto/proyectos_contratista/
-
-    
     
     @Path("/{id}")
     @GET
@@ -171,40 +172,32 @@ public class ProjectoService {
     public String getProyecto(@PathParam("id") int id) {
         Response respuesta = new Response();
 
-        try {
-            FactoryDao factory = FactoryDao.getOrCreate();
-            ProyectoDao dao = factory.newProyectoDao();
+        FactoryDao factory = FactoryDao.getOrCreate();
+        ProyectoDao dao = factory.newProyectoDao();
 
-            Proyecto objProyecto = dao.get(id);
+        Proyecto objProyecto = dao.get(id);
 
-            respuesta.setSuccess(true);
-            respuesta.setMessage("Proyecto");
-            respuesta.setResponse(objProyecto);
-        } catch (Exception e) {
-        }
+        respuesta.setSuccess(true);
+        respuesta.setMessage("Proyecto");
+        respuesta.setResponse(objProyecto);
 
         return new Gson().toJson(respuesta);
     }
 
-    // api/proyecto/proyectos_contratista/
     @Path("proyectos_contratista/{id}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public String getProyectosDeContratista(@PathParam("id") int id) {
         Response respuesta = new Response();
 
-        try {
-            FactoryDao factory = FactoryDao.getOrCreate();
-            ProyectoDao dao = factory.newProyectoDao();
+        FactoryDao factory = FactoryDao.getOrCreate();
+        ProyectoDao dao = factory.newProyectoDao();
 
-            List<Proyecto> proyectos = dao.getProjectsOfOwner(id);
+        List<Proyecto> proyectos = dao.getProjectsOfOwner(id);
 
-            respuesta.setSuccess(true);
-            respuesta.setMessage("Lista de proyectos");
-            respuesta.setResponse(proyectos);
-        } catch (Exception e) {
-            respuesta.setMessage("Error de autenticación");
-        }
+        respuesta.setSuccess(true);
+        respuesta.setMessage("Lista de proyectos");
+        respuesta.setResponse(proyectos);
 
         return new Gson().toJson(respuesta);
     }
@@ -259,25 +252,20 @@ public class ProjectoService {
         return new Gson().toJson(respuesta);
     }
 
-    // api/proyecto/proyectos_freelancer/
     @Path("proyectos_freelancer5/{id}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public String getProyectosDeFrelancer5(@PathParam("id") int id) {
         Response respuesta = new Response();
 
-        try {
-            FactoryDao factory = FactoryDao.getOrCreate();
-            ProyectoDao dao = factory.newProyectoDao();
+        FactoryDao factory = FactoryDao.getOrCreate();
+        ProyectoDao dao = factory.newProyectoDao();
 
-            List<VistaProyectosFreelancer> lista = dao.getProjectsOfFreelancer5(id);
+        List<VistaProyectosFreelancer> lista = dao.getProjectsOfFreelancer5(id);
 
-            respuesta.setSuccess(true);
-            respuesta.setMessage("Lista de proyectos");
-            respuesta.setResponse(lista);
-        } catch (Exception e) {
-            respuesta.setMessage("Error de autenticación");
-        }
+        respuesta.setSuccess(true);
+        respuesta.setMessage("Lista de proyectos");
+        respuesta.setResponse(lista);
 
         return new Gson().toJson(respuesta);
     }
@@ -289,18 +277,14 @@ public class ProjectoService {
     public String buscar(@PathParam("valor") String valor) {
         Response respuesta = new Response();
 
-        try {
-            FactoryDao factory = FactoryDao.getOrCreate();
-            ProyectoDao dao = factory.newProyectoDao();
+        FactoryDao factory = FactoryDao.getOrCreate();
+        ProyectoDao dao = factory.newProyectoDao();
 
-            List<Proyecto> proyectos = dao.search(valor);
+        List<Proyecto> proyectos = dao.search(valor);
 
-            respuesta.setSuccess(true);
-            respuesta.setMessage("Lista de proyectos");
-            respuesta.setResponse(proyectos);
-        } catch (Exception e) {
-            respuesta.setMessage("Error de autenticación");
-        }
+        respuesta.setSuccess(true);
+        respuesta.setMessage("Lista de proyectos");
+        respuesta.setResponse(proyectos);
 
         return new Gson().toJson(respuesta);
     }
