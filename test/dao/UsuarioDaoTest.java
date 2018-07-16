@@ -36,7 +36,7 @@ public class UsuarioDaoTest {
         con.desconectar();
         
         con.conectar();
-        // con.ejecutarSimple("delete from usuarios");
+        con.ejecutarSimple("delete from usuarios");
     }
     
     @AfterClass
