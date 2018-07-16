@@ -85,7 +85,7 @@ public class ProyectosFragment extends android.support.v4.app.Fragment implement
     }
     private void actualizarLista() {
 
-        String url = "http://192.168.0.15:8080/Ingenieria_de_software_3/api/proyecto/";
+        String url = "http://192.168.43.32:8080/freelancerWeb/api/proyecto/";
 
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         JsonObjectRequest objectRequest= new JsonObjectRequest(
@@ -109,7 +109,7 @@ public class ProyectosFragment extends android.support.v4.app.Fragment implement
                                     objProyecto.setId(proyecto.getInt("id"));
                                     objProyecto.setName(proyecto.getString("name"));
                                     objProyecto.setDescription(proyecto.getString("description"));
-                                    //objProyecto.setCategory(proyecto.getString("category"));
+                                    objProyecto.setCategory(proyecto.getString("category"));
                                     objProyecto.setPrice(proyecto.getDouble("price"));
                                     objProyecto.setDate(proyecto.getString("date"));
                                     objProyecto.setOwnerd(proyecto.getDouble("ownerId"));

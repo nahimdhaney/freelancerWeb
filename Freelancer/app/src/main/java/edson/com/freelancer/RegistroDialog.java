@@ -167,7 +167,7 @@ public class RegistroDialog extends DialogFragment implements View.OnClickListen
 
     public void RegistrarUsuario(String email, String user,  String nombreCompleto , String contra, int valor){
 
-        String url = "http://192.168.0.15:8080/Ingenieria_de_software_3/api/usuario/register";
+        String url = "http://192.168.43.32:8080/freelancerWeb/api/usuario/register";
         JSONObject obj = new JSONObject();
         try {
             obj.put("email",email);
