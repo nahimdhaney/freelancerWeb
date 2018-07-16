@@ -25,6 +25,7 @@ $(document).ready(function () {
         var url = "../ingresar.html";
         $(location).attr('href', url);
     }
+    
     var val = getParameterByName('proyecto');
     if (val !== null) { // si es nuevo hacer ajax para traer el proyecto y Editarlo
         jQuery.ajax({
@@ -110,7 +111,7 @@ function enviar() {
         jQuery.ajax({
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json; charset=utf-8'
             },
             'type': 'POST',
             'url': "../api/proyecto/insertar",
@@ -120,11 +121,6 @@ function enviar() {
         });
     }
 }
-
-
-
-
-
 
 function getParameterByName(name, url) {
     if (!url)
@@ -141,6 +137,7 @@ function getParameterByName(name, url) {
 
 function pressenter(e,inp){
     var tecla=(document.all) ? e.keyCode : e.which;
+    
     if(tecla==13){
         var valor = $(inp).val();
         if(valor.length>0){

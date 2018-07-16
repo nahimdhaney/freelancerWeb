@@ -2,6 +2,7 @@ function resultado(resultado) {
     var iDUsuario = $("#nombreUsuario").val();
     var id = resultado.response.id;
     var tipo = resultado.response.type;
+    
     if(resultado.success){
         sessionStorage.setItem("usuarioId", iDUsuario);
         sessionStorage.setItem("idUser", id); // este es el ID
