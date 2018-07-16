@@ -88,9 +88,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 startActivity(intent);
                 break;
             case R.id.btn_acceder:
-                Intent i = new Intent(this , menuActivity.class);
-                startActivity(i);
-                //acceder();
+                //Intent i = new Intent(this , menuActivity.class);
+                //startActivity(i);
+                acceder();
                 break;
         }
     }
@@ -140,7 +140,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     public void logearse(String usr, String pass){
-        String url = "http://172.20.10.3:8080/ingenieria_de_software_3/api/usuario/login";
+
+        String url = "http://192.168.0.15:8080/Ingenieria_de_software_3/api/usuario/login";
+
         JSONObject obj = new JSONObject();
         try {
             obj.put("user",usr);
@@ -173,13 +175,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                                 Usuario.setUsuario(objUsuario);
 
-                                Intent intent = new Intent(LoginActivity.this, Activity_List_Estado.class);
+                                Intent intent = new Intent(LoginActivity.this, menuActivity.class);
                                 startActivity(intent);
                             } else {
                                 String message = (String) response.get("message");
                                 Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
                             }
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

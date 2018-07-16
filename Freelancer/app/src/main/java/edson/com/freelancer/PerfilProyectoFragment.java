@@ -47,7 +47,6 @@ public class PerfilProyectoFragment extends AppCompatActivity implements View.On
 
         //this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-
         AgregarListaNivelDeActividad();
 
         edit_fecha.setOnClickListener(this);
@@ -59,7 +58,7 @@ public class PerfilProyectoFragment extends AppCompatActivity implements View.On
         //Quitamos barra de notificaciones
         //this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 
-                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     }
 
@@ -74,6 +73,7 @@ public class PerfilProyectoFragment extends AppCompatActivity implements View.On
         }
     }
 
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -86,6 +86,7 @@ public class PerfilProyectoFragment extends AppCompatActivity implements View.On
                 break;
         }
     }
+
 
     private void ShowDatapinckerDialog(){
         final Calendar c = Calendar.getInstance();
