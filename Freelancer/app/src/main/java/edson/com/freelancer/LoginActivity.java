@@ -32,7 +32,7 @@ import edson.com.freelancer.Model.Usuario;
  */
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
-
+//dxasas
     private AutoCompleteTextView tv_nickname;
     private EditText edit_contraseña;
     private Button btn_acceder;
