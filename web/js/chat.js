@@ -1,6 +1,7 @@
 $(document).ready(function () {
     var val = getParameterByName('id');
-    if (val !== null) {
+    
+    if (val) {
         jQuery.ajax({
             headers: {
                 'Accept': 'application/json',
@@ -10,8 +11,6 @@ $(document).ready(function () {
             'url': "api/comentario/" + val,
             'success': procesarComentarios
         });
-    }else{
-        
     }
 });
 
@@ -22,13 +21,12 @@ function procesarComentarios(resultado) {
         $.each(resultado.response, function(i, obj) {
             if (obj.usuarioId == sessionStorage.getItem("idUser")) {
                 html += "<div style='float: right; clear: both'>";
-                html += obj.mensaje;
-                html += "</div>";
             } else {
                 html += "<div style='float: left; clear: both'>";
-                html += obj.mensaje;
-                html += "</div>";
             }
+            
+            html += obj.mensaje;
+            html += "</div>";
         });
         
         $("#comentarios").html(html);
@@ -36,26 +34,10 @@ function procesarComentarios(resultado) {
 }
 
 function procesarNuevoComentario(resultado) {
-//    if (resultado.success) {
-//        var contenido = $("#comentarios").html;
-//        
-//        var html = "";
-//        
-//        if (contenido.usuarioId == sessionStorage.getItem("idUser")) {
-//            html += "<div style='float: right; clear: both'>";
-//            html += contenido.mensaje;
-//            html += "</div>";
-//        } else {
-//            html += "<div style='float: left; clear: both'>";
-//            html += contenido.mensaje;
-//            html += "</div>";
-//        }
-//        
-//        contenido += html;
-//        $("#comentarios").html(contenido);
-//    }
     $("#input_chat").val("");
+    
     var val = getParameterByName('id');
+    
     jQuery.ajax({
         headers: {
             'Accept': 'application/json',
@@ -82,6 +64,7 @@ function getParameterByName(name, url) {
 
 function pressenter(e, inp) {
     var tecla = (document.all) ? e.keyCode : e.which;
+    
     if (tecla == 13) {
         var valor = $(inp).val();
         
