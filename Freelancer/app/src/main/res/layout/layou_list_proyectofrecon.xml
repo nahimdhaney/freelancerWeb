@@ -2,18 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="20dp"
-    android:paddingRight="20dp"
-    android:paddingTop="10dp"
     android:weightSum="1">
 
     <TextView
         android:id="@+id/tv_NombreList"
-        android:layout_width="345dp"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
         android:text="Nombre"
+        android:paddingStart="30dp"
+        android:gravity="center_vertical"
+        android:textColor="#626262"
+        android:background="#fff"
         android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textSize="30sp"
-        android:layout_weight="0.06" />
+        android:textSize="30sp"/>
 
 </LinearLayout>

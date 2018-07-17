@@ -1,5 +1,6 @@
 package edson.com.freelancer;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -51,27 +52,33 @@ public class ProyectosFragment extends android.support.v4.app.Fragment implement
         btn_buscar = (Button) view.findViewById(R.id.btn_buscar);
 
         btn_buscar.setOnClickListener(this);
-
         actualizarLista();
-
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int index, long id) {
 
-                //int proyectoid = (int)id;
+                int proyectoid = (int)id;
 
-                /*ArrayList<Proyectos> arrayList = new ArrayList<>();
-                Proyectos pro = new Proyectos();
-                Proyectos selectedProduct = arrayList.get(index);
-                Intent intent = new Intent(getApplicationContext(), VerproductoActivity.class);
-
+                Intent intent = new Intent(getActivity(), PerfilProyectoFragment.class);
                 Bundle params = new Bundle();
-                params.putString("nombre", selectedProduct.getName());
-                params.putString("descripcion", selectedProduct.getDescription());
-                params.putString("categoria", selectedProduct.getCategory());
-                params.putDouble("precio", selectedProduct.getPrice());
+                params.putString("id",proyectoid+"");
                 intent.putExtras(params);
-                startActivity(intent);*/
+                startActivity(intent);
+
+//
+//
+//                Proyectos pro = new Proyectos();
+//                Proyectos selectedProduct = arrayList.get(index);
+//                //Intent intent = new Intent(getApplicationContext(), VerproductoActivity.class);
+//
+//                Bundle params = new Bundle();
+//                params.putString("nombre", selectedProduct.getName());
+//                params.putString("descripcion", selectedProduct.getDescription());
+//                params.putString("categoria", selectedProduct.getCategory());
+//                params.putDouble("precio", selectedProduct.getPrice());
+//                params.putDouble("precio", selectedProduct.getPrice());
+                //intent.putExtras(params);
+                //startActivity(intent);
 
                 /*intent.putExtra("nombre", selectedProduct.getName());
                 intent.putExtra("descripcion", selectedProduct.getDescription());

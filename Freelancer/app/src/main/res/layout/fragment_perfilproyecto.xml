@@ -22,60 +22,67 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/edit_nomsbre"
+            android:id="@+id/text_nombre"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
+            android:gravity="center"
             android:layout_marginEnd="40dp"
             android:layout_marginStart="40dp"
-            android:layout_marginTop="10dp"
-            android:text="Titulo"
+            android:layout_marginTop="20dp"
+            android:text="Nombre"
+            android:textStyle="bold"
+            android:textColor="#000000"
             android:textAlignment="center"
             android:textSize="35dp" />
 
         <TextView
-            android:id="@+id/edit_presdupuesto"
+            android:id="@+id/text_categoria"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="40dp"
             android:layout_marginStart="40dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="30dp"
             android:inputType="number"
-            android:text="Presupuesto"
+            android:text="categoria"
+            android:textColor="#000000"
             android:textSize="25dp" />
 
         <TextView
-            android:id="@+id/edit_fedcha"
+            android:id="@+id/text_fecha"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="40dp"
             android:layout_marginStart="40dp"
-            android:layout_marginTop="10dp"
-            android:hint="fecha"
+            android:layout_marginTop="30dp"
+            android:text="fecha"
+            android:textColor="#000000"
             android:textSize="25dp" />
 
         <TextView
-            android:id="@+id/edit_descripcsdion"
+            android:id="@+id/text_precio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="40dp"
             android:layout_marginStart="40dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="30dp"
+            android:textColor="#000000"
             android:text="Precio"
             android:textSize="25dp" />
 
         <TextView
-            android:id="@+id/edit_monto"
+            android:id="@+id/text_descripcion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="40dp"
             android:layout_marginStart="40dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="30dp"
+            android:textColor="#000000"
             android:inputType="textMultiLine"
-            android:text="monto"
+            android:text="descripcion"
             android:textSize="25dp" />
 
         <Button
-            android:id="@+id/btn_publicar"
+            android:id="@+id/btn_postularse"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="30dp"

@@ -45,6 +45,7 @@ public class NuevoPoyectoFragment extends AppCompatActivity implements View.OnCl
     private EditText edit_fecha;
     private Button btn_publicar;
     private int nivel;
+    List<String> list = new ArrayList<>();
 
     protected void onCreate(Bundle onSaveInstanceState){
         super.onCreate(onSaveInstanceState);
@@ -70,8 +71,7 @@ public class NuevoPoyectoFragment extends AppCompatActivity implements View.OnCl
         //Quitamos barra de notificaciones
         //this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 
-                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
@@ -108,15 +108,15 @@ public class NuevoPoyectoFragment extends AppCompatActivity implements View.OnCl
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         String fecha;
-                        if(dayOfMonth<10){
-                            fecha = "0"+ dayOfMonth;
-                        }else{
-                            fecha = "" + dayOfMonth;
-                        }
                         if ((month+1)<10) {
-                            fecha+= "/0" + (month+1) +"/" + year;
+                            fecha = year + "-0" + (month+1);
                         }else{
-                            fecha+= "/" + (month+1) + "/" + year ;
+                            fecha = year + "-" + (month+1);
+                        }
+                        if(dayOfMonth<10){
+                            fecha += "-0"+ dayOfMonth;
+                        }else{
+                            fecha += "-" + dayOfMonth;
                         }
                         edit_fecha.setText(fecha);
                         edit_fecha.setError(null);
@@ -128,7 +128,7 @@ public class NuevoPoyectoFragment extends AppCompatActivity implements View.OnCl
 
     private void AgregarListaNivelDeActividad(){
         // todo esto es para lista de actividades
-        final List list = new ArrayList();
+        //final List list = new ArrayList();
         list.add("paguina web y software");
         list.add("redaccion y contenido");
         list.add("Actividad Diseño, comunicacion");
@@ -154,7 +154,6 @@ public class NuevoPoyectoFragment extends AppCompatActivity implements View.OnCl
         // fin
     }
 
-
     @Override
     public void onBackPressed() {
         finish();
@@ -165,7 +164,7 @@ public class NuevoPoyectoFragment extends AppCompatActivity implements View.OnCl
         String descripcionV = descripcion.getText().toString().trim();
         String presupuestoV = presupuesto.getText().toString().trim();
         String fechaV = edit_fecha.getText().toString().trim();
-        String categoriaV = categoria.getAdapter().toString().trim();
+        String categoriaV = list.get(nivel);
         boolean isValid = true;
         if (nombreV.isEmpty()) {
             nombre.setError("Debe ingresar un nombre");
@@ -188,20 +187,25 @@ public class NuevoPoyectoFragment extends AppCompatActivity implements View.OnCl
         }
         //Intent itent = new Intent(LoginActivity.this, menuActivity.class);
         //startActivity(itent);
-        publicar(nombreV, descripcionV,fechaV,categoriaV,presupuestoV);
+        double aux = Double.parseDouble(presupuestoV);
+        publicar(nombreV, descripcionV,fechaV,categoriaV,aux);
     }
 
-    public void publicar(String nombre, String descripcion, String fecha, String categoria, String presupuesto ){
+    public void publicar(String nombre, String descripcion, String fecha, String categoria, double presupuesto ){
 
-        String url = "http://172.20.10.3:8080/ingenieria_de_software_3/api/usuario/login";
+        Usuario usuario = Usuario.getUsuario();
+        String usr = usuario.getId()+"";
+
+        String url = "http://192.168.0.15:8080/Ingenieria_de_software_3/api/proyecto/insertar/";
 
         JSONObject obj = new JSONObject();
         try {
             obj.put("name",nombre);
-            obj.put("categoria",categoria);
-            obj.put("fecha",fecha);
-            obj.put("descripcion",descripcion);
-            obj.put("presupuesto",presupuesto);
+            obj.put("category",categoria);
+            obj.put("date",fecha);
+            obj.put("description",descripcion);
+            obj.put("price",presupuesto);
+            obj.put("ownerId",usr);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -217,22 +221,11 @@ public class NuevoPoyectoFragment extends AppCompatActivity implements View.OnCl
                     public void onResponse(JSONObject response) {
                         try {
                             boolean success = (boolean) response.get("success");
+                            String message = (String) response.get("message");
                             if (success) {
-                                JSONObject usuario = (JSONObject) response.get("response");
-
-                                Usuario objUsuario = new Usuario();
-                                objUsuario.setId(usuario.getInt("id"));
-                                objUsuario.setFullName(usuario.getString("fullName"));
-                                objUsuario.setUser(usuario.getString("user"));
-                                objUsuario.setEmail(usuario.getString("email"));
-                                objUsuario.setType(usuario.getInt("type"));
-
-                                Usuario.setUsuario(objUsuario);
-
-                                Intent intent = new Intent(NuevoPoyectoFragment.this, Activity_List_Estado.class);
-                                startActivity(intent);
+                                Toast.makeText(NuevoPoyectoFragment.this, message, Toast.LENGTH_SHORT).show();
+                                finish();
                             } else {
-                                String message = (String) response.get("message");
                                 Toast.makeText(NuevoPoyectoFragment.this, message, Toast.LENGTH_SHORT).show();
                             }
 

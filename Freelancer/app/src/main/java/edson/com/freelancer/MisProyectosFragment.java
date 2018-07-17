@@ -13,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -40,6 +41,7 @@ public class MisProyectosFragment extends android.support.v4.app.Fragment implem
     private static final int TIPO_CONTRATISTA = 1;
     private static final int TIPO_FREELANCER = 2;
     private ListView listView;
+    Usuario usuario = Usuario.getUsuario();
 
      @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -53,7 +55,6 @@ public class MisProyectosFragment extends android.support.v4.app.Fragment implem
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
         fab.setOnClickListener(this);
 
-         Usuario usuario = Usuario.getUsuario();
          switch (usuario.getType()) {
              case TIPO_CONTRATISTA:
                  actualizarListaContratista(usuario.getId()+"");
@@ -64,6 +65,24 @@ public class MisProyectosFragment extends android.support.v4.app.Fragment implem
                  Toast.makeText(getActivity(), "Consumir proyectos_freelancer5", Toast.LENGTH_SHORT).show();
                  break;
          }
+
+         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+             @Override
+             public void onItemClick(AdapterView<?> adapterView, View view, int index, long id) {
+                 switch (usuario.getType()) {
+                     case TIPO_CONTRATISTA:
+                         int proyectoid = (int)id;
+                         Intent intent = new Intent(getActivity(), SolicitudesConActivity.class);
+                         Bundle params = new Bundle();
+                         params.putString("id",proyectoid+"");
+                         intent.putExtras(params);
+                         startActivity(intent);
+                         break;
+                     case TIPO_FREELANCER:
+                         break;
+                 }
+             }
+         });
 
         return view;
     }

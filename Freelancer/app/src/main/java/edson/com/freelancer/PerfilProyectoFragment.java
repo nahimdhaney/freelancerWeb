@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -22,6 +23,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -29,29 +31,43 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import edson.com.freelancer.Model.Proyectos;
 import edson.com.freelancer.Model.Usuario;
+import edson.com.freelancer.adapter.categoriaListAdapter;
 
 public class PerfilProyectoFragment extends AppCompatActivity implements View.OnClickListener{
 
-    private EditText nombre;
-    private EditText presupuesto;
-    private Spinner categoria;
-    private EditText descripcion;
-    private EditText edit_fecha;
-    private Button btn_publicar;
-    private int nivel;
+    private TextView nombre;
+    private TextView precio;
+    private TextView categoria;
+    private TextView descripcion;
+    private TextView text_fecha;
+    private Button btn_postularse;
+    String id;
 
     protected void onCreate(Bundle onSaveInstanceState){
         super.onCreate(onSaveInstanceState);
         setContentView(R.layout.fragment_perfilproyecto);
 
+        nombre = (TextView) findViewById(R.id.text_nombre);
+        precio = (TextView) findViewById(R.id.text_precio);
+        categoria = (TextView) findViewById(R.id.text_categoria);
+        descripcion = (TextView) findViewById(R.id.text_descripcion);
+        text_fecha = (TextView) findViewById(R.id.text_fecha);
+        btn_postularse = (Button) findViewById(R.id.btn_postularse);
         //this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
+        btn_postularse.setOnClickListener(this);
 
-        AgregarListaNivelDeActividad();
 
-        edit_fecha.setOnClickListener(this);
-        btn_publicar.setOnClickListener(this);
+        Intent it = getIntent();
+        if (it != null) {
+            Bundle params = it.getExtras();
+            if (params != null) {
+                id = params.getString("id");
+                ObtenerProyecto(id);
+            }
+        }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -59,8 +75,7 @@ public class PerfilProyectoFragment extends AppCompatActivity implements View.On
         //Quitamos barra de notificaciones
         //this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 
-                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
@@ -77,70 +92,10 @@ public class PerfilProyectoFragment extends AppCompatActivity implements View.On
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.edit_fecha:
-                ShowDatapinckerDialog();
-                Toast.makeText(PerfilProyectoFragment.this, "fechaa", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.btn_publicar:
+            case R.id.btn_postularse:
                 acceder();
                 break;
         }
-    }
-
-    private void ShowDatapinckerDialog(){
-        final Calendar c = Calendar.getInstance();
-        int año = c.get(Calendar.YEAR);
-        int mes = c.get(Calendar.MONTH);
-        int dia = c.get(Calendar.DAY_OF_MONTH);
-        final DatePickerDialog datePickerDialog = new DatePickerDialog
-                (this ,new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        String fecha;
-                        if(dayOfMonth<10){
-                            fecha = "0"+ dayOfMonth;
-                        }else{
-                            fecha = "" + dayOfMonth;
-                        }
-                        if ((month+1)<10) {
-                            fecha+= "/0" + (month+1) +"/" + year;
-                        }else{
-                            fecha+= "/" + (month+1) + "/" + year ;
-                        }
-                        edit_fecha.setText(fecha);
-                        edit_fecha.setError(null);
-                    }
-                }, dia, mes , año);
-        datePickerDialog.show();
-    }
-
-
-    private void AgregarListaNivelDeActividad(){
-        // todo esto es para lista de actividades
-        final List list = new ArrayList();
-        list.add("paguina web y software");
-        list.add("redaccion y contenido");
-        list.add("Actividad Diseño, comunicacion");
-        list.add("entrada de datos y comunicacion");
-        list.add("Ventas Y marketing");
-        list.add("negocio, contabilidad ,recursos");
-        list.add("Agronomia");
-        list.add("Aplicaciones moviles");
-
-        ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, list);
-        arrayAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
-        categoria.setAdapter(arrayAdapter);
-
-        categoria.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                nivel = position;
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
-        // fin
     }
 
 
@@ -150,11 +105,8 @@ public class PerfilProyectoFragment extends AppCompatActivity implements View.On
     }
 
     private void acceder() {
-        String nombreV = nombre.getText().toString().trim();
+        /*String nombreV = nombre.getText().toString().trim();
         String descripcionV = descripcion.getText().toString().trim();
-        String presupuestoV = presupuesto.getText().toString().trim();
-        String fechaV = edit_fecha.getText().toString().trim();
-        String categoriaV = categoria.getAdapter().toString().trim();
         boolean isValid = true;
         if (nombreV.isEmpty()) {
             nombre.setError("Debe ingresar un nombre");
@@ -164,37 +116,24 @@ public class PerfilProyectoFragment extends AppCompatActivity implements View.On
             descripcion.setError("Debe ingresar la descripcion");
             isValid = false;
         }
-        if (presupuestoV.isEmpty()) {
-            presupuesto.setError("Debe ingresar un presupuesto");
-            isValid = false;
-        }
-        if (fechaV.isEmpty()) {
-            edit_fecha.setError("Debe ingresar la fecha");
-            isValid = false;
-        }
         if (!isValid) {
             return;
-        }
-        //Intent itent = new Intent(LoginActivity.this, menuActivity.class);
-        //startActivity(itent);
-        publicar(nombreV, descripcionV,fechaV,categoriaV,presupuestoV);
+        }*/
+        Postularse();
     }
 
-    public void publicar(String nombre, String descripcion, String fecha, String categoria, String presupuesto ){
 
-        String url = "http://172.20.10.3:8080/ingenieria_de_software_3/api/usuario/login";
-
+    public void Postularse(){
+        String url = "http://192.168.0.15:8080/Ingenieria_de_software_3/api/solicitud/insertar/";
+        Usuario usuario = Usuario.getUsuario();
         JSONObject obj = new JSONObject();
         try {
-            obj.put("name",nombre);
-            obj.put("categoria",categoria);
-            obj.put("fecha",fecha);
-            obj.put("descripcion",descripcion);
-            obj.put("presupuesto",presupuesto);
+            obj.put("projectId",id);
+            obj.put("freelancerId",usuario.getId());
+            obj.put("oferta",500);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonObjectRequest objectRequest= new JsonObjectRequest(
                 Request.Method.POST,
@@ -206,22 +145,12 @@ public class PerfilProyectoFragment extends AppCompatActivity implements View.On
                     public void onResponse(JSONObject response) {
                         try {
                             boolean success = (boolean) response.get("success");
+                            String message = (String) response.get("message");
                             if (success) {
-                                JSONObject usuario = (JSONObject) response.get("response");
-
-                                Usuario objUsuario = new Usuario();
-                                objUsuario.setId(usuario.getInt("id"));
-                                objUsuario.setFullName(usuario.getString("fullName"));
-                                objUsuario.setUser(usuario.getString("user"));
-                                objUsuario.setEmail(usuario.getString("email"));
-                                objUsuario.setType(usuario.getInt("type"));
-
-                                Usuario.setUsuario(objUsuario);
-
-                                Intent intent = new Intent(PerfilProyectoFragment.this, Activity_List_Estado.class);
-                                startActivity(intent);
+                                Toast.makeText(PerfilProyectoFragment.this, message, Toast.LENGTH_SHORT).show();
+                                //JSONObject usuario = (JSONObject) response.get("response");
+                                //Usuario.setUsuario(objUsuario);
                             } else {
-                                String message = (String) response.get("message");
                                 Toast.makeText(PerfilProyectoFragment.this, message, Toast.LENGTH_SHORT).show();
                             }
 
@@ -232,6 +161,62 @@ public class PerfilProyectoFragment extends AppCompatActivity implements View.On
                 },
                 new Response.ErrorListener(){
 
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }
+        );
+        requestQueue.add(objectRequest);
+    }
+
+    private void ObtenerProyecto(String id) {
+
+        String url = "http://192.168.0.15:8080/Ingenieria_de_software_3/api/proyecto/"+id;
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        JsonObjectRequest objectRequest= new JsonObjectRequest(
+                Request.Method.GET,
+                url,
+                null,
+                new Response.Listener<JSONObject>(){
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            boolean success = (boolean) response.get("success");
+                            if(success){
+                                JSONObject proyecto = (JSONObject) response.get("response");
+                                String nombreC = proyecto.getString("name").toString();
+                                nombre.setText(nombreC);
+                                String precioC = proyecto.getString("price").toString();
+                                precio.setText(precioC);
+                                if(proyecto.getString("category") != null){
+                                    String categoriaC = proyecto.getString("category").toString();
+                                    categoria.setText(categoriaC);
+                                }
+                                String descripcionC = proyecto.getString("description").toString();
+                                descripcion.setText(descripcionC);
+                                String fechaC = proyecto.getString("date").toString();
+                                text_fecha.setText(fechaC);
+                            }
+                            else{
+                                String message = (String) response.get("message");
+                                Toast.makeText(PerfilProyectoFragment.this, message , Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e1) {
+                            e1.printStackTrace();
+                        }
+                        /*objProyecto.setId(proyecto.getInt("id"));
+                        objProyecto.setName(proyecto.getString("name"));
+                        objProyecto.setDescription(proyecto.getString("description"));
+                        // objProyecto.setCategory(proyecto.getString("category"));
+                        objProyecto.setPrice(proyecto.getDouble("price"));
+                        objProyecto.setDate(proyecto.getString("date"));
+                        objProyecto.setOwnerdId(proyecto.getDouble("ownerId"));
+                        objProyecto.setFreelancerId(proyecto.getInt("freelancerId"));*/
+                    }
+                },
+                new Response.ErrorListener(){
                     @Override
                     public void onErrorResponse(VolleyError error) {
 
