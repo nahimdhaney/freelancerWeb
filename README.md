@@ -1,20 +1,24 @@
 ## Welcome to Freelancer plataform
 
-Para utilizar correctamente la plataforma:
+Steps:
 ------------------
-1.- Descargue el archivo
-2.- ejecute el script de la carpeta BD.
-3.- modifique la clase conexion y ajuste segun se requiera 
-4.- ejecute el proyecto
+1. Clone the repository
+2. Execute all SQL scripts in Folder DB
+3. Configure class conexion
+4. Execute the project 
 -------
 Condiciones:
 -------------
-base de datos MYSQL
-Glasfish Server 4.1 (version estable)
+* MYSQL Database
+* Glassfish Server 4.1 (stable version)
 
 
-Designed by 
+Designed by:
+
 Nahimdhaney
+
 TeforKevin
+
 RickyPaz
+
 Edsoncito
